@@ -42,4 +42,4 @@
 
 # ROADMAP
 
-![ROADMAP](https://github.com/Shureks-den/Batut_Wars/blob/main/RoadMapNew.png)
+![ROADMAP](https://github.com/Shureks-den/Batut_Wars/blob/main/images/RoadMapNew.png)
