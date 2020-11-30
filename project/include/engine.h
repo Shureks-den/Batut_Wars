@@ -22,8 +22,8 @@ class Vector {
     ~Vector() = default;
     double get_x() const;
     double get_y() const;
-    double set_x();
-    double set_y();
+    double set_x(double x);
+    double set_y(double y);
     float get_abs() const;
     void rotate(double angle);
     Vector operator+(const Vector &other) const;
@@ -46,8 +46,8 @@ class SpaceObject {
     virtual ~SpaceObject();
     float get_x() const;
     float get_y() const;
-    float set_x(int x);
-    float set_y(int y);
+    float set_x(float x);
+    float set_y(float y);
     virtual void update(sf::Time dt);
 
  protected:
