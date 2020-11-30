@@ -28,8 +28,12 @@ class Vector {
     void rotate(double angle);
     Vector operator+(const Vector &other) const;
     Vector operator-(const Vector &other) const;
+    Vector operator*(double coef) const;
+    Vector operator/(double coef) const;
     Vector operator+=(const Vector &other);
     Vector operator-=(const Vector &other);
+    Vector operator*=(double coef);
+    Vector operator/=(double coef);
 
  private:
     double _x;
