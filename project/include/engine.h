@@ -6,10 +6,10 @@
 #define ACCELERETION_LIMIT 4.0
 
 enum class Direction {
-    FORWARD = 0,
-    DOWN,
-    RIGHT,
-    BACK
+    FORWARD = 0, 
+    BACKWARD,
+    LEFT,
+    RIGHT  
 };
 
 namespace engine {
