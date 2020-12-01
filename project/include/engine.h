@@ -26,6 +26,7 @@ class Vector {
     void set_y(double y);
     float get_abs() const;
     void rotate(double angle);
+    Vector get_normal();
     Vector operator+(const Vector & other) const;
     Vector operator-(const Vector & other) const;
     Vector operator*(double coef) const;
@@ -61,8 +62,10 @@ class MoveAble : public Entity {
     virtual void update(sf::Time dt) = 0;
     void rotate(float angle);
     void give_acceleration(Vector acceleration);
-    Vector d_acceleration(Direction direction, float abs_, float d_acceleration);
     void give_acceleration(Direction direction, float d_acceleration);
+
+private:
+    Vector d_acceleration(Direction direction, float d_acceleration);
 
  protected:
       Vector _speed;
