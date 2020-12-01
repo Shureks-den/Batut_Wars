@@ -1,5 +1,4 @@
-#ifndef PROJECT_SHIP_H
-#define PROJECT_SHIP_H
+#pragma once
 
 #include "engine.h"
 
@@ -11,9 +10,7 @@ class Ship : public engine::MoveAble {
     Ship(const Ship &) = delete;
     void update(sf::Time dt) override;  // Вычислить новые значения coordinate(speed), speed(acceleretion)
 
-    protected:
+ protected:
 };
 
 }  // end namespace space
-
-#endif //PROJECT_SHIP_H
