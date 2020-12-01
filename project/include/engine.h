@@ -64,7 +64,7 @@ class MoveAble : public Entity {
     void give_acceleration(Vector acceleration);
     void give_acceleration(Direction direction, float d_acceleration);
 
-private:
+ private:
     Vector d_acceleration(Direction direction, float d_acceleration);
 
  protected:
