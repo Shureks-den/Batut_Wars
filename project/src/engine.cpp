@@ -40,15 +40,15 @@ engine::Vector engine::Vector::operator+(const Vector & other) const {
 }
 
 engine::Vector engine::Vector::operator-(const Vector & other) const {
-    return Vector(this->_x -other._x, this->_y-other._y);
+    return Vector(this->_x - other._x, this->_y - other._y);
 }
 
 engine::Vector engine::Vector::operator*(double coef) const {
-    return Vector(coef*this->_x,coef*this->_y);
+    return Vector(coef * this->_x, coef * this->_y);
 }
 
 engine::Vector engine::Vector::operator/(double coef) const {
-    return Vector(this->_x/coef, this->_y/coef);
+    return Vector(this->_x / coef, this->_y / coef);
 }
 
 engine::Vector engine::Vector::operator+=(const Vector & other) {
