@@ -64,10 +64,10 @@ void Game::update_statistic(sf::Time time) {
 
 void Game::render(sf::Time dt) {
     _window.clear();
-    _render.set_status(_world.get_status()); // Обмен данными между _render и _world
+    _render.set_status(_world.get_status());  // Обмен данными между _render и _world
     _render.update(dt);
     _render.draw();
-    //_window.setView(_window.getDefaultView());  // Вид устанавливается в _render.set_status
+    // _window.setView(_window.getDefaultView());  // Вид устанавливается в _render.set_status
     _window.draw(_statistic_text);
     _window.display();
 }

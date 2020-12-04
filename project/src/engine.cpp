@@ -115,7 +115,7 @@ void MoveAble::give_acceleration(Vector acceleration) {
     _acceleration += acceleration;
 }
 
-Vector MoveAble::d_acceleration(Direction direction, float d_acceleration) { // Зачем speed_abs как параметр? Его можно вычислить внутри метода
+Vector MoveAble::d_acceleration(Direction direction, float d_acceleration) {  // Зачем speed_abs как параметр? Его можно вычислить внутри метода
     Vector delta(this->get_normal);  // Это надо сделать public-методом в Vector
     if (direction == Direction::RIGHT) {
         delta.rotate(-90);
@@ -131,9 +131,9 @@ Vector MoveAble::d_acceleration(Direction direction, float d_acceleration) { // 
     return delta;
 }
 
-void MoveAble::give_acceleration(Direction direction, float d_acceleration) { 
+void MoveAble::give_acceleration(Direction direction, float d_acceleration) {
     float speed_abs = _speed.get_abs();
         Vector delta(this->d_acceleration(direction, d_acceleration));  // Не уверен, что нужен отдельный метод d_acceleration
         _acceleration += delta;                                                    // И он уж точне не public
     }
-}
+}  // namespace engine

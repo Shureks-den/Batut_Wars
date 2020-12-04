@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#define SPEED_LIMIT 30.0 // speed и acceleretion не могут быть выше, чем
+#define SPEED_LIMIT 30.0  // speed и acceleretion не могут быть выше, чем
 #define ACCELERETION_LIMIT 4.0
 
 enum class Direction {

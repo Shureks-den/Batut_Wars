@@ -50,7 +50,7 @@ void Render::set_status(std::vector<Status> &status) {
             _status[i].angle = status[i].angle;
             _animation_layers[lay][id].set_angle(status[i].angle);
         }
-        
+
         if (_status[i].position != status[i].position) {
             _status[i].position = status[i].position;
             _animation_layers[lay][id].set_position(status[i].position);
@@ -59,8 +59,6 @@ void Render::set_status(std::vector<Status> &status) {
 
     for (size_t i = status.size(); i < _status.size(); ++i) {
         status.push_back(_status[i]);
-
-
     }
 }
 

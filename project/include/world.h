@@ -17,22 +17,22 @@ class World {
  private:
     std::vector<engine::Entity> _objects;
     std::queue<Action> _actions;
-    std::vector<Status> _status; 
+    std::vector<Status> _status;
 
     void do_action(size_t id, Action action, sf::Time d_time);
 };
 
 // struct ShipMover
 // {
-// 	ShipMover(float vx, float vy)
-// 	: velocity(vx, vy)
-// 	{
-// 	}
+//    ShipMover(float vx, float vy)
+//    : velocity(vx, vy)
+//    {
+//    }
 
-// 	void operator() (space::Ship& ship, sf::Time) const
-// 	{
-// 		ship.get_acceleration()
-// 	}
+//    void operator() (space::Ship& ship, sf::Time) const
+//    {
+//        ship.get_acceleration()
+//    }
 
-// 	sf::Vector2f velocity;
+//    sf::Vector2f velocity;
 // };

@@ -37,9 +37,9 @@ void Player::assign_key(Action action, sf::Keyboard::Key key) {
     _key_binding[key] = action;
 }
 
-Action Player::send_action() {
-    
-}
+// Action Player::send_action() {
+
+// }
 
 sf::Keyboard::Key Player::get_key(Action action) const {
     for (auto &it : _key_binding) {

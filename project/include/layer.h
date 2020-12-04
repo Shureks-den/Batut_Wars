@@ -14,7 +14,7 @@ enum class LayerNom {
 };
 
 class Layer {
- public: 
+ public:
     Layer() = default;
     ~Layer() = default;
     void update(sf::Time dt);

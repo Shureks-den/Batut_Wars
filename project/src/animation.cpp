@@ -75,7 +75,7 @@ void AnimationManager::set_angle(float angle) {
 
 void AnimationManager::set_states(std::vector<bool> &states) {
     if (states.empty()) {
-        _current = 0; // TODO(ANDY) правило перехода из status в _current
+        _current = 0;  // TODO(ANDY) правило перехода из status в _current
     } else {
         _current = _current;
     }
@@ -85,4 +85,4 @@ void AnimationManager::set_position(sf::Vector2f &position) {
     _body.setPosition(position);
 }
 
-} // namespace animation
+}  // namespace animation

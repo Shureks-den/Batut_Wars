@@ -27,7 +27,7 @@ class Animation {
 class AnimationManager {
  public:
     AnimationManager(Animation &animation, sf::Vector2f position);
-    AnimationManager(AnimationId animation_id, sf::Vector2f position, float angle); // Переписать на status
+    AnimationManager(AnimationId animation_id, sf::Vector2f position, float angle);  // Переписать на status
     ~AnimationManager() = default;
 
     void update(sf::Time d_time);
