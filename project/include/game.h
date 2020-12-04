@@ -10,7 +10,7 @@
 class Game : sf::NonCopyable {
  public:
     Game();
-    ~Game();
+    ~Game() = default;
     void run();
 
  private:
