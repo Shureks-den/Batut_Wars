@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "ship.h"
+
 const sf::Time Game::_time_per_frame = sf::seconds(1.0/60.0);
 
 Game::Game() : _window(sf::VideoMode(640, 480), "Input", sf::Style::Close),
@@ -19,6 +21,11 @@ Game::Game() : _window(sf::VideoMode(640, 480), "Input", sf::Style::Close),
 void Game::run() {
     sf::Clock clock;
     sf::Time total_time = sf::Time::Zero;
+
+    space::Ship main_ship;
+    main_ship.set_x(_window.getSize().x);
+    main_ship.set_y(_window.getSize().y);
+    _world.push_back(main_ship);
 
     while (_window.isOpen()) {
         sf::Time current_time = clock.restart();
@@ -38,6 +45,7 @@ void Game::run() {
 
 bool Game::update(sf::Time dt) {
     _world.update(dt);
+    return true;
 }
 
 void Game::update_statistic(sf::Time time) {
@@ -56,10 +64,10 @@ void Game::update_statistic(sf::Time time) {
 
 void Game::render(sf::Time dt) {
     _window.clear();
-    // Обмен данными между _render и _world
+    _render.set_status(_world.get_status()); // Обмен данными между _render и _world
     _render.update(dt);
     _render.draw();
-    _window.setView(_window.getDefaultView());
+    //_window.setView(_window.getDefaultView());  // Вид устанавливается в _render.set_status
     _window.draw(_statistic_text);
     _window.display();
 }
