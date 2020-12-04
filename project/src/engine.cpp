@@ -148,7 +148,7 @@ namespace engine
 
 	void MoveAble::give_acceleration(Direction direction, float d_acceleration) {
 		Vector delta = _speed.get_normal();
-		delta *= (direction == Direction::BACKWARD) - d_acceleration : d_acceleration;
+		delta *= (direction == Direction::BACKWARD) ? - d_acceleration : d_acceleration;
 
 		if (direction == Direction::RIGHT) {
 			delta.rotate(- M_PI / 2);
