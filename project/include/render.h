@@ -3,37 +3,26 @@
 #include <SFML/Graphics.hpp>
 
 #include "animation.h"
+#include "status.h"
+#include "layer.h"
 
-enum class Layer {
-    Background,
-    Frontground,
-    COUNT
-};
-
-class Render: private sf::NonCopyable {  // TODO(ANDY) Надо класс что-ли сделать)))
+class Render: private sf::NonCopyable {
  public:
     explicit Render(sf::RenderWindow& window);
     void update(sf::Time dt);
-    void get_change();
+    void set_status(std::vector<Status> &status);
     void draw();
 
  private:
+    void inicilize_status(std::vector<Status> &status);
     void loadTextures();
-    void buildScene();
-    void adaptPlayerPosition();
-    void adaptPlayerVelocity();
+    void build_scene();
 
  private:
-    std::vector<AnimationManager> _manager;
-
-
- private:
-    sf::RenderWindow& _window;
+    sf::RenderWindow &_window;
     sf::View _view;
+    std::vector<animation::Layer> _animation_layers;
+    std::vector<Status> _status;
 
-    //SceneNode							mSceneGraph;
-    //std::vector<SceneNode*>	mSceneLayers;  // Layer::COUNT - size
-
-    sf::FloatRect						mWorldBounds;
-    sf::Vector2f						mSpawnPosition;
+    void add_animation(size_t lay, Status &status);
 };
