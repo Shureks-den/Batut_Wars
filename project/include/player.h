@@ -1,11 +1,8 @@
-#ifndef PROJECT_PLAYER_H
-#define PROJECT_PLAYER_H
+#pragma once
 
 #include <SFML/Window/Event.hpp>
 #include <map>
 #include <queue>
-
-class CommandQueue;
 
 enum class Action {
     MOVE_LEFT,
@@ -24,7 +21,7 @@ class Player {
     void handle_realtime_event(std::queue<Action> &commands);
     void assign_key(Action action, sf::Keyboard::Key key);
     sf::Keyboard::Key get_key(Action action) const;
-    Action send_action();
+    //Action send_action();
 
  private:
     static bool is_realtime(Action action);
@@ -33,5 +30,3 @@ class Player {
  private:
     std::map<sf::Keyboard::Key, Action> _key_binding;
 };
-
-#endif //PROJECT_PLAYER_H
