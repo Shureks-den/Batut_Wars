@@ -2,8 +2,13 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "status.h"
+
+namespace animation {
+
 class Animation {
  public:
+    Animation() = default;
     Animation(sf::Texture *texture, sf::Vector2u image_count, sf::Time switch_time);
     ~Animation() = default;
 
@@ -21,20 +26,22 @@ class Animation {
 
 class AnimationManager {
  public:
-    AnimationManager(std::vector<Animation> &animations, sf::Vector2f position);
+    AnimationManager(Animation &animation, sf::Vector2f position);
+    AnimationManager(AnimationId animation_id, sf::Vector2f position, float angle); // Переписать на status
     ~AnimationManager() = default;
 
     void update(sf::Time d_time);
     void draw(sf::RenderWindow &window);
+    void set_states(std::vector<bool> &states);
+    void set_position(sf::Vector2f &position);
+    void set_angle(float angle);
 
  private:
     sf::RectangleShape _body;
-    std::vector<Animation> _animations;
+    Animation _animation;
     size_t _current;
+
+    float _angle;
 };
 
-struct State {        // TODO(ANDY) придумать содержание структуры
-    bool is_moveing;  // Реализовать таблицу перехода состояние -> индекс анимации
-    bool is_fireing;
-    double angle;
-};
+}  // namespace animation
