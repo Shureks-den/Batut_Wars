@@ -1,137 +1,178 @@
 #include "engine.h"
 
-#include <cmath>
+namespace engine
+{
+	Vector::Vector(double x, double y)
+	{
+		_x = x;
+		_y = y;
+	}
 
-namespace engine {
-engine::Vector::Vector(double x, double y) {  // TODO(ANDY) убрать engine::
-}
+	Vector::Vector(const Vector & other)
+	{
+		this->_x = other._x;
+		this->_y = other._y;
+	}
 
-double engine::Vector::get_x() const {
-    return _x;
-}
+	double Vector::get_x() const
+	{
+		return _x;
+	}
 
-double engine::Vector::get_y() const {
-    return _y;
-}
+	double Vector::get_y() const
+	{
+		return _y;
+	}
 
-void engine::Vector::set_x(double x) {
-    _x = x;
-}
+	void Vector::set_x(double x)
+	{
+		_x = x;
+	}
 
-void engine::Vector::set_y(double y) {
-    _y = y;
-}
+	void Vector::set_y(double y)
+	{
+		_y = y;
+	}
 
-float engine::Vector::get_abs() const {
-    return sqrt((_x * _x) + (_y * _y));
-}
+	float Vector::get_abs() const
+	{
+		return sqrt((_x * _x) + (_y * _y));
+	}
 
-void engine::Vector::rotate(double angle) {
-    x = _x * cos(angle) - _y * sin(angle);
-    y = _x * sin(angle) + _y * cos(angle);
-    _x = x;
-    _y = y;
-}
+	void Vector::rotate(double angle)
+	{
+		_x = _x * cos(angle) - _y * sin(angle);
+		_y = _x * sin(angle) + _y * cos(angle);
+	}
 
-engine::Vetor engine::Vector::get_normal() {
-    float _abs = this->get_abs();
-    Vector normal_vector(_x() / _abs, _y() / _abs);
-    return normal_vector;
-}
+	Vector Vector::get_normal()
+	{
+		float _abs = this->get_abs();
+		Vector normal_vector(0, 0);
+		if (_abs != 0)
+		{
+			normal_vector.set_x(_x / _abs);
+			normal_vector.set_y(_y / _abs);
+		}
 
-
-engine::Vector engine::Vector::operator+(const Vector &other) const {
-    Vector tmp(this->_x, this->_y);
-    tmp.set_x(this->_x + other._x);
-    tmp.set_y(this->_y + other._y);
-    return tmp;
-}
-
-engine::Vector engine::Vector::operator-(const Vector &other) const {
-    return Vector(this->_x - other._x, this->_y - other._y);
-}
-
-engine::Vector engine::Vector::operator*(double coef) const {
-    return Vector(coef * _x, coef * _y);
-}
-
-engine::Vector engine::Vector::operator/(double coef) const {
-    return Vector(_x / coef, _y / coef);
-}
-
-engine::Vector engine::Vector::operator+=(const Vector &other) {
-    this->_x += other._x;
-    this->_y += other._y;
-    return *this;
-}
-
-engine::Vector engine::Vector::operator-=(const Vector &other) {
-    this->_x -= other._x;
-    this->_y -= other._y;
-    return *this;
-}
-
-engine::Vector engine::Vector::operator*=(double coef) {
-    _x *= coef;
-    _y *= coef;
-    return *this;
-}
-
-engine::Vector engine::Vector::operator/=(double coef) {
-    _x /= coef;
-    _y /= coef;
-    return *this;
-}
-
-float engine::Entity::get_x() const {
-    return _coordinate.x;
-}
-
-float engine::Entity::get_y() const {
-    return _coordinate.y;
-}
-
-float engine::Entity::set_x(float x) {
-    _coordinate.x = x;
-    return _coordinate.x;
-}
-
-float engine::Entity::set_y(float y) {
-    _coordinate.y = y;
-    return _coordinate.y;
-}
+		return normal_vector;
+	}
 
 
-void MoveAble::rotate(float angle) {
-    double x = _speed.get_x() * cos(angle) - _speed.get_y() * sin(angle);
-    double y = _speed.get_x() * sin(angle) + _speed.get_y() * cos(angle);
-    _speed.set_x(x);
-    _speed.set_y(y);
-}
+	Vector Vector::operator+(const Vector & other) const
+	{
+		Vector tmp(this->_x, this->_y);
+		tmp.set_x(this->_x + other._x);
+		tmp.set_y(this->_y + other._y);
+		return tmp;
+	}
 
-void MoveAble::give_acceleration(Vector acceleration) {
-    _acceleration += acceleration;
-}
+	Vector Vector::operator-(const Vector & other) const
+	{
+		return Vector(this->_x - other._x, this->_y - other._y);
+	}
 
-Vector MoveAble::d_acceleration(Direction direction, float d_acceleration) {
-    Vector delta(this->get_normal);
-    if (direction == Direction::RIGHT) {  // TODO(ANDY) Этот код можно сократить.
-        delta.rotate(-90);                // И тогда он будет достаточно коротким, чтобы
-        delta *= d_acceleration;          // запихать его целиком в give_acceleration()
-    } else if (direction == Direction::LEFT) {  // и удалить этот метод.
-        delta.rotate(90);
-        delta *= d_acceleration;
-    } else if (direction == Direction::BACKWARD) {
-        delta *= - d_acceleration;
-    } else {
-        delta *= d_acceleration;
-    }
-    return delta;
-}
+	Vector Vector::operator*(double coef) const
+	{
+		return Vector(coef * _x, coef * _y);
+	}
 
-void MoveAble::give_acceleration(Direction direction, float d_acceleration) {
-    float speed_abs = _speed.get_abs();  // Это больше не нужно
-        Vector delta(this->d_acceleration(direction, d_acceleration));  // Не уверен, что нужен отдельный метод d_acceleration
-        _acceleration += delta;                                                    // И он уж точне не public
-    }
+	Vector Vector::operator/(double coef) const
+	{
+		return Vector(_x / coef, _y / coef);
+	}
+
+	Vector Vector::operator+=(const Vector & other)
+	{
+		this->_x += other._x;
+		this->_y += other._y;
+		return *this;
+	}
+
+	Vector Vector::operator-=(const Vector & other)
+	{
+		this->_x -= other._x;
+		this->_y -= other._y;
+		return *this;
+	}
+
+	Vector Vector::operator*=(double coef)
+	{
+		_x *= coef;
+		_y *= coef;
+		return *this;
+	}
+
+	Vector Vector::operator/=(double coef)
+	{
+		_x /= coef;
+		_y /= coef;
+		return *this;
+	}
+
+	float Entity::get_x() const
+	{
+		return _coordinate.x;
+	}
+
+	float Entity::get_y() const
+	{
+		return _coordinate.y;
+	}
+
+	float Entity::set_x(float x)
+	{
+		_coordinate.x = x;
+		return _coordinate.x;
+	}
+
+	float Entity::set_y(float y)
+	{
+		_coordinate.y = y;
+		return _coordinate.y;
+	}
+
+
+	void MoveAble::rotate(float angle)
+	{
+		double x = _speed.get_x() * cos(angle) - _speed.get_y() * sin(angle);
+		double y = _speed.get_x() * sin(angle) + _speed.get_y() * cos(angle);
+		_speed.set_x(x);
+		_speed.set_y(y);
+	}
+
+	void MoveAble::give_acceleration(Vector acceleration)
+	{
+		_acceleration += acceleration;
+	}
+
+	void MoveAble::give_acceleration(Direction direction, float d_acceleration)
+	{
+		Vector delta(_speed);
+		delta.get_normal();
+		delta *= d_acceleration;
+		switch (direction)
+		{
+		case Direction::RIGHT:
+		{
+			delta.rotate(-M_PI / 2);
+			break;
+		}
+		case Direction::LEFT:
+		{
+			delta.rotate(M_PI / 2);
+			break;
+		}
+		case Direction::BACKWARD:
+		{
+			delta.rotate(M_PI);
+			break;
+		}
+		}
+
+		if (_acceleration.get_x() <= ACCELERETION_LIMIT && _acceleration.get_y() <= ACCELERETION_LIMIT)
+		{
+			_acceleration += delta;
+		}
+	}
 }  // namespace engine
