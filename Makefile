@@ -13,12 +13,13 @@ SRCS = \
        project/src/world.cpp \
        project/src/game.cpp \
        project/src/render.cpp \
-       project/src/player.cpp
+       project/src/player.cpp \
+       project/src/layer.cpp
 
 .PHONY: all clean
 
 all: $(SRCS)
-	std::c++17 -Wall -Wextra -Werror $(addprefix -I,$(HDRS)) -o $(TARGET) $(CFLAGS) $(SRCS) $(LIBS)
+	g++ -Wall -Wextra -Werror $(addprefix -I,$(HDRS)) -o $(TARGET) $(CFLAGS) $(SRCS) $(LIBS)
 
 clean:
 	rm -rf $(TARGET)
