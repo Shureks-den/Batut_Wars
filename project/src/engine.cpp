@@ -3,9 +3,7 @@
 #include <cmath>
 
 namespace engine {
-engine::Vector::Vector(double x, double y) {  // TODO(ANDY) Так не надо.
-    _x = x;                                   // Давайте напишем namespace engine { ... реализация ... }
-    _y = y;                                   // Как внизу крч
+engine::Vector::Vector(double x, double y) {  // TODO(ANDY) убрать engine::
 }
 
 double engine::Vector::get_x() const {
@@ -29,8 +27,8 @@ float engine::Vector::get_abs() const {
 }
 
 void engine::Vector::rotate(double angle) {
-    x = _x * cos(angle) - _y * sin(angle);  // TODO(ANDY) Давайте this использовать,
-    y = _x * sin(angle) + _y * cos(angle);  // только когда есть other. Иначе писать просто _x, _y
+    x = _x * cos(angle) - _y * sin(angle);
+    y = _x * sin(angle) + _y * cos(angle);
     _x = x;
     _y = y;
 }
@@ -42,14 +40,14 @@ engine::Vetor engine::Vector::get_normal() {
 }
 
 
-engine::Vector engine::Vector::operator+(const Vector & other) const {
+engine::Vector engine::Vector::operator+(const Vector &other) const {
     Vector tmp(this->_x, this->_y);
     tmp.set_x(this->_x + other._x);
     tmp.set_y(this->_y + other._y);
     return tmp;
 }
 
-engine::Vector engine::Vector::operator-(const Vector & other) const {
+engine::Vector engine::Vector::operator-(const Vector &other) const {
     return Vector(this->_x - other._x, this->_y - other._y);
 }
 
@@ -61,13 +59,13 @@ engine::Vector engine::Vector::operator/(double coef) const {
     return Vector(_x / coef, _y / coef);
 }
 
-engine::Vector engine::Vector::operator+=(const Vector & other) {
+engine::Vector engine::Vector::operator+=(const Vector &other) {
     this->_x += other._x;
     this->_y += other._y;
     return *this;
 }
 
-engine::Vector engine::Vector::operator-=(const Vector & other) {
+engine::Vector engine::Vector::operator-=(const Vector &other) {
     this->_x -= other._x;
     this->_y -= other._y;
     return *this;
@@ -115,12 +113,12 @@ void MoveAble::give_acceleration(Vector acceleration) {
     _acceleration += acceleration;
 }
 
-Vector MoveAble::d_acceleration(Direction direction, float d_acceleration) {  // Зачем speed_abs как параметр? Его можно вычислить внутри метода
-    Vector delta(this->get_normal);  // Это надо сделать public-методом в Vector
-    if (direction == Direction::RIGHT) {
-        delta.rotate(-90);
-        delta *= d_acceleration;
-    } else if (direction == Direction::LEFT) {  // TODO(ANDY) По возможности сократить
+Vector MoveAble::d_acceleration(Direction direction, float d_acceleration) {
+    Vector delta(this->get_normal);
+    if (direction == Direction::RIGHT) {  // TODO(ANDY) Этот код можно сократить.
+        delta.rotate(-90);                // И тогда он будет достаточно коротким, чтобы
+        delta *= d_acceleration;          // запихать его целиком в give_acceleration()
+    } else if (direction == Direction::LEFT) {  // и удалить этот метод.
         delta.rotate(90);
         delta *= d_acceleration;
     } else if (direction == Direction::BACKWARD) {
@@ -132,7 +130,7 @@ Vector MoveAble::d_acceleration(Direction direction, float d_acceleration) {  //
 }
 
 void MoveAble::give_acceleration(Direction direction, float d_acceleration) {
-    float speed_abs = _speed.get_abs();
+    float speed_abs = _speed.get_abs();  // Это больше не нужно
         Vector delta(this->d_acceleration(direction, d_acceleration));  // Не уверен, что нужен отдельный метод d_acceleration
         _acceleration += delta;                                                    // И он уж точне не public
     }
