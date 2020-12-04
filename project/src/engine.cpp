@@ -146,33 +146,20 @@ namespace engine
 		_acceleration += acceleration;
 	}
 
-	void MoveAble::give_acceleration(Direction direction, float d_acceleration)
-	{
-		Vector delta(_speed);
-		delta.get_normal();
-		delta *= d_acceleration;
-		switch (direction)
-		{
-		case Direction::RIGHT:
-		{
-			delta.rotate(-M_PI / 2);
-			break;
-		}
-		case Direction::LEFT:
-		{
-			delta.rotate(M_PI / 2);
-			break;
-		}
-		case Direction::BACKWARD:
-		{
-			delta.rotate(M_PI);
-			break;
-		}
-		}
+	void MoveAble::give_acceleration(Direction direction, float d_acceleration) {
+		Vector delta = _speed.get_normal();
+		delta *= (direction == Direction::BACKWARD) - d_acceleration : d_acceleration;
 
-		if (_acceleration.get_x() <= ACCELERETION_LIMIT && _acceleration.get_y() <= ACCELERETION_LIMIT)
-		{
-			_acceleration += delta;
-		}
+		if (direction == Direction::RIGHT) {
+			delta.rotate(- M_PI / 2);
+		} else if (direction == Direction::LEFT) {
+            delta.rotate(M_PI / 2);
+        }
+        
+        _acceleration += delta;
+        if (_acceleration.get_abs() <= ACCELERETION_LIMIT) {
+            _acceleration = _acceleration.get_normal() * ACCELERETION_LIMIT;
+        }
 	}
+
 }  // namespace engine
