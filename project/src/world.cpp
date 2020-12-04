@@ -45,3 +45,7 @@ void World::do_action(size_t id, Action action, sf::Time d_time) {  // TODO(ANDY
         break;
     }
 }
+
+std::vector<Status>& World::get_status() {
+    return _status;
+}
