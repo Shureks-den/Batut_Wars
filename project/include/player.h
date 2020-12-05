@@ -5,7 +5,7 @@
 #include <SFML/Window/Event.hpp>
 
 enum class Action {
-    MOVE_LEFT,
+    MOVE_LEFT = 0,
     MOVE_RIGHT,
     MOVE_FORWARD,
     MOVE_BACKWARD,

@@ -12,10 +12,10 @@ class World {
     void update(sf::Time d_time);
     void push_back(engine::Entity &object);
     std::queue<Action>& get_actions();
-    std::vector<Status>& get_status();
+    std::vector<Status> get_status();
 
  private:
-    std::vector<engine::Entity> _objects;
+    std::vector<engine::Entity*> _objects;
     std::queue<Action> _actions;
     std::vector<Status> _status;
 

@@ -1,80 +1,80 @@
 #pragma once
 
+#include <math.h>
+
 #include <SFML/Graphics.hpp>
 
 #define _USE_MATH_DEFINES
-#include <math.h>
 
-#define SPEED_LIMIT 30.0
-#define ACCELERETION_LIMIT 4.0
+constexpr float SPEED_LIMIT = 30.0;
+constexpr float ACCELERETION_LIMIT = 4.0;
 
-enum class Direction
-{
+enum class Direction {
     FORWARD = 0,
     BACKWARD,
     LEFT,
     RIGHT
 };
 
-namespace engine
-{
+namespace engine {
 
-    class Vector
-    {
-    public:
-        Vector() = default;
-        Vector(double x, double y);
-        Vector(const Vector & other);
-        ~Vector() = default;
-        double get_x() const;
-        double get_y() const;
-        void set_x(double x);
-        void set_y(double y);
-        float get_abs() const;
-        void rotate(double angle);
-        Vector get_normal();
-        Vector operator+(const Vector & other) const;
-        Vector operator-(const Vector & other) const;
-        Vector operator*(double coef) const;
-        Vector operator/(double coef) const;
-        Vector operator+=(const Vector & other);
-        Vector operator-=(const Vector & other);
-        Vector operator*=(double coef);
-        Vector operator/=(double coef);
+class Vector {
+ public:
+    Vector() = default;
+    Vector(float x, float y);
+    Vector(const Vector &other);
+    ~Vector() = default;
+    float get_x() const;
+    float get_y() const;
+    void set_x(float x);
+    void set_y(float y);
+    float get_abs() const;
+    void rotate(float angle);
+    Vector get_normal();
+    Vector operator+(const Vector &other) const;
+    Vector operator-(const Vector &other) const;
+    Vector operator*(float coef) const;
+    Vector operator/(float coef) const;
+    Vector operator+=(const Vector &other);
+    Vector operator-=(const Vector &other);
+    Vector operator*=(float coef);
+    Vector operator/=(float coef);
+    Vector operator=(const Vector &other);
+    sf::Vector2f get_sf();
 
-    private:
-        double _x;
-        double _y;
-    };
+ private:
+    float _x;
+    float _y;
+};
 
-    class Entity
-    {
-    public:
-        Entity() = default;
-        virtual ~Entity();
-        float get_x() const;
-        float get_y() const;
-        float set_x(float x);
-        float set_y(float y);
-        virtual void update(sf::Time dt);
+class Entity {
+ public:
+    Entity() = default;
+    virtual ~Entity() = default;
+    float get_x() const;
+    float get_y() const;
+    void set_x(float x);
+    void set_y(float y);
+    sf::Vector2f get_position();
+    void set_position(sf::Vector2f position);
+    virtual void update(sf::Time dt) = 0;
 
-    protected:
-        sf::Vector2f _coordinate;
-    };
+ protected:
+    sf::Vector2f _position;
+};
 
-    class MoveAble : public Entity
-    {
-    public:
-        MoveAble() = default;
-        virtual ~MoveAble();
-        virtual void update(sf::Time dt) = 0;
-        void rotate(float angle);
-        void give_acceleration(Vector acceleration);
-        void give_acceleration(Direction direction, float d_acceleration);
+class MoveAble : public Entity {
+ public:
+    MoveAble();
+    virtual ~MoveAble() = default;
+    virtual void update(sf::Time dt) = 0;
+    void rotate(float angle);
+    void give_acceleration(Vector acceleration);
+    void give_acceleration(Direction direction, float d_acceleration);
 
-    protected:
-        Vector _speed;
-        Vector _acceleration;
-    };
+ protected:
+    Vector _speed;
+    Vector _acceleration;
+};
 
 }  // end namespace engine

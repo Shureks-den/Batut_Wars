@@ -1,5 +1,6 @@
 #include "render.h"
 
+#include <iostream>
 #include <vector>
 
 Render::Render(sf::RenderWindow& window)
@@ -19,21 +20,22 @@ void Render::update(sf::Time dt) {
     }
 }
 
-void Render::inicilize_status(std::vector<Status> &status) {
-    _status = status;
+void Render::inicilize(const std::vector<Status> &status) {
+    _status.assign(status.begin(), status.end());
     _view.setCenter(_status[0].position);  // TODO(ANDY) вместо 0 - id данного игрока
+    build_scene();
 }
 
 void Render::build_scene() {
     for (auto &it : _status) {
-        animation::AnimationManager added(it.animation_id, it.position, it.angle);  // Вероятно, ResourceHolder должен быть тут
+        animation::AnimationManager added(_holder.get_texture(it.animation_id), it.position, it.angle);
         _animation_layers[it.lay_id].push_back(added);
     }
 }
 
-void Render::set_status(std::vector<Status> &status) {
-    for (size_t i = 0; i < status.size(); ++i) {  // TODO(ANDY) Ломается при удалении. Переписать на list
-        size_t lay = _status[i].lay_id;
+void Render::set_status(const std::vector<Status> &status) {
+    for (size_t i = 0; i < _status.size(); ++i) {  // TODO(ANDY) Ломается при удалении. Переписать на list
+        size_t lay = status[i].lay_id;
         size_t id = status[i].id;
         if (status[i].is_removed) {
             _status.erase(status.begin() + i);
@@ -57,12 +59,16 @@ void Render::set_status(std::vector<Status> &status) {
         }
     }
 
-    for (size_t i = status.size(); i < _status.size(); ++i) {
-        status.push_back(_status[i]);
+    for (size_t i = _status.size(); i < status.size(); ++i) {
+        _status.push_back(status[i]);
     }
 }
 
 void Render::add_animation(size_t lay, Status &status) {
-    animation::AnimationManager added(status.animation_id, status.position, status.angle);
+    animation::AnimationManager added(_holder.get_texture(status.animation_id), status.position, status.angle);
     _animation_layers[lay].push_back(added);
+}
+
+sf::View& Render::get_view() {
+    return _view;
 }

@@ -19,7 +19,7 @@ class Layer {
     ~Layer() = default;
     void update(sf::Time dt);
     void draw(sf::RenderWindow &window);
-    size_t push_back(AnimationManager &added);
+    size_t push_back(const AnimationManager &added);
     void erase(size_t id);  // TODO(ANDY) реализовать после замены на список
     AnimationManager& operator[] (const int index);
 

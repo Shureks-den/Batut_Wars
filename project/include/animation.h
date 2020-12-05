@@ -9,7 +9,7 @@ namespace animation {
 class Animation {
  public:
     Animation() = default;
-    Animation(sf::Texture *texture, sf::Vector2u image_count, sf::Time switch_time);
+    Animation(const sf::Texture *texture, sf::Vector2u image_count, sf::Time switch_time);
     ~Animation() = default;
 
     void update(int row, sf::Time d_time, bool is_forward);
@@ -26,15 +26,15 @@ class Animation {
 
 class AnimationManager {
  public:
-    AnimationManager(Animation &animation, sf::Vector2f position);
-    AnimationManager(AnimationId animation_id, sf::Vector2f position, float angle);  // Переписать на status
+    AnimationManager(Animation animation, sf::Vector2f position);
+    AnimationManager(const sf::Texture *texture, sf::Vector2f position, float angle);  // Переписать на status
     ~AnimationManager() = default;
 
     void update(sf::Time d_time);
     void draw(sf::RenderWindow &window);
-    void set_states(std::vector<bool> &states);
-    void set_position(sf::Vector2f &position);
-    void set_angle(float angle);
+    void set_states(const std::vector<bool> &states);
+    void set_position(const sf::Vector2f &position);
+    void set_angle(const float angle);
 
  private:
     sf::RectangleShape _body;

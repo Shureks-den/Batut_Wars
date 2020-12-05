@@ -2,12 +2,16 @@
 
 #include <SFML/Graphics.hpp>
 
-enum class AnimationId {  // Для анимаций
+namespace animation {
+
+enum class Id {  // Для анимаций
     SHIP = 0,
     BULLET,
     PLANET,
     COUNT
 };
+
+} // namespace animation
 
 class Status {
  public:
@@ -18,9 +22,9 @@ class Status {
     size_t id;
 
     bool is_removed;
-    AnimationId animation_id;
+    animation::Id animation_id;
 
     std::vector<bool> states;
-    double angle;
+    float angle;
     sf::Vector2f position;
 };

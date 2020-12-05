@@ -6,12 +6,12 @@
 
 const sf::Time Game::_time_per_frame = sf::seconds(1.0/60.0);
 
-Game::Game() : _window(sf::VideoMode(640, 480), "Input", sf::Style::Close),
+Game::Game() : _window(sf::VideoMode(1280, 960), "Input", sf::Style::Close),
                _render(_window),
                _frames(0) {
     _window.setKeyRepeatEnabled(false);
 
-    _statistic_font.loadFromFile("Media/Sansation.ttf");
+    _statistic_font.loadFromFile("project/media/Sansation.ttf");
     _statistic_text.setFont(_statistic_font);
     _statistic_text.setPosition(5.f, 5.f);
     _statistic_text.setCharacterSize(10);
@@ -23,9 +23,9 @@ void Game::run() {
     sf::Time total_time = sf::Time::Zero;
 
     space::Ship main_ship;
-    main_ship.set_x(_window.getSize().x);
-    main_ship.set_y(_window.getSize().y);
+    main_ship.set_position(sf::Vector2f(200.0f, 200.0f));
     _world.push_back(main_ship);
+    _render.inicilize(_world.get_status());
 
     while (_window.isOpen()) {
         sf::Time current_time = clock.restart();
@@ -67,7 +67,7 @@ void Game::render(sf::Time dt) {
     _render.set_status(_world.get_status());  // Обмен данными между _render и _world
     _render.update(dt);
     _render.draw();
-    // _window.setView(_window.getDefaultView());  // Вид устанавливается в _render.set_status
+    _window.setView(_window.getDefaultView());  // Вид устанавливается в _render.set_status
     _window.draw(_statistic_text);
     _window.display();
 }

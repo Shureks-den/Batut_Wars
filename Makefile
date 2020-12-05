@@ -14,7 +14,8 @@ SRCS = \
        project/src/game.cpp \
        project/src/render.cpp \
        project/src/player.cpp \
-       project/src/layer.cpp
+       project/src/layer.cpp \
+       project/src/holder.cpp
 
 .PHONY: all clean
 

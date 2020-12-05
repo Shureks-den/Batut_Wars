@@ -4,14 +4,14 @@
 
 namespace animation {
 
-Animation::Animation(sf::Texture *texture, sf::Vector2u image_count, sf::Time switch_time) {
+Animation::Animation(const sf::Texture *texture, sf::Vector2u image_count, sf::Time switch_time) {
     _image_count = image_count;
     _switch_time = switch_time;
     _total_time = sf::Time::Zero;
     _current_image.x = 0;
 
-    uv_rect.width = texture->getSize().x / static_cast<double>(image_count.x);
-    uv_rect.height = texture->getSize().y / static_cast<double>(image_count.y);
+    uv_rect.width = texture->getSize().x / static_cast<float>(image_count.x);
+    uv_rect.height = texture->getSize().y / static_cast<float>(image_count.y);
 }
 
 void Animation::update(int row, sf::Time d_time, bool is_forward) {
@@ -27,7 +27,6 @@ void Animation::update(int row, sf::Time d_time, bool is_forward) {
         }
     }
 
-    uv_rect.left = _current_image.x * uv_rect.width;
     uv_rect.top = _current_image.y * uv_rect.height;
 
     if (is_forward) {
@@ -39,41 +38,37 @@ void Animation::update(int row, sf::Time d_time, bool is_forward) {
     }
 }
 
-AnimationManager::AnimationManager(Animation &animation, sf::Vector2f position) {
+AnimationManager::AnimationManager(Animation animation, sf::Vector2f position) {
     _animation = animation;
     _current = 0;
-    _body.setSize(sf::Vector2f(_animation.uv_rect.width, _animation.uv_rect.height));  // TODO(ANDY) мб хрень написал
+    _body.setSize(sf::Vector2f(_animation.uv_rect.width, _animation.uv_rect.height));
     _body.setPosition(position);
     _body.setTextureRect(_animation.uv_rect);
 }
 
-AnimationManager::AnimationManager(AnimationId animation_id, sf::Vector2f position, float angle) {
-    _angle = angle;
+AnimationManager::AnimationManager(const sf::Texture *texture, sf::Vector2f position, float angle) {
+    _animation = Animation(texture, sf::Vector2u(1, 1), sf::seconds(0.5f));
     _body.setPosition(position);
-    sf::Texture texture;
-    switch (animation_id) {
-    case AnimationId::SHIP:  // TODO(ANDY) загрузка конкретной текстуры из файла
-        texture.loadFromFile("project/media/smallfreighterspr.png");
-        _animation = animation::Animation(&texture, sf::Vector2u(1, 1), sf::seconds(0.5));
-        break;
-    default:
-        break;
-    }
+    _body.setSize(sf::Vector2f(_animation.uv_rect.width, _animation.uv_rect.height));
+    _body.setTextureRect(_animation.uv_rect);
+    _body.setTexture(texture);
+    _angle = angle;
+    _current = 0;
 }
 
 void AnimationManager::draw(sf::RenderWindow &window) {
     window.draw(_body);
 }
 
-void AnimationManager::update(sf::Time d_time) {  // TODO(ANDY) реализовать
-    _animation.update(_current, d_time, false);
+void AnimationManager::update(sf::Time d_time) {
+    _animation.update(_current, d_time, true);
 }
 
-void AnimationManager::set_angle(float angle) {
+void AnimationManager::set_angle(const float angle) {
     _angle = angle;
 }
 
-void AnimationManager::set_states(std::vector<bool> &states) {
+void AnimationManager::set_states(const std::vector<bool> &states) {
     if (states.empty()) {
         _current = 0;  // TODO(ANDY) правило перехода из status в _current
     } else {
@@ -81,7 +76,7 @@ void AnimationManager::set_states(std::vector<bool> &states) {
     }
 }
 
-void AnimationManager::set_position(sf::Vector2f &position) {
+void AnimationManager::set_position(const sf::Vector2f &position) {
     _body.setPosition(position);
 }
 

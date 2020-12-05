@@ -1,19 +1,15 @@
 #include "ship.h"
 
-using namespace space;
+namespace space {
 
-void space::Ship::update(sf::Time dt)
-{
-	_speed += _acceleration * dt.asSeconds();
-	sf::Vector2f movement(0.f, 0.f);
-	if (mIsMovingUp)
-		movement.y -= _speed.get_y();
-	if (mIsMovingDown)
-		movement.y += _speed.get_y();
-	if (mIsMovingLeft)
-		movement.x -= _speed.get_x();
-	if (mIsMovingRight)
-		movement.x += _speed.get_x();
+void Ship::update(sf::Time dt) {
+    engine::Vector tmp = _speed * dt.asSeconds() + _acceleration * dt.asSeconds() * dt.asSeconds() / 2;
+    _position += tmp.get_sf();
+    _speed += _acceleration * dt.asSeconds();
 
-	mPlayer.move(movement * dt.asSeconds());
+    if (_speed.get_abs() >= SPEED_LIMIT) {
+        _speed = _speed.get_normal() * SPEED_LIMIT;
+    }
 }
+
+} // namespace space

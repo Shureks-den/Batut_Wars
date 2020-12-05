@@ -5,17 +5,18 @@
 
 
 Player::Player() {
-    _key_binding[sf::Keyboard::Left]  = Action::MOVE_LEFT;
-    _key_binding[sf::Keyboard::Right] = Action::MOVE_RIGHT;
-    _key_binding[sf::Keyboard::Up]    = Action::MOVE_FORWARD;
-    _key_binding[sf::Keyboard::Down]  = Action::MOVE_BACKWARD;
+    _key_binding[sf::Keyboard::W] = Action::MOVE_FORWARD;
+    _key_binding[sf::Keyboard::A] = Action::MOVE_LEFT;
+    _key_binding[sf::Keyboard::S] = Action::MOVE_BACKWARD;
+    _key_binding[sf::Keyboard::D] = Action::MOVE_RIGHT;
 }
 
-void Player::handle_event(const sf::Event& event, std::queue<Action> &actions) {
+void Player::handle_event(const sf::Event &event, std::queue<Action> &actions) {
     if (event.type == sf::Event::KeyPressed) {
         const auto &found = _key_binding.find(event.key.code);
-        if (found != _key_binding.end() && !is_realtime(found->second))
+        if (found != _key_binding.end() && !is_realtime(found->second)) {
             actions.push(found->second);
+        }
     }
 }
 
