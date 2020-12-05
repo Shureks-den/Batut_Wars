@@ -8,6 +8,8 @@ Holder::Holder() {
     sf::Texture tmp;
     tmp.loadFromFile("project/media/smallfreighterspr.png");
     _resource_map.push_back(tmp);  // TODO(ANDY) дополнять
+    tmp.loadFromFile("project/media/space.png");
+    _resource_map.push_back(tmp);
 }
 
 const sf::Texture* Holder::get_texture(Id id) const {

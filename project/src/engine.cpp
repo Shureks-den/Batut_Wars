@@ -101,8 +101,15 @@ Vector Vector::operator/=(float coef) {
     return *this;
 }
 
-Vector Vector::operator=(const Vector &other) {
-    return Vector(other);
+Vector& Vector::operator=(const Vector &other) {
+    if (this == &other) {
+        return *this;
+    }
+
+    this->_x = other._x;
+    this->_y = other._y;
+
+    return *this;
 }
 
 sf::Vector2f Vector::get_sf() {
@@ -163,7 +170,7 @@ void MoveAble::give_acceleration(Direction direction, float d_acceleration) {
 
     _acceleration += delta;
     if (_acceleration.get_abs() <= ACCELERETION_LIMIT) {
-        _acceleration = _acceleration.get_normal() * sqrt(ACCELERETION_LIMIT);
+        _acceleration = _acceleration.get_normal() * ACCELERETION_LIMIT;
     }
 }
 

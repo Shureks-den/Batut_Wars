@@ -1,10 +1,6 @@
 #include "world.h"
 
-#include <iostream>
 #include <cassert>
-
-#include <math.h>
-#define _USE_MATH_DEFINES
 
 #include "ship.h"
 #include "layer.h"

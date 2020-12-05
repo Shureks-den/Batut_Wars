@@ -2,8 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
-constexpr float SPEED_LIMIT = 3.0;
-constexpr float ACCELERETION_LIMIT = 1.0;
+constexpr float SPEED_LIMIT = 70.0;
+constexpr float ACCELERETION_LIMIT = 5.0;
 
 enum class Direction {
     FORWARD = 0,
@@ -37,7 +37,7 @@ class Vector {
     Vector operator-=(const Vector &other);
     Vector operator*=(float coef);
     Vector operator/=(float coef);
-    Vector operator=(const Vector &other);
+    Vector& operator=(const Vector &other);
     sf::Vector2f get_sf();
 
  private:

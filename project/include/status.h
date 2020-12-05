@@ -6,6 +6,7 @@ namespace animation {
 
 enum class Id {  // Для анимаций
     SHIP = 0,
+    SPACE,
     BULLET,
     PLANET,
     COUNT
