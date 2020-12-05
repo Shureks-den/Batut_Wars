@@ -1,13 +1,9 @@
 #pragma once
 
-#include <math.h>
-
 #include <SFML/Graphics.hpp>
 
-#define _USE_MATH_DEFINES
-
-constexpr float SPEED_LIMIT = 30.0;
-constexpr float ACCELERETION_LIMIT = 4.0;
+constexpr float SPEED_LIMIT = 3.0;
+constexpr float ACCELERETION_LIMIT = 1.0;
 
 enum class Direction {
     FORWARD = 0,
@@ -17,6 +13,8 @@ enum class Direction {
 };
 
 namespace engine {
+
+float to_radian(float degrees);
 
 class Vector {
  public:

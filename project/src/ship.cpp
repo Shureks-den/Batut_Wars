@@ -1,5 +1,7 @@
 #include "ship.h"
 
+#include <cmath>
+
 namespace space {
 
 void Ship::update(sf::Time dt) {
@@ -8,7 +10,7 @@ void Ship::update(sf::Time dt) {
     _speed += _acceleration * dt.asSeconds();
 
     if (_speed.get_abs() >= SPEED_LIMIT) {
-        _speed = _speed.get_normal() * SPEED_LIMIT;
+        _speed = _speed.get_normal() * sqrt(SPEED_LIMIT);
     }
 }
 

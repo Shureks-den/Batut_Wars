@@ -2,6 +2,9 @@
 
 #include <vector>
 
+#include <math.h>
+#define _USE_MATH_DEFINES
+
 namespace animation {
 
 Animation::Animation(const sf::Texture *texture, sf::Vector2u image_count, sf::Time switch_time) {
@@ -52,6 +55,7 @@ AnimationManager::AnimationManager(const sf::Texture *texture, sf::Vector2f posi
     _body.setSize(sf::Vector2f(_animation.uv_rect.width, _animation.uv_rect.height));
     _body.setTextureRect(_animation.uv_rect);
     _body.setTexture(texture);
+    _body.setOrigin(_animation.uv_rect.width / 2, _animation.uv_rect.height / 2);
     _angle = angle;
     _current = 0;
 }
@@ -62,6 +66,7 @@ void AnimationManager::draw(sf::RenderWindow &window) {
 
 void AnimationManager::update(sf::Time d_time) {
     _animation.update(_current, d_time, true);
+    _body.setRotation(_angle);
 }
 
 void AnimationManager::set_angle(const float angle) {

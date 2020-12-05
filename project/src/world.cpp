@@ -3,8 +3,12 @@
 #include <iostream>
 #include <cassert>
 
+#include <math.h>
+#define _USE_MATH_DEFINES
+
 #include "ship.h"
 #include "layer.h"
+#include "engine.h"
 
 World::World() {;}  // TODO(ANDY) написать нормальный конструктор
 
@@ -16,8 +20,7 @@ void World::update(sf::Time d_time) {
 
     for (auto &it : _objects) {  // TODO(ANDY)
         it->update(d_time);
-        _status[0].position = it->get_position();  // TODO(ANDY) обновление status 
-        std::cout << it->get_position().x << " " << it->get_position().y << std::endl;
+        _status[0].position = it->get_position();  // TODO(ANDY) обновление status
     }
     // Рассчет коллизий
 }
@@ -47,10 +50,12 @@ void World::do_action(size_t id, Action action, sf::Time d_time) {  // TODO(ANDY
         ship->give_acceleration(Direction::BACKWARD, 10.0 * d_time.asSeconds());  // TODO(ANDY) довести до ума
         break;
     case Action::MOVE_LEFT:
-        ship->rotate(-45.0 * d_time.asSeconds());  // TODO(ANDY) довести до ума
+        ship->rotate(engine::to_radian(- 60.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
+        _status[id].angle -= 60.0 * d_time.asSeconds();
         break;
     case Action::MOVE_RIGHT:
-        ship->rotate(45.0 * d_time.asSeconds());  // TODO(ANDY) довести до ума блять
+        ship->rotate(engine::to_radian(60.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума блять
+        _status[id].angle += 60.0 * d_time.asSeconds();
         break;
 
     default:
