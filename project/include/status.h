@@ -12,7 +12,7 @@ enum class Id {  // Для анимаций
     COUNT
 };
 
-} // namespace animation
+}  // namespace animation
 
 class Status {
  public:

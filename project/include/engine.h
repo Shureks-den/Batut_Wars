@@ -2,8 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
-constexpr float SPEED_LIMIT = 70.0;
-constexpr float ACCELERETION_LIMIT = 5.0;
+constexpr float SPEED_LIMIT = 130.0;
+constexpr float ACCELERETION_LIMIT = 10.0;
 
 enum class Direction {
     FORWARD = 0,

@@ -141,7 +141,7 @@ void Entity::set_position(sf::Vector2f position) {
 }
 
 
-MoveAble::MoveAble() : _speed(0.0f, - 1.0f), _acceleration (0.0f, - 1.0f) {}
+MoveAble::MoveAble() : _speed(0.0f, - 1.0f), _acceleration(0.0f, - 1.0f) {}
 
 void MoveAble::rotate(float angle) {
     float x = _speed.get_x() * cos(angle) - _speed.get_y() * sin(angle);

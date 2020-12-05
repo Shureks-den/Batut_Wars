@@ -4,7 +4,7 @@
 
 #include "ship.h"
 
-const sf::Time Game::_time_per_frame = sf::seconds(1.0/60.0);
+const sf::Time Game::_time_per_frame = sf::seconds(1.0 / 60.0);
 
 Game::Game() : _window(sf::VideoMode(640, 480), "Input", sf::Style::Close),
                _render(_window),
@@ -22,8 +22,8 @@ void Game::run() {
     sf::Clock clock;
     sf::Time total_time = sf::Time::Zero;
 
-    space::Ship main_ship;
-    main_ship.set_position(sf::Vector2f(640.0f / 2, 480.0f / 2));
+    space::Ship main_ship;  // TODO(ANDY) инициализация карты
+    main_ship.set_position(sf::Vector2f(1500, 1500));
     _world.push_back(main_ship);
     _render.inicilize(_world.get_status());
 

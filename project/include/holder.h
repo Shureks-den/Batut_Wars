@@ -17,6 +17,6 @@ class Holder {
 
  private:
     std::vector<sf::Texture> _resource_map;
-}; 
+};
 
 }  // namespace animation
