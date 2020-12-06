@@ -43,3 +43,33 @@ namespace textures {
       std::vector<sf::Texture> _resource_map;
    }
 } // namespace textures
+
+////////////////////////////////////////
+
+namespace animation {
+   enum class Id {
+      SHIP = 0,
+      BULLET,
+      PLANET,
+      EXPLOSION,
+      COUNT
+   }
+}
+
+namespace fonts {
+   enum class Id {
+      MAIN = 0,
+      INTERFACE,
+      COUNT
+   }
+}
+
+namespace textures {
+   enum class Id {
+      SHIP = 0,
+      PLANET,
+      BLACKHOLE,
+      SPACE,
+      COUNT
+   }
+}
