@@ -2,9 +2,6 @@
 
 #include <vector>
 
-#include <math.h>
-#define _USE_MATH_DEFINES
-
 namespace animation {
 
 Animation::Animation(const sf::Texture *texture, sf::Vector2u image_count, sf::Time switch_time) {
@@ -41,7 +38,21 @@ void Animation::update(int row, sf::Time d_time, bool is_forward) {
     }
 }
 
-AnimationManager::AnimationManager(Animation animation, sf::Vector2f position) {
+void Animation::set_switch_time(sf::Time switch_time) {
+    _switch_time = switch_time;
+}
+
+void Animation::set_image_count(sf::Vector2u image_count) {
+    uv_rect.width *= _image_count.x;
+    uv_rect.height *= _image_count.y;
+    _image_count = image_count;
+    uv_rect.width = uv_rect.width / static_cast<float>(image_count.x);
+    uv_rect.height = uv_rect.height / static_cast<float>(image_count.y);
+    _current_image.x = 0;
+    _current_image.y = 0;
+}
+
+Manager::Manager(Animation animation, sf::Vector2f position) {
     _animation = animation;
     _current = 0;
     _body.setSize(sf::Vector2f(_animation.uv_rect.width, _animation.uv_rect.height));
@@ -49,8 +60,8 @@ AnimationManager::AnimationManager(Animation animation, sf::Vector2f position) {
     _body.setTextureRect(_animation.uv_rect);
 }
 
-AnimationManager::AnimationManager(const sf::Texture *texture, sf::Vector2f position, float angle) {
-    _animation = Animation(texture, sf::Vector2u(1, 1), sf::seconds(0.5f));
+Manager::Manager(const sf::Texture *texture, sf::Vector2f position, float angle) {
+    _animation = Animation(texture, sf::Vector2u(1, 1), sf::seconds(0.1f));
     _body.setPosition(position);
     _body.setSize(sf::Vector2f(_animation.uv_rect.width, _animation.uv_rect.height));
     _body.setTextureRect(_animation.uv_rect);
@@ -60,20 +71,33 @@ AnimationManager::AnimationManager(const sf::Texture *texture, sf::Vector2f posi
     _current = 0;
 }
 
-void AnimationManager::draw(sf::RenderWindow &window) {
+Manager::Manager(Id id, sf::Vector2f position, float angle) {
+    const sf::Texture *texture = _holder.get_texture(id);
+    _animation = Animation(texture, sf::Vector2u(1, 1), sf::seconds(0.1f));
+    _body.setPosition(position);
+    _body.setSize(sf::Vector2f(_animation.uv_rect.width, _animation.uv_rect.height));
+    _body.setTextureRect(_animation.uv_rect);
+    _body.setTexture(texture);
+    _body.setOrigin(_animation.uv_rect.width / 2, _animation.uv_rect.height / 2);
+    _angle = angle;
+    _current = 0;
+}
+
+void Manager::draw(sf::RenderWindow &window) {
     window.draw(_body);
 }
 
-void AnimationManager::update(sf::Time d_time) {
+void Manager::update(sf::Time d_time) {
     _animation.update(_current, d_time, true);
+    _body.setTextureRect(_animation.uv_rect);
     _body.setRotation(_angle);
 }
 
-void AnimationManager::set_angle(const float angle) {
+void Manager::set_angle(const float angle) {
     _angle = angle;
 }
 
-void AnimationManager::set_states(const std::vector<bool> &states) {
+void Manager::set_states(const std::vector<bool> &states) {
     if (states.empty()) {
         _current = 0;  // TODO(ANDY) правило перехода из status в _current
     } else {
@@ -81,8 +105,25 @@ void AnimationManager::set_states(const std::vector<bool> &states) {
     }
 }
 
-void AnimationManager::set_position(const sf::Vector2f &position) {
+void Manager::set_position(const sf::Vector2f &position) {
     _body.setPosition(position);
 }
+
+void Manager::set_switch_time(sf::Time switch_time) {
+    _animation.set_switch_time(switch_time);
+}
+
+void Manager::set_image_count(sf::Vector2u image_count) {
+    _animation.set_image_count(image_count);
+    _body.setSize(sf::Vector2f(_animation.uv_rect.width, _animation.uv_rect.height));
+    _body.setTextureRect(_animation.uv_rect);
+    _body.setOrigin(_animation.uv_rect.width / 2, _animation.uv_rect.height / 2);
+}
+
+sf::Vector2f Manager::get_size() {
+    return _body.getSize();
+}
+
+Holder Manager::_holder;  // static-член класса Manager
 
 }  // namespace animation

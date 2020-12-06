@@ -1,12 +1,10 @@
 #include "layer.h"
 
-#include <iostream>
-
 namespace animation {
 
 void Layer::update(sf::Time dt) {
     for (auto &it : _manager) {
-        it.update(dt);
+        it.update(dt);  // TODO(ANDY) возможность удаления
     }
 }
 
@@ -16,12 +14,12 @@ void Layer::draw(sf::RenderWindow &window) {
     }
 }
 
-size_t Layer::push_back(const AnimationManager &added) {
+size_t Layer::push_back(const Manager &added) {
     _manager.push_back(added);
     return _manager.size() - 1;
 }
 
-AnimationManager& Layer::operator[] (const int index) {
+Manager& Layer::operator[] (const int index) {
     return _manager[index];
 }
 

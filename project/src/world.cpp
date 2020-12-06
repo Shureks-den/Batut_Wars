@@ -6,6 +6,20 @@
 #include "layer.h"
 #include "engine.h"
 
+static const size_t MAP_SIZE = 2000;  // Криво, но пока надо
+
+static Status to_status(engine::Entity &entity) {
+    Status status;
+    status.id = entity.get_id();
+    status.is_removed = false;  // TODO(ANDY) в зависимости от hp
+    status.animation_id = entity.get_animation_id();
+    status.lay_id = static_cast<size_t>(animation::LayerNom::OBJECTS);  // TODO(ANDY) получить LayerNom по Id
+    status.states = entity.get_state();
+    status.angle = 0;  // TODO(ANDY) костыль
+    status.position = entity.get_position();
+    return status;
+}
+
 World::World() {;}  // TODO(ANDY) написать нормальный конструктор
 
 void World::update(sf::Time d_time) {
@@ -14,24 +28,35 @@ void World::update(sf::Time d_time) {
         _actions.pop();
     }
 
-    for (auto &it : _objects) {  // TODO(ANDY)
-        it->update(d_time);
-        _status[0].position = it->get_position();  // TODO(ANDY) обновление status
+    for (size_t i = 0; i < _objects.size(); ++i) {
+        _objects[i]->update(d_time);
+        _status[i].position = _objects[i]->get_position();  // TODO(ANDY) обновление status (после реализации angle в Entity)
+
+        if (_status[i].position.x > MAP_SIZE) {
+            _status[i].position.x -= MAP_SIZE;
+            _objects[i]->set_x(_status[i].position.x);
+        }
+        if (_status[i].position.x < 0) {
+            _status[i].position.x += MAP_SIZE;
+            _objects[i]->set_x(_status[i].position.x);
+        }
+        if (_status[i].position.y > MAP_SIZE) {
+            _status[i].position.y -= MAP_SIZE;
+            _objects[i]->set_y(_status[i].position.y);
+        }
+        if (_status[i].position.y < 0) {
+            _status[i].position.y += MAP_SIZE;
+            _objects[i]->set_y(_status[i].position.y);
+        }
+
     }
+
     // Рассчет коллизий
 }
 
 void World::push_back(engine::Entity &object) {
     _objects.push_back(&object);
-    Status status;  // TODO(ANDY) метод создания status по объекту
-    status.angle = 0;
-    status.lay_id = static_cast<size_t>(animation::LayerNom::OBJECTS);
-    status.id = _objects.size() - 1;
-    status.animation_id = animation::Id::SHIP;
-    status.is_removed = false;
-    status.states.resize(1);
-    status.states[1] = true;
-    status.position = object.get_position();
+    Status status = to_status(object);
     _status.push_back(status);
 }
 
@@ -60,8 +85,7 @@ void World::do_action(size_t id, Action action, sf::Time d_time) {  // TODO(ANDY
 }
 
 std::vector<Status> World::get_status() {
-    std::vector<Status> tmp(_status);
-    return tmp;
+    return _status;
 }
 
 std::queue<Action>& World::get_actions() {

@@ -116,6 +116,16 @@ sf::Vector2f Vector::get_sf() {
     return sf::Vector2f(_x, _y);
 }
 
+size_t Entity::_count = 0;  // static - член класса Entity
+
+Entity::Entity() {
+    _id = _count++;
+}
+
+size_t Entity::get_id() {
+    return _id;
+}
+
 float Entity::get_x() const {
     return _position.x;
 }
@@ -140,8 +150,11 @@ void Entity::set_position(sf::Vector2f position) {
     _position = position;
 }
 
+std::vector<bool> Entity::get_state() {
+    return _state;
+}
 
-MoveAble::MoveAble() : _speed(0.0f, - 1.0f), _acceleration (0.0f, - 1.0f) {}
+MoveAble::MoveAble() : _speed(0.0f, - 1.0f), _acceleration(0.0f, - 1.0f) {}
 
 void MoveAble::rotate(float angle) {
     float x = _speed.get_x() * cos(angle) - _speed.get_y() * sin(angle);

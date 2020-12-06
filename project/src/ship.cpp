@@ -1,7 +1,5 @@
 #include "ship.h"
 
-#include <iostream>
-
 namespace space {
 
 void Ship::update(sf::Time dt) {
@@ -14,4 +12,8 @@ void Ship::update(sf::Time dt) {
     _position += tmp.get_sf();
 }
 
-} // namespace space
+animation::Id Ship::get_animation_id() {
+    return animation::Id::SHIP;
+}
+
+}  // namespace space

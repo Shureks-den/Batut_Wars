@@ -2,8 +2,10 @@
 
 #include <SFML/Graphics.hpp>
 
-constexpr float SPEED_LIMIT = 70.0;
-constexpr float ACCELERETION_LIMIT = 5.0;
+#include "status.h"
+
+constexpr float SPEED_LIMIT = 130.0;
+constexpr float ACCELERETION_LIMIT = 10.0;
 
 enum class Direction {
     FORWARD = 0,
@@ -47,18 +49,27 @@ class Vector {
 
 class Entity {
  public:
-    Entity() = default;
+    Entity();
     virtual ~Entity() = default;
     float get_x() const;
     float get_y() const;
     void set_x(float x);
     void set_y(float y);
+
     sf::Vector2f get_position();
     void set_position(sf::Vector2f position);
+
+    size_t get_id();
+    std::vector<bool> get_state();
+
+    virtual animation::Id get_animation_id() = 0;
     virtual void update(sf::Time dt) = 0;
 
  protected:
     sf::Vector2f _position;
+    std::vector<bool> _state;
+    size_t _id;
+    static size_t _count;
 };
 
 class MoveAble : public Entity {

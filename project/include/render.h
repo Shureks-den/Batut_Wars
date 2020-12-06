@@ -27,5 +27,7 @@ class Render: private sf::NonCopyable {
     std::vector<Status> _status;
     animation::Holder _holder;
 
+    sf::Vector2f _extra_size;
+
     void add_animation(size_t lay, Status &status);
 };

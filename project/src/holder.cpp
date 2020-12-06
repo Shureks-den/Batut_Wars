@@ -1,14 +1,12 @@
 #include "holder.h"
 
-#include <iostream>
-
 namespace animation {
 
 Holder::Holder() {
     sf::Texture tmp;
-    tmp.loadFromFile("project/media/smallfreighterspr.png");
+    tmp.loadFromFile("project/media/MF_test.png");
     _resource_map.push_back(tmp);  // TODO(ANDY) дополнять
-    tmp.loadFromFile("project/media/space.png");
+    tmp.loadFromFile("project/media/space.jpg");
     _resource_map.push_back(tmp);
 }
 
