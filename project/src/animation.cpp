@@ -120,6 +120,10 @@ void Manager::set_image_count(sf::Vector2u image_count) {
     _body.setOrigin(_animation.uv_rect.width / 2, _animation.uv_rect.height / 2);
 }
 
+sf::Vector2f Manager::get_size() {
+    return _body.getSize();
+}
+
 Holder Manager::_holder;  // static-член класса Manager
 
 }  // namespace animation

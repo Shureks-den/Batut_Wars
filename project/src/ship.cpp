@@ -12,4 +12,8 @@ void Ship::update(sf::Time dt) {
     _position += tmp.get_sf();
 }
 
+animation::Id Ship::get_animation_id() {
+    return animation::Id::SHIP;
+}
+
 }  // namespace space

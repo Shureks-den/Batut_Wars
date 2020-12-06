@@ -39,6 +39,7 @@ class Manager {
     void set_states(const std::vector<bool> &states);
     void set_position(const sf::Vector2f &position);
     void set_angle(const float angle);
+    sf::Vector2f get_size();
 
  protected:
     sf::RectangleShape _body;

@@ -23,8 +23,11 @@ void Game::run() {
     sf::Time total_time = sf::Time::Zero;
 
     space::Ship main_ship;  // TODO(ANDY) инициализация карты
-    main_ship.set_position(sf::Vector2f(1500, 1500));
+    main_ship.set_position(sf::Vector2f(1000, 1000));
     _world.push_back(main_ship);
+    space::Ship other_ship;  // тупой бот
+    other_ship.set_position(sf::Vector2f(1100, 1000));
+    _world.push_back(other_ship);
     _render.inicilize(_world.get_status());
 
     while (_window.isOpen()) {
