@@ -15,7 +15,20 @@ SRCS = \
        project/src/render.cpp \
        project/src/player.cpp \
        project/src/layer.cpp \
-       project/src/holder.cpp
+       project/src/holder.cpp \
+       project/src/Utility.cpp \
+       project/src/TitleState.cpp \
+       project/src/StateStack.cpp \
+       project/src/State.cpp \
+       project/src/SettingState.cpp \
+       project/src/PauseState.cpp \
+       project/src/MenuState.cpp \
+       project/src/Label.cpp \
+       project/src/GameState.cpp \
+       project/src/Container.cpp \
+       project/src/Component.cpp \
+       project/src/Button.cpp
+
 
 .PHONY: all clean
 

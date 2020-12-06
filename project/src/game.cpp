@@ -80,7 +80,7 @@ void Game::render(sf::Time dt) {
 }
 
 void Game::get_input() {
-    std::queue<Action> &actions = _world.get_actions();
+    std::queue<Player::Action> &actions = _world.get_actions();
     sf::Event event;
 
     while (_window.pollEvent(event)) {

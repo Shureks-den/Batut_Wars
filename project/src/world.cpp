@@ -60,21 +60,21 @@ void World::push_back(engine::Entity &object) {
     _status.push_back(status);
 }
 
-void World::do_action(size_t id, Action action, sf::Time d_time) {  // TODO(ANDY) переписать на таблицу Command
+void World::do_action(size_t id, Player::Action action, sf::Time d_time) {  // TODO(ANDY) переписать на таблицу Command
     space::Ship *ship = dynamic_cast<space::Ship*>(_objects[id]);
     assert(ship != nullptr);
     switch (action) {
-    case Action::MOVE_FORWARD:
+    case Player::Action::MOVE_FORWARD:
         ship->give_acceleration(Direction::FORWARD, 10.0 * d_time.asSeconds());  // TODO(ANDY) довести до ума
         break;
-    case Action::MOVE_BACKWARD:
+    case Player::Action::MOVE_BACKWARD:
         ship->give_acceleration(Direction::BACKWARD, 10.0 * d_time.asSeconds());  // TODO(ANDY) довести до ума
         break;
-    case Action::MOVE_LEFT:
+    case Player::Action::MOVE_LEFT:
         ship->rotate(engine::to_radian(- 60.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
         _status[id].angle -= 60.0 * d_time.asSeconds();
         break;
-    case Action::MOVE_RIGHT:
+    case Player::Action::MOVE_RIGHT:
         ship->rotate(engine::to_radian(60.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума блять
         _status[id].angle += 60.0 * d_time.asSeconds();
         break;
@@ -88,6 +88,6 @@ std::vector<Status> World::get_status() {
     return _status;
 }
 
-std::queue<Action>& World::get_actions() {
+std::queue<Player::Action>& World::get_actions() {
     return _actions;
 }
