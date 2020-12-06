@@ -3,6 +3,8 @@
 #include "world.h"
 #include "player.h"
 #include "render.h"
+#include "StateStack.h"
+#include "holder.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -22,16 +24,14 @@ class Game : sf::NonCopyable {
 
     void update_statistic(sf::Time time);
 
+    void registerStates();
+
     sf::RenderWindow _window;
-    World _world;  // Логика игры
-    Render _render;  // Отрисовка игры
     Player _player;  // Читать команды игрока
 
-
-    sf::Time _update_time;
-    size_t _frames;
-    sf::Font _statistic_font;
-    sf::Text _statistic_text;
+    StateStack mStateStack;
+    texture::Holder mHolder;
+    fonst::Holder mFonts;
 
     static const sf::Time _time_per_frame;
 };
