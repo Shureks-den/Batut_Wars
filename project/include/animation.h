@@ -4,6 +4,7 @@
 
 #include "status.h"
 #include "holder.h"
+#include "identificators.h"
 
 namespace animation {
 

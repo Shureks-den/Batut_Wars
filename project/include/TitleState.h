@@ -1,5 +1,4 @@
-#ifndef BOOK_TITLESTATE_HPP
-#define BOOK_TITLESTATE_HPP
+#pragma once
 
 #include "State.h"
 
@@ -9,11 +8,12 @@
 
 class TitleState : public State {
 public:
-    TitleState(StateStack& stack, Context context);
+    TitleState(StateStack &stack, Context context);
+    ~TitleState() = default;
 
-    virtual void draw();
-    virtual bool update(sf::Time dt);
-    virtual bool handleEvent(const sf::Event& event);
+    void draw() override;
+    bool update(sf::Time dt) override;
+    bool handleEvent(const sf::Event& event) override;
 
 
 private:
@@ -22,5 +22,3 @@ private:
     bool mShowText;
     sf::Time mTextEffectTime;
 };
-
-#endif //

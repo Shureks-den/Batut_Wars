@@ -1,5 +1,5 @@
 #include "SettingState.h"
-#include "ResourceHolder.h"
+#include "holder.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -8,10 +8,10 @@ SettingsState::SettingsState(StateStack& stack, Context context)
         : State(stack, context)
         , mGUIContainer()
 {
-    mBackgroundSprite.setTexture(context.textures->get(Textures::TitleScreen));
+    mBackgroundSprite.setTexture(*context.textures->get(textures::Id::MENU_BACKGROUND));
 
     // Build key binding buttons and labels
-    addButtonLabel(Player::MOVE_LEFT,  150.f, "Rotate Left", context);
+    addButtonLabel(Player::MOVE_LEFT,  150.f, "Rotate Left", context);  // TODO(ANDY) позиция
     addButtonLabel(Player::MOVE_RIGHT, 200.f, "Rotate Right", context);
     addButtonLabel(Player::MOVE_FORWARD,    250.f, "Move Up", context);
     addButtonLabel(Player::MOVE_BACKWARD,  300.f, "Move Down", context);
@@ -19,7 +19,7 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     updateLabels();
 
     auto backButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    backButton->setPosition(860.f, 375.f);
+    backButton->setPosition(20.f, 20.f);
     backButton->setText("Back");
     backButton->setCallback(std::bind(&SettingsState::requestStackPop, this));
 
@@ -78,12 +78,12 @@ void SettingsState::updateLabels() {
 
 void SettingsState::addButtonLabel(Player::Action action, float y, const std::string& text, Context context) {
     mBindingButtons[action] = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    mBindingButtons[action]->setPosition(860, y);
+    mBindingButtons[action]->setPosition(40, y); // TODO(ANDY) позиция
     mBindingButtons[action]->setText(text);
     mBindingButtons[action]->setToggle(true);
 
     mBindingLabels[action] = std::make_shared<GUI::Label>("", *context.fonts);
-    mBindingLabels[action]->setPosition(860.f + 150.f, y + 15.f);
+    mBindingLabels[action]->setPosition(40.f + 150.f, y + 15.f); // TODO(ANDY) позиция
 
     mGUIContainer.pack(mBindingButtons[action]);
     mGUIContainer.pack(mBindingLabels[action]);

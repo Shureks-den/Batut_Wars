@@ -1,5 +1,4 @@
-#ifndef BOOK_STRINGHELPERS_HPP
-#define BOOK_STRINGHELPERS_HPP
+#pragma once
 
 #include <SFML/Window/Keyboard.hpp>
 
@@ -13,5 +12,3 @@ namespace sf {
 
 void centerOrigin(sf::Sprite& sprite);
 void centerOrigin(sf::Text& text);
-
-#endif // BOOK_STRINGHELPERS_HPP

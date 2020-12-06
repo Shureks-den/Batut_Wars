@@ -76,7 +76,8 @@ class MoveAble : public Entity {
  public:
     MoveAble();
     virtual ~MoveAble() = default;
-    virtual void update(sf::Time dt) = 0;
+    // virtual void update(sf::Time dt) = 0;
+    // virtual animation::Id get_animation_id() = 0;
     void rotate(float angle);
     void give_acceleration(Vector acceleration);
     void give_acceleration(Direction direction, float d_acceleration);

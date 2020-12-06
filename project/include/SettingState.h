@@ -1,5 +1,4 @@
-#ifndef BOOK_SETTINGSSTATE_HPP
-#define BOOK_SETTINGSSTATE_HPP
+#pragma once
 
 #include "State.h"
 #include "player.h"
@@ -16,10 +15,11 @@
 class SettingsState : public State {
 public:
     SettingsState(StateStack& stack, Context context);
+    ~SettingsState() = default;
 
-    virtual void draw();
-    virtual bool update(sf::Time dt);
-    virtual bool handleEvent(const sf::Event& event);
+    void draw() override;
+    bool update(sf::Time dt) override;
+    bool handleEvent(const sf::Event& event) override;
 
 
 private:
@@ -33,5 +33,3 @@ private:
     std::array<GUI::Button::Ptr, Player::COUNT>	mBindingButtons;
     std::array<GUI::Label::Ptr, Player::COUNT> 	mBindingLabels;
 };
-
-#endif // BOOK_SETTINGSSTATE_HPP

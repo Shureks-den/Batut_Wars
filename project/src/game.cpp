@@ -1,8 +1,9 @@
 #include "game.h"
 
+#include <iostream>
 #include <string>
 
-#include "State.h"
+#include "StateIdentifiers.h"
 #include "TitleState.h"
 #include "MenuState.h"
 #include "GameState.h"
@@ -13,13 +14,14 @@
 const sf::Time Game::_time_per_frame = sf::seconds(1.0 / 60.0);
 
 Game::Game() : _window(sf::VideoMode(640, 480), "Input", sf::Style::Close),
+               _player(),
                mTextures(),
                mFonts(),
-               _player()
-               mStateStack(State::Context(_window, mTextures, mFonts, _player)),
-               _frames(0) {
+               mStateStack(State::Context(_window, mTextures, mFonts, _player)) {
     _window.setKeyRepeatEnabled(false);
     _window.setVerticalSyncEnabled(true);
+    registerStates();
+    mStateStack.pushState(States::ID::Title);
 }
 
 
@@ -42,8 +44,7 @@ void Game::run() {
             }
         }
 
-        update_statistic(current_time);
-        render(current_time);
+        render();
     }
 }
 
@@ -52,28 +53,14 @@ bool Game::update(sf::Time dt) {
     return true;
 }
 
-void Game::render(sf::Time dt) {
+void Game::render() {
     _window.clear();
     mStateStack.draw();
-    _window.setView(mStateStack.get_view());  // Вид устанавливается в _render.set_status
+    //_window.setView(_window.getDefaultView());  // Вид устанавливается в _render.set_status
     _window.display();
 }
 
 void Game::get_input() {
-    // std::queue<Player::Action> &actions = _world.get_actions();
-    // sf::Event event;
-
-    // while (_window.pollEvent(event)) {
-    //     _player.handle_event(event, actions);
-
-    //     if (event.type == sf::Event::Closed) {
-    //         _window.close();
-    //     }
-    // }
-
-    // _player.handle_realtime_event(actions);
-
-
     sf::Event event;
 
     while (_window.pollEvent(event)) {
@@ -86,9 +73,9 @@ void Game::get_input() {
 }
 
 void Game::registerStates() {
-	mStateStack.registerState<TitleState>(States::Title);
-	mStateStack.registerState<MenuState>(States::Menu);
-	mStateStack.registerState<GameState>(States::Game);
-	mStateStack.registerState<PauseState>(States::Pause);
-	mStateStack.registerState<SettingsState>(States::Settings);
+    mStateStack.registerState<TitleState>(States::Title);
+    mStateStack.registerState<MenuState>(States::Menu);
+    mStateStack.registerState<GameState>(States::Game);
+    mStateStack.registerState<PauseState>(States::Pause);
+    mStateStack.registerState<SettingsState>(States::Settings);
 }

@@ -1,6 +1,4 @@
-#ifndef BOOK_STATEIDENTIFIERS_HPP
-#define BOOK_STATEIDENTIFIERS_HPP
-
+#pragma once
 
 namespace States {
     enum ID {
@@ -13,5 +11,3 @@ namespace States {
         Settings
     };
 }
-
-#endif // BOOK_STATEIDENTIFIERS_HPP

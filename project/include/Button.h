@@ -1,9 +1,7 @@
-#ifndef BOOK_BUTTON_HPP
-#define BOOK_BUTTON_HPP
+#pragma once
 
 #include "Component.h"
-#include "ResourceIdentifiers.h"
-#include "ResourceHolder.h"
+#include "holder.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -23,8 +21,8 @@ namespace GUI {
 
 
     public:
-        Button(const FontHolder& fonts, const TextureHolder& textures);
-        
+        Button(const fonts::Holder &fonts, const textures::Holder &textures);
+
         void					setCallback(Callback callback);
         void					setText(const std::string& text);
         void					setToggle(bool flag);
@@ -54,5 +52,3 @@ namespace GUI {
     };
 
 }
-
-#endif // BOOK_BUTTON_HPP

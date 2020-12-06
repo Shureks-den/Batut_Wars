@@ -1,7 +1,7 @@
 #include "../include/PauseState.h"
 #include "../include/Button.h"
 #include "../include/Utility.h"
-#include "../include/ResourceHolder.h"
+#include "../include/holder.h"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -14,10 +14,10 @@ PauseState::PauseState(StateStack& stack, Context context)
         , mPausedText()
         , mGUIContainer()
 {
-    sf::Font& font = context.fonts->get(Fonts::Main);
+    const sf::Font* font = context.fonts->get(fonts::Id::MAIN);
     sf::Vector2f windowSize(context.window->getSize());
 
-    mPausedText.setFont(font);
+    mPausedText.setFont(*font);
     mPausedText.setString("Game Paused");
     mPausedText.setCharacterSize(70);
     centerOrigin(mPausedText);

@@ -1,5 +1,4 @@
-#ifndef BOOK_MENUSTATE_HPP
-#define BOOK_MENUSTATE_HPP
+#pragma once
 
 #include "State.h"
 #include "Container.h"
@@ -12,14 +11,12 @@ class MenuState : public State {
 public:
     MenuState(StateStack& stack, Context context);
 
-    virtual void draw();
-    virtual bool update(sf::Time dt);
-    virtual bool handleEvent(const sf::Event& event);
+    void draw() override;
+    bool update(sf::Time dt) override;
+    bool handleEvent(const sf::Event& event) override;
 
 
 private:
     sf::Sprite mBackgroundSprite;
     GUI::Container mGUIContainer;
 };
-
-#endif // BOOK_MENUSTATE_HPP

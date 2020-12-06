@@ -8,13 +8,13 @@
 
 namespace GUI {
 
-    Button::Button(const FontHolder& fonts, const TextureHolder& textures)
+    Button::Button(const fonts::Holder& fonts, const textures::Holder& textures)
             : mCallback()
-            , mNormalTexture(textures.get(Textures::ButtonNormal))
-            , mSelectedTexture(textures.get(Textures::ButtonSelected))
-            , mPressedTexture(textures.get(Textures::ButtonPressed))
+            , mNormalTexture(*textures.get(textures::Id::BUTTON_NORMAL))
+            , mSelectedTexture(*textures.get(textures::Id::BUTTON_SELECTED))
+            , mPressedTexture(*textures.get(textures::Id::BUTTON_PRESSED))
             , mSprite()
-            , mText("", fonts.get(Fonts::Main), 16)
+            , mText("", *fonts.get(fonts::Id::MAIN), 16)
             , mIsToggle(false)
     {
         mSprite.setTexture(mNormalTexture);

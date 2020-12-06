@@ -7,8 +7,8 @@
 
 namespace GUI {
 
-    Label::Label(const std::string& text, const FontHolder& fonts)
-            : mText(text, fonts.get(Fonts::Main), 16)
+    Label::Label(const std::string& text, const fonts::Holder& fonts)
+            : mText(text, *fonts.get(fonts::Id::MAIN), 16)
     {
     }
 

@@ -1,33 +1,28 @@
-#ifndef SFML_LESSON_5_STATE_H
-#define SFML_LESSON_5_STATE_H
+#pragma once
 
 #include "StateIdentifiers.h"
-#include "ResourceIdentifiers.h"
+#include "holder.h"
+#include "player.h"
 
+#include <SFML/Graphics.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
 
 #include <memory>
 
-
-namespace sf
-{
-    class RenderWindow;
-}
-
 class StateStack;
-class Player;
 
 class State {
 public:
     typedef std::unique_ptr<State> Ptr;
 
-    struct Context {
-        Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player); // тут заменить нашей загрузкой текстур
-        sf::RenderWindow* window;
-        TextureHolder* textures;
-        FontHolder* fonts;
-        Player*	 player;
+    class Context {
+    public:
+        Context(sf::RenderWindow &window, textures::Holder &textures, fonts::Holder &fonts, Player &player);  // тут заменить нашей загрузкой текстур
+        sf::RenderWindow *window;
+        textures::Holder *textures;
+        fonts::Holder *fonts;
+        Player* player;
     };
 
 public:
@@ -47,6 +42,3 @@ private:
     StateStack *mStack;
     Context mContext;
 };
-
-
-#endif //SFML_LESSON_5_STATE_H

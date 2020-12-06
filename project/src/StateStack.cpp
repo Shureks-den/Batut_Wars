@@ -1,7 +1,6 @@
 #include "StateStack.h"
 #include "Foreach.h"
 
-
 #include <cassert>
 
 
@@ -25,8 +24,9 @@ void StateStack::update(sf::Time dt) {
 
 void StateStack::draw() {
     // Draw all active states from bottom to top
-    FOREACH(State::Ptr& state, mStack)
-    state->draw();
+    FOREACH(State::Ptr& state, mStack) {
+        state->draw();
+    }
 }
 
 void StateStack::handleEvent(const sf::Event& event) {

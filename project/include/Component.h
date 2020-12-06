@@ -1,5 +1,4 @@
-#ifndef BOOK_COMPONENT_HPP
-#define BOOK_COMPONENT_HPP
+#pragma once
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
@@ -39,5 +38,3 @@ namespace GUI {
         bool mIsActive;
     };
 }
-
-#endif // BOOK_COMPONENT_HPP

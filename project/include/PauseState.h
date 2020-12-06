@@ -1,5 +1,4 @@
-#ifndef BOOK_PAUSESTATE_HPP
-#define BOOK_PAUSESTATE_HPP
+#pragma once
 
 #include "State.h"
 #include "Container.h"
@@ -11,10 +10,11 @@
 class PauseState : public State {
 public:
     PauseState(StateStack& stack, Context context);
+    ~PauseState() = default;
 
-    virtual void draw();
-    virtual bool update(sf::Time dt);
-    virtual bool handleEvent(const sf::Event& event);
+    void draw() override;
+    bool update(sf::Time dt) override;
+    bool handleEvent(const sf::Event& event) override;
 
 
 private:
@@ -22,5 +22,3 @@ private:
     sf::Text			mPausedText;
     GUI::Container 		mGUIContainer;
 };
-
-#endif // BOOK_PAUSESTATE_HPP

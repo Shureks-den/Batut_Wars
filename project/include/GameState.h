@@ -1,5 +1,4 @@
-#ifndef BOOK_GAMESTATE_HPP
-#define BOOK_GAMESTATE_HPP
+#pragma once
 
 #include "State.h"
 #include "world.h"
@@ -13,22 +12,21 @@
 class GameState : public State {
 public:
     GameState(StateStack& stack, Context context);
+    ~GameState() = default;
 
-    virtual void draw();
-    virtual bool update(sf::Time dt);
-    virtual bool handleEvent(const sf::Event& event);
+    void draw() override;
+    bool update(sf::Time dt) override;
+    bool handleEvent(const sf::Event& event) override;
 
 private:
     void update_statistic(sf::Time time);
 
     World _world;
     Render _render;
-    Player&	mPlayer;
+    Player &mPlayer;
 
     sf::Time _update_time;
     size_t _frames;
     sf::Font _statistic_font;
     sf::Text _statistic_text;
 };
-
-#endif // BOOK_GAMESTATE_HPP

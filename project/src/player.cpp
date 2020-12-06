@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 
+#include <iostream>
 
 Player::Player() {
     _key_binding[sf::Keyboard::W] = Action::MOVE_FORWARD;
@@ -17,6 +18,7 @@ void Player::handle_event(const sf::Event &event, std::queue<Action> &actions) {
         if (found != _key_binding.end() && !is_realtime(found->second)) {
             actions.push(found->second);
         }
+        std::cout << "handle_event" << static_cast<size_t>(found->second) << std::endl;
     }
 }
 
@@ -24,6 +26,7 @@ void Player::handle_realtime_event(std::queue<Action> &actions) {
     for (const auto &it : _key_binding) {
         if (sf::Keyboard::isKeyPressed(it.first) && is_realtime(it.second)) {
             actions.push(it.second);
+            std::cout << "handle_realtime_event" << static_cast<size_t>(it.second) << std::endl;
         }
     }
 }
@@ -37,10 +40,6 @@ void Player::assign_key(Action action, sf::Keyboard::Key key) {
 
     _key_binding[key] = action;
 }
-
-// Action Player::send_action() {
-
-// }
 
 sf::Keyboard::Key Player::get_key(Action action) const {
     for (auto &it : _key_binding) {

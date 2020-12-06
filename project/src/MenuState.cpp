@@ -1,7 +1,7 @@
 #include "../include/MenuState.h"
 #include "../include/Button.h"
 #include "../include/Utility.h"
-#include "../include/ResourceHolder.h"
+#include "../include/holder.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -11,11 +11,12 @@ MenuState::MenuState(StateStack& stack, Context context)
         : State(stack, context)
         , mGUIContainer()
 {
-    sf::Texture& texture = context.textures->get(Textures::TitleScreen);
-    mBackgroundSprite.setTexture(texture);
+    const sf::Texture* texture = context.textures->get(textures::Id::MENU_BACKGROUND);
+    mBackgroundSprite.setTexture(*texture);
 
     auto playButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    playButton->setPosition(860, 540);
+    sf::Vector2u size = context.window->getSize();
+    playButton->setPosition(size.x / 2, size.y / 2);
     playButton->setText("Play");
     playButton->setCallback([this] ()
                             {
@@ -24,7 +25,7 @@ MenuState::MenuState(StateStack& stack, Context context)
                             });
 
     auto settingsButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    settingsButton->setPosition(860, 590);
+    settingsButton->setPosition(size.x / 2, size.y / 2 + 40);
     settingsButton->setText("Settings");
     settingsButton->setCallback([this] ()
                                 {
@@ -32,7 +33,7 @@ MenuState::MenuState(StateStack& stack, Context context)
                                 });
 
     auto exitButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    exitButton->setPosition(860, 640);
+    exitButton->setPosition(size.x / 2, size.y / 2 + 80);
     exitButton->setText("Exit");
     exitButton->setCallback([this] ()
                             {

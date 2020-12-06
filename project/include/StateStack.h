@@ -1,5 +1,4 @@
-#ifndef SFML_LESSON_5_STATESTACK_H
-#define SFML_LESSON_5_STATESTACK_H
+#pragma once
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/System/Time.hpp>
@@ -10,13 +9,8 @@
 #include <map>
 
 #include "State.h"
-#include "ResourceIdentifiers.h"
+#include "holder.h"
 #include "StateIdentifiers.h"
-
-namespace sf {
-    class Event;
-    class RenderWindow;
-}
 
 class StateStack : private sf::NonCopyable {
 public:
@@ -25,8 +19,10 @@ public:
         Pop,
         Clear,
     };
+
 public:
     explicit StateStack(State::Context context);
+    ~StateStack() = default;
 
     template<typename T> void registerState(States::ID stateID);
 
@@ -68,5 +64,3 @@ void StateStack::registerState(States::ID stateID) {
         return State::Ptr(new T(*this, mContext));
     };
 }
-
-#endif //SFML_LESSON_5_STATESTACK_H

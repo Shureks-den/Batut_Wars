@@ -1,9 +1,7 @@
-#ifndef BOOK_LABEL_HPP
-#define BOOK_LABEL_HPP
+#pragma once
 
 #include "Component.h"
-#include "ResourceIdentifiers.h"
-#include "ResourceHolder.h"
+#include "holder.h"
 
 #include <SFML/Graphics/Text.hpp>
 
@@ -16,7 +14,7 @@ namespace GUI {
 
 
     public:
-        Label(const std::string& text, const FontHolder& fonts);
+        Label(const std::string& text, const fonts::Holder& fonts);
 
         virtual bool		isSelectable() const;
         void				setText(const std::string& text);
@@ -33,5 +31,3 @@ namespace GUI {
     };
 
 }
-
-#endif // BOOK_LABEL_HPP

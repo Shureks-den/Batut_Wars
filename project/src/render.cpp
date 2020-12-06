@@ -36,6 +36,7 @@ void Render::draw() {
 
 void Render::update(sf::Time dt) {
     _view.setCenter(_status[0].position);  // TODO(ANDY) вместо 0 - id данного игрока
+    _window.setView(_view);
     for (auto &it : _animation_layers) {
         it.update(dt);
     }
