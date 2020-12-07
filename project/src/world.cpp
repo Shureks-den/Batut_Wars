@@ -72,11 +72,11 @@ void World::do_action(size_t id, Action action, sf::Time d_time) {  // TODO(ANDY
         break;
     case Action::MOVE_LEFT:
         ship->rotate_orientation(engine::as_radian(- 90.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
-        _status[id].angle = engine::as_degree(ship->get_angle()) + 90;
+        _status[id].angle = engine::as_degree(ship->get_angle());
         break;
     case Action::MOVE_RIGHT:
         ship->rotate_orientation(engine::as_radian(90.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
-        _status[id].angle = engine::as_degree(ship->get_angle()) + 90;
+        _status[id].angle = engine::as_degree(ship->get_angle());
         break;
 
     default:

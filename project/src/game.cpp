@@ -73,7 +73,7 @@ void Game::render(sf::Time dt) {
     _window.setView(_render.get_view());  // Вид устанавливается в _render.set_status
     sf::Vector2f fps = _render.get_view().getCenter();
     fps.x -= _window.getSize().x / 2 - 5;
-    fps.y -= _window.getSize().y / 2- 5;
+    fps.y -= _window.getSize().y / 2 - 5;
     _statistic_text.setPosition(fps);
     _window.draw(_statistic_text);
     _window.display();

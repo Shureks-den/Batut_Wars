@@ -67,7 +67,8 @@ Manager::Manager(const sf::Texture *texture, sf::Vector2f position, float angle)
     _body.setTextureRect(_animation.uv_rect);
     _body.setTexture(texture);
     _body.setOrigin(_animation.uv_rect.width / 2, _animation.uv_rect.height / 2);
-    _angle = angle;
+    _start_angle = angle;
+    _angle = 0.0f;
     _current = 0;
 }
 
@@ -79,7 +80,8 @@ Manager::Manager(Id id, sf::Vector2f position, float angle) {
     _body.setTextureRect(_animation.uv_rect);
     _body.setTexture(texture);
     _body.setOrigin(_animation.uv_rect.width / 2, _animation.uv_rect.height / 2);
-    _angle = angle;
+    _start_angle = angle;
+    _angle = 0.0f;
     _current = 0;
 }
 
@@ -90,7 +92,7 @@ void Manager::draw(sf::RenderWindow &window) {
 void Manager::update(sf::Time d_time) {
     _animation.update(_current, d_time, true);
     _body.setTextureRect(_animation.uv_rect);
-    _body.setRotation(_angle);
+    _body.setRotation(_angle + _start_angle);
 }
 
 void Manager::set_angle(const float angle) {

@@ -10,7 +10,7 @@ class Ship : public Manager {
     ~Ship() = default;
 };
 
-Ship::Ship(sf::Vector2f position, float angle): Manager(Id::SHIP, position, angle) {
+Ship::Ship(sf::Vector2f position, float angle): Manager(Id::SHIP, position, angle + 90) {
     set_switch_time(sf::seconds(0.1f));
     set_image_count(sf::Vector2u(5, 1));
 

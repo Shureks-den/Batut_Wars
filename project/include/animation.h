@@ -48,7 +48,8 @@ class Manager {
 
     static Holder _holder;
 
-    float _angle;
+    float _angle;  // Текущий угол
+    float _start_angle;  // Угол между положительным направлением анмиации и OX
 
     void set_switch_time(sf::Time switch_time);
     void set_image_count(sf::Vector2u image_count);
