@@ -2,8 +2,6 @@
 
 #include <cassert>
 
-#include <iostream>
-
 #include "ship.h"
 #include "layer.h"
 #include "engine.h"
