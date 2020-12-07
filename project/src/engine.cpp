@@ -123,9 +123,8 @@ sf::Vector2f Vector::get_sf() {
 
 size_t Entity::_count = 0;  // static - член класса Entity
 
-Entity::Entity(){
+Entity::Entity() : _orientation(1.0f, 0.0f) {
     _id = _count++;
-    _angle = 0;
 }
 
 size_t Entity::get_id() {
@@ -148,8 +147,12 @@ void Entity::set_y(float y) {
     _position.y = y;
 }
 
-float Entity::get_angle(){
-    return _angle;
+float Entity::get_angle() {  // [-pi, pi]
+    float angle = acos(_orientation.get_x() / _orientation.get_abs());
+    if (_orientation.get_y() < 0) {
+        angle *= -1;
+    }
+    return angle;
 }
 
 sf::Vector2f Entity::get_position() {
@@ -164,34 +167,20 @@ std::vector<bool> Entity::get_state() {
     return _state;
 }
 
-
-
-MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(200) {}  // TODO(Tony): 
-
-void MoveAble::rotate(float angle) {
-    //_speed.rotate(angle);
-    _acceleration.rotate(angle);
-
-    _angle += as_degree(angle);
+void Entity::rotate_orientation(float angle) {
+    _orientation.rotate(angle);
 }
+
+
+
+MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(90) {}  // TODO(Tony): define values
 
 void MoveAble::give_acceleration(Vector acceleration) {
     _acceleration += acceleration;
 }
 
-void MoveAble::give_acceleration(Direction direction) {
-    Vector delta(0.0f, - 1.0f);
-    delta.rotate(as_radian(_angle));
-    
-    (direction == Direction::BACKWARD) ? (delta *= - _engine_thrust) : (delta *= _engine_thrust);
-
-    // if (direction == Direction::RIGHT) {
-    //     delta.rotate(PI / 2);
-    // } else if (direction == Direction::LEFT) {
-    //     delta.rotate(- PI / 2);
-    // }
-
-    _acceleration = delta;
+void MoveAble::give_acceleration(Way direction) {
+    (direction == Way::CONTRA) ? (_acceleration = _orientation * (- _engine_thrust)) : (_acceleration = _orientation * _engine_thrust);
 }
 
 MassiveObject::MassiveObject(int mass, float range) : _mass(mass), _range(range) {}

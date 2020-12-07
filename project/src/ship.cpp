@@ -2,7 +2,7 @@
 
 namespace space {
 
-Ship::Ship() : engine::MoveAble(130){}  // TODO(Tony):
+Ship::Ship() : engine::MoveAble(100){}  // TODO(Tony):
 
 void Ship::update(sf::Time dt) {
 

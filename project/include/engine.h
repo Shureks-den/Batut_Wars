@@ -10,11 +10,16 @@
 #define PI M_PI
 #define G 6.67e-11  // система СИ
 
-enum class Direction {
+enum class Direction {  // в engine пока не используется
     FORWARD = 0,
     BACKWARD,
     LEFT,
-    RIGHT
+    RIGHT,
+};
+
+enum Way{
+   ALONG = 0,
+   CONTRA,
 };
 
 namespace engine {
@@ -60,7 +65,8 @@ class Entity {
     float get_y() const;
     void set_x(float x);
     void set_y(float y);
-    float get_angle();
+    float get_angle();  // [рад] Угол между orientation и Ох. Увеличение угла по часовой стрелке.
+    void rotate_orientation(float angle);  // Изменение направляющего вектора
 
     sf::Vector2f get_position();
     void set_position(sf::Vector2f position);
@@ -72,11 +78,11 @@ class Entity {
     virtual void update(sf::Time dt) = 0;
 
  protected:
-    sf::Vector2f _position;
-    std::vector<bool> _state;
-    size_t _id;
-    static size_t _count;
-    float _angle = 180;  // Угол между передом объекта и положительным направлением Оу (в sfml) [град]
+    sf::Vector2f _position;  // Координаты в sfml
+    Vector _orientation;  // Направляющий вектор
+    std::vector<bool> _state;  // Бинарная строка состояний
+    size_t _id;  // Уникальный номер объекта
+    static size_t _count;  // хз что это. TODO(anybody): прописать
 };
 
 class MoveAble : public Entity {
@@ -84,15 +90,14 @@ class MoveAble : public Entity {
     MoveAble(float thrust);
     virtual ~MoveAble() = default;
     virtual void update(sf::Time dt) = 0;
-    void rotate(float angle);
-    void give_acceleration(Vector acceleration);
-    void give_acceleration(Direction direction);
+    void give_acceleration(Vector acceleration);  // Пока не используется
+    void give_acceleration(Way direction);  // Просчет ускорения. Не рассчитано на взаимодействия с МассивнымиОбъектами
 
  protected:
-    Vector _speed;
-    Vector _acceleration;  // Суммарное ускорение
-    const float _engine_thrust;  // ускорение, предаваемое двигателем
-    float _speed_limit;
+    Vector _speed;  // Вектор скорости движения
+    Vector _acceleration;  // Вектор суммарного ускорения
+    const float _engine_thrust;  // Модуль ускорения, предаваемого двигателем
+    float _speed_limit;  // Предел модуля скорости
 };
 
 class ImmoveAble : public Entity
