@@ -6,7 +6,7 @@ GameState::GameState(StateStack& stack, Context context)
           : State(stack, context),
           _world(),
           _render(*context.window),
-          mPlayer(*context.player),
+          _Player(*context.player),
           _frames(0) {
 
     _statistic_font.loadFromFile("project/media/Sansation.ttf");
@@ -39,13 +39,13 @@ bool GameState::update(sf::Time dt) {
     getContext().window->draw(_statistic_text);
 
     std::queue<Player::Action> &actions = _world.get_actions();
-    mPlayer.handle_realtime_event(actions);
+    _Player.handle_realtime_event(actions);
     return true;
 }   
 
 bool GameState::handleEvent(const sf::Event& event) {
     std::queue<Player::Action> &actions = _world.get_actions();
-    mPlayer.handle_event(event, actions);
+    _Player.handle_event(event, actions);
 
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
         requestStackPush(States::Pause);

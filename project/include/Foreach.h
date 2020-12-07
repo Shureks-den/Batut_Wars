@@ -15,9 +15,9 @@
 // {
 //     i += 2;
 // }
-#define FOREACH(declaration, container)																											\
-	if (bool BOOK_LINE_ID(broken) = false) {} else																								\
-	for (auto BOOK_LINE_ID(itr) = (container).begin(); BOOK_LINE_ID(itr) != (container).end() && !BOOK_LINE_ID(broken); ++BOOK_LINE_ID(itr))	\
-	if (bool BOOK_LINE_ID(passed) = false) {} else																								\
-	if (BOOK_LINE_ID(broken) = true, false) {} else																								\
-	for (declaration = *BOOK_LINE_ID(itr); !BOOK_LINE_ID(passed); BOOK_LINE_ID(passed) = true, BOOK_LINE_ID(broken) = false)
+#define FOREACH(declaration, container) \
+    if (bool BOOK_LINE_ID(broken) = false) {} \
+    else for (auto BOOK_LINE_ID(itr) = (container).begin(); BOOK_LINE_ID(itr) != (container).end() && !BOOK_LINE_ID(broken); ++BOOK_LINE_ID(itr)) \
+    if (bool BOOK_LINE_ID(passed) = false) {} \
+    else if (BOOK_LINE_ID(broken) = true, false) {} \
+    else for (declaration = *BOOK_LINE_ID(itr); !BOOK_LINE_ID(passed); BOOK_LINE_ID(passed) = true, BOOK_LINE_ID(broken) = false)

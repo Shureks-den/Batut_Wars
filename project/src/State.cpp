@@ -8,8 +8,8 @@ State::Context::Context(sf::RenderWindow& window, textures::Holder& textures, fo
 }
 
 State::State(StateStack& stack, Context context)
-        : mStack(&stack)
-        , mContext(context)
+        : _Stack(&stack)
+        , _Context(context)
 {
 }
 
@@ -17,17 +17,17 @@ State::~State() {
 }
 
 void State::requestStackPush(States::ID stateID) {
-    mStack->pushState(stateID);
+    _Stack->pushState(stateID);
 }
 
 void State::requestStackPop() {
-    mStack->popState();
+    _Stack->popState();
 }
 
 void State::requestStateClear() {
-    mStack->clearStates();
+    _Stack->clearStates();
 }
 
 State::Context State::getContext() const {
-    return mContext;
+    return _Context;
 }

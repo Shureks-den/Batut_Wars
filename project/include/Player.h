@@ -2,9 +2,8 @@
 
 #include <map>
 #include <queue>
+
 #include <SFML/Window/Event.hpp>
-
-
 
 class Player {
  public:
@@ -14,7 +13,8 @@ class Player {
     MOVE_FORWARD,
     MOVE_BACKWARD,
     COUNT
- };
+    };
+
  public:
     Player();
     void handle_event(const sf::Event& event, std::queue<Action> &actions);
@@ -28,4 +28,3 @@ class Player {
 
     std::map<sf::Keyboard::Key, Player::Action> _key_binding;
 };
-

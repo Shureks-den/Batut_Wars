@@ -1,33 +1,31 @@
 #pragma once
 
-#include "Component.h"
-#include "Holder.h"
+#include <memory>
+#include <string>
 
 #include <SFML/Graphics/Text.hpp>
 
+#include "Component.h"
+#include "Holder.h"
 
 namespace GUI {
 
-    class Label : public Component {
-    public:
-        typedef std::shared_ptr<Label> Ptr;
+class Label : public Component {
+ public:
+    typedef std::shared_ptr<Label> Ptr;
 
+ public:
+    Label(const std::string& text, const fonts::Holder& fonts);
 
-    public:
-        Label(const std::string& text, const fonts::Holder& fonts);
+    virtual bool isSelectable() const;
+    void setText(const std::string& text);
 
-        virtual bool		isSelectable() const;
-        void				setText(const std::string& text);
+    virtual void handleEvent(const sf::Event& event);
 
-        virtual void		handleEvent(const sf::Event& event);
+ private:
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-
-    private:
-        void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-
-    private:
-        sf::Text _Text;
-    };
-
-}
+ private:
+    sf::Text _Text;
+};
+}  // namespace GUI

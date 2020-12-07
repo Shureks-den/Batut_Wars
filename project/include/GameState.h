@@ -10,7 +10,7 @@
 
 
 class GameState : public State {
-public:
+ public:
     GameState(StateStack& stack, Context context);
     ~GameState() = default;
 
@@ -18,12 +18,12 @@ public:
     bool update(sf::Time dt) override;
     bool handleEvent(const sf::Event& event) override;
 
-private:
+ private:
     void update_statistic(sf::Time time);
 
     World _world;
     Render _render;
-    Player &mPlayer;
+    Player &_Player;
 
     sf::Time _update_time;
     size_t _frames;

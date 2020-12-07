@@ -33,6 +33,6 @@ enum class Id {
     COUNT
 };
 
-} // namespace textures
+}  // namespace textures
 
 

@@ -10,7 +10,7 @@ TitleState::TitleState(StateStack& stack, Context context)
         , _Text()
         , mShowText(true)
         , mTextEffectTime(sf::Time::Zero) {
-    mBackgroundSprite.setTexture(*context.textures->get(textures::Id::MENU_BACKGROUND));
+    _BackgroundSprite.setTexture(*context.textures->get(textures::Id::MENU_BACKGROUND));
 
     _Text.setFont(*context.fonts->get(fonts::Id::MAIN));
     _Text.setString("Press any key to start");
@@ -20,7 +20,7 @@ TitleState::TitleState(StateStack& stack, Context context)
 
 void TitleState::draw() {
     sf::RenderWindow& window = *getContext().window;
-    window.draw(mBackgroundSprite);
+    window.draw(_BackgroundSprite);
 
     if (mShowText)
         window.draw(_Text);

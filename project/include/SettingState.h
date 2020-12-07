@@ -1,19 +1,19 @@
 #pragma once
 
+#include <array>
+#include <string>
+
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
+
 #include "State.h"
 #include "Player.h"
 #include "Container.h"
 #include "Button.h"
 #include "Label.h"
 
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Text.hpp>
-
-#include <array>
-
-
 class SettingsState : public State {
-public:
+ public:
     SettingsState(StateStack& stack, Context context);
     ~SettingsState() = default;
 
@@ -22,14 +22,13 @@ public:
     bool handleEvent(const sf::Event& event) override;
 
 
-private:
+ private:
     void updateLabels();
-    void addButtonLabel (Player::Action action, float y, const std::string& text, Context context);
+    void addButtonLabel(Player::Action action, float y, const std::string& text, Context context);
 
-
-private:
-    sf::Sprite mBackgroundSprite;
-    GUI::Container mGUIContainer;
-    std::array<GUI::Button::Ptr, Player::COUNT>	mBindingButtons;
-    std::array<GUI::Label::Ptr, Player::COUNT> 	mBindingLabels;
+ private:
+    sf::Sprite _BackgroundSprite;
+    GUI::Container _GUIContainer;
+    std::array<GUI::Button::Ptr, Player::COUNT> _BindingButtons;
+    std::array<GUI::Label::Ptr, Player::COUNT> _BindingLabels;
 };

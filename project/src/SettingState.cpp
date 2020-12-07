@@ -7,9 +7,9 @@
 
 SettingsState::SettingsState(StateStack& stack, Context context)
         : State(stack, context)
-        , mGUIContainer()
+        , _GUIContainer()
 {
-    mBackgroundSprite.setTexture(*context.textures->get(textures::Id::MENU_BACKGROUND));
+    _BackgroundSprite.setTexture(*context.textures->get(textures::Id::MENU_BACKGROUND));
 
     // Build key binding buttons and labels
     addButtonLabel(Player::MOVE_LEFT,  150.f, "Rotate Left", context);  // TODO(ANDY) позиция
@@ -24,15 +24,15 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     backButton->setText("Back");
     backButton->setCallback(std::bind(&SettingsState::requestStackPop, this));
 
-    mGUIContainer.pack(backButton);
+    _GUIContainer.pack(backButton);
 }
 
 void SettingsState::draw()
 {
     sf::RenderWindow& window = *getContext().window;
 
-    window.draw(mBackgroundSprite);
-    window.draw(mGUIContainer);
+    window.draw(_BackgroundSprite);
+    window.draw(_GUIContainer);
 }
 
 bool SettingsState::update(sf::Time)
@@ -47,13 +47,13 @@ bool SettingsState::handleEvent(const sf::Event& event)
     // Iterate through all key binding buttons to see if they are being pressed, waiting for the user to enter a key
     for (std::size_t action = 0; action < Player::COUNT; ++action)
     {
-        if (mBindingButtons[action]->isActive())
+        if (_BindingButtons[action]->isActive())
         {
             isKeyBinding = true;
             if (event.type == sf::Event::KeyReleased)
             {
                 getContext().player->assign_key(static_cast<Player::Action>(action), event.key.code);
-                mBindingButtons[action]->deactivate();
+                _BindingButtons[action]->deactivate();
             }
             break;
         }
@@ -63,7 +63,7 @@ bool SettingsState::handleEvent(const sf::Event& event)
     if (isKeyBinding)
         updateLabels();
     else
-        mGUIContainer.handleEvent(event);
+        _GUIContainer.handleEvent(event);
 
     return false;
 }
@@ -73,20 +73,20 @@ void SettingsState::updateLabels() {
 
     for (std::size_t i = 0; i < Player::COUNT; ++i) {
         sf::Keyboard::Key key = player.get_key(static_cast<Player::Action>(i));
-        mBindingLabels[i]->setText(toString(key));
+        _BindingLabels[i]->setText(toString(key));
     }
 }
 
 void SettingsState::addButtonLabel(Player::Action action, float y, const std::string& text, Context context) {
-    mBindingButtons[action] = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    mBindingButtons[action]->setPosition(40, y); // TODO(ANDY) позиция
-    mBindingButtons[action]->setText(text);
-    mBindingButtons[action]->setToggle(true);
+    _BindingButtons[action] = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+    _BindingButtons[action]->setPosition(40, y); // TODO(ANDY) позиция
+    _BindingButtons[action]->setText(text);
+    _BindingButtons[action]->setToggle(true);
 
-    mBindingLabels[action] = std::make_shared<GUI::Label>("", *context.fonts);
-    mBindingLabels[action]->setPosition(40.f + 150.f, y + 15.f); // TODO(ANDY) позиция
+    _BindingLabels[action] = std::make_shared<GUI::Label>("", *context.fonts);
+    _BindingLabels[action]->setPosition(40.f + 150.f, y + 15.f); // TODO(ANDY) позиция
 
-    mGUIContainer.pack(mBindingButtons[action]);
-    mGUIContainer.pack(mBindingLabels[action]);
+    _GUIContainer.pack(_BindingButtons[action]);
+    _GUIContainer.pack(_BindingLabels[action]);
 }
 

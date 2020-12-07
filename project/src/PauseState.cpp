@@ -10,18 +10,18 @@
 
 PauseState::PauseState(StateStack& stack, Context context)
         : State(stack, context)
-        , mBackgroundSprite()
-        , mPausedText()
-        , mGUIContainer()
+        , _BackgroundSprite()
+        , _PausedText()
+        , _GUIContainer()
 {
     const sf::Font* font = context.fonts->get(fonts::Id::MAIN);
     sf::Vector2f windowSize(context.window->getSize());
 
-    mPausedText.setFont(*font);
-    mPausedText.setString("Game Paused");
-    mPausedText.setCharacterSize(70);
-    centerOrigin(mPausedText);
-    mPausedText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+    _PausedText.setFont(*font);
+    _PausedText.setString("Game Paused");
+    _PausedText.setCharacterSize(70);
+    centerOrigin(_PausedText);
+    _PausedText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 
     auto returnButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     returnButton->setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 75);
@@ -40,8 +40,8 @@ PauseState::PauseState(StateStack& stack, Context context)
                                       requestStackPush(States::Menu);
                                   });
 
-    mGUIContainer.pack(returnButton);
-    mGUIContainer.pack(backToMenuButton);
+    _GUIContainer.pack(returnButton);
+    _GUIContainer.pack(backToMenuButton);
 }
 
 void PauseState::draw() {
@@ -53,8 +53,8 @@ void PauseState::draw() {
     backgroundShape.setSize(window.getView().getSize());
 
     window.draw(backgroundShape);
-    window.draw(mPausedText);
-    window.draw(mGUIContainer);
+    window.draw(_PausedText);
+    window.draw(_GUIContainer);
 }
 
 bool PauseState::update(sf::Time)
@@ -64,6 +64,6 @@ bool PauseState::update(sf::Time)
 
 bool PauseState::handleEvent(const sf::Event& event)
 {
-    mGUIContainer.handleEvent(event);
+    _GUIContainer.handleEvent(event);
     return false;
 }

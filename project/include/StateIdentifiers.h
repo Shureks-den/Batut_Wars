@@ -10,4 +10,4 @@ namespace States {
         Pause,
         Settings
     };
-}
+}  // namespace States

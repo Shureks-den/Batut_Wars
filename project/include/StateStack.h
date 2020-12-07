@@ -1,26 +1,26 @@
 #pragma once
 
-#include <SFML/System/NonCopyable.hpp>
-#include <SFML/System/Time.hpp>
-
 #include <vector>
 #include <utility>
 #include <functional>
 #include <map>
+
+#include <SFML/System/NonCopyable.hpp>
+#include <SFML/System/Time.hpp>
 
 #include "State.h"
 #include "Holder.h"
 #include "StateIdentifiers.h"
 
 class StateStack : private sf::NonCopyable {
-public:
+ public:
     enum Action {
         Push,
         Pop,
         Clear,
     };
 
-public:
+ public:
     explicit StateStack(State::Context context);
     ~StateStack() = default;
 
@@ -33,34 +33,32 @@ public:
     void handleEvent(const sf::Event &event);
 
     void pushState(States::ID stateID);
-
     void popState();
-
     void clearStates();
 
     bool isEmpty() const;
 
-private:
+ private:
     State::Ptr createState(States::ID stateID);
 
     void applyPendingChanges();
 
-private:
+ private:
     struct PendingChange {
         explicit PendingChange(Action action, States::ID stateID = States::None);
         Action action;
         States::ID stateID;
     };
-private:
-    std::vector<State::Ptr> mStack;
-    std::vector<PendingChange> mPendingList;
-    State::Context mContext;
-    std::map<States::ID, std::function<State::Ptr()>> mFactories;
+ private:
+    std::vector<State::Ptr> _Stack;
+    std::vector<PendingChange> _PendingList;
+    State::Context _Context;
+    std::map<States::ID, std::function<State::Ptr()>> _Factories;
 };
 
 template <typename T>
 void StateStack::registerState(States::ID stateID) {
-    mFactories[stateID] = [this] () {
-        return State::Ptr(new T(*this, mContext));
+    _Factories[stateID] = [this] () {
+        return State::Ptr(new T(*this, _Context));
     };
 }
