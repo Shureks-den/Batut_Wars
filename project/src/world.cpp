@@ -61,22 +61,22 @@ void World::push_back(engine::Entity &object) {
 }
 
 void World::do_action(size_t id, Action action, sf::Time d_time) {  // TODO(ANDY) переписать на таблицу Command
-    space::Ship *ship = dynamic_cast<space::Ship*>(_objects[id]);
+    space::Ship* ship = dynamic_cast<space::Ship*>(_objects[id]);
     assert(ship != nullptr);
     switch (action) {
     case Action::MOVE_FORWARD:
-        ship->give_acceleration(Direction::FORWARD, 10.0 * d_time.asSeconds());  // TODO(ANDY) довести до ума
+        ship->give_acceleration(Direction::FORWARD);  // TODO(ANDY) довести до ума
         break;
     case Action::MOVE_BACKWARD:
-        ship->give_acceleration(Direction::BACKWARD, 10.0 * d_time.asSeconds());  // TODO(ANDY) довести до ума
+        ship->give_acceleration(Direction::BACKWARD);  // TODO(ANDY) довести до ума
         break;
     case Action::MOVE_LEFT:
-        ship->rotate(engine::to_radian(- 60.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
-        _status[id].angle -= 60.0 * d_time.asSeconds();
+        ship->rotate(engine::as_radian(- 90.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
+        _status[id].angle = ship->get_angle();
         break;
     case Action::MOVE_RIGHT:
-        ship->rotate(engine::to_radian(60.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума блять
-        _status[id].angle += 60.0 * d_time.asSeconds();
+        ship->rotate(engine::as_radian(90.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
+        _status[id].angle = ship->get_angle();
         break;
 
     default:

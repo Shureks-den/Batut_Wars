@@ -6,7 +6,7 @@
 
 const sf::Time Game::_time_per_frame = sf::seconds(1.0 / 60.0);
 
-Game::Game() : _window(sf::VideoMode(640, 480), "Input", sf::Style::Close),
+Game::Game() : _window(sf::VideoMode(1200, 960), "Input", sf::Style::Close),
                _render(_window),
                _frames(0) {
     _window.setKeyRepeatEnabled(false);

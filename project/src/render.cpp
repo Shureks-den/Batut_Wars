@@ -8,7 +8,7 @@ static const size_t MAP_SIZE = 2000;  // Криво, но пока надо
 
 Render::Render(sf::RenderWindow& window)
     : _window(window) {
-    _view.setSize(640, 480);
+    _view.setSize(1200, 960);  // TODO(Tony): Delete
 
     _animation_layers.resize(static_cast<size_t>(animation::LayerNom::COUNT));
 
@@ -98,5 +98,6 @@ void Render::add_animation(size_t lay, Status &status) {
 }
 
 sf::View& Render::get_view() {
+    _view.setCenter(sf::Vector2f(1000, 1000));
     return _view;
 }

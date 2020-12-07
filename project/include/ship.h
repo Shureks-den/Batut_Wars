@@ -6,7 +6,7 @@ namespace space {
 
 class Ship : public engine::MoveAble {
  public:
-    Ship() = default;
+    Ship();
     ~Ship() = default;
     Ship(const Ship &) = delete;
     animation::Id get_animation_id() override;

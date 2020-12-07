@@ -2,14 +2,18 @@
 
 namespace space {
 
+Ship::Ship() : engine::MoveAble(130){}  // TODO(Tony):
+
 void Ship::update(sf::Time dt) {
+
     _speed += _acceleration * dt.asSeconds();
-    if (_speed.get_abs() >= SPEED_LIMIT) {
-        _speed = _speed.get_normal() * SPEED_LIMIT;;
+    if (_speed.get_abs() >= _speed_limit) {
+        _speed = _speed.get_normal() * _speed_limit;
     }
 
-    engine::Vector tmp = _speed * dt.asSeconds();
-    _position += tmp.get_sf();
+    _position += (_speed * dt.asSeconds()).get_sf();
+
+    _acceleration = engine::Vector(0, 0);
 }
 
 animation::Id Ship::get_animation_id() {
