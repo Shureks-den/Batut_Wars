@@ -1,8 +1,8 @@
 #pragma once
 
 #include "StateIdentifiers.h"
-#include "holder.h"
-#include "player.h"
+#include "Holder.h"
+#include "Player.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Time.hpp>

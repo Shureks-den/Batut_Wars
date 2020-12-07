@@ -1,9 +1,9 @@
 #pragma once
 
 #include "State.h"
-#include "world.h"
-#include "player.h"
-#include "render.h"
+#include "World.h"
+#include "Player.h"
+#include "Render.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>

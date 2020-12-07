@@ -9,34 +9,34 @@
 namespace GUI {
 
     Button::Button(const fonts::Holder& fonts, const textures::Holder& textures)
-            : mCallback()
-            , mNormalTexture(*textures.get(textures::Id::BUTTON_NORMAL))
-            , mSelectedTexture(*textures.get(textures::Id::BUTTON_SELECTED))
-            , mPressedTexture(*textures.get(textures::Id::BUTTON_PRESSED))
-            , mSprite()
-            , mText("", *fonts.get(fonts::Id::MAIN), 16)
-            , mIsToggle(false)
+            : _Callback()
+            , _NormalTexture(*textures.get(textures::Id::BUTTON_NORMAL))
+            , _SelectedTexture(*textures.get(textures::Id::BUTTON_SELECTED))
+            , _PressedTexture(*textures.get(textures::Id::BUTTON_PRESSED))
+            , _Sprite()
+            , _Text("", *fonts.get(fonts::Id::MAIN), 16)
+            , _IsToggle(false)
     {
-        mSprite.setTexture(mNormalTexture);
+        _Sprite.setTexture(_NormalTexture);
 
-        sf::FloatRect bounds = mSprite.getLocalBounds();
-        mText.setPosition(bounds.width / 2.f, bounds.height / 2.f);
+        sf::FloatRect bounds = _Sprite.getLocalBounds();
+        _Text.setPosition(bounds.width / 2.f, bounds.height / 2.f);
     }
 
     void Button::setCallback(Callback callback)
     {
-        mCallback = std::move(callback);
+        _Callback = std::move(callback);
     }
 
     void Button::setText(const std::string& text)
     {
-        mText.setString(text);
-        centerOrigin(mText);
+        _Text.setString(text);
+        centerOrigin(_Text);
     }
 
     void Button::setToggle(bool flag)
     {
-        mIsToggle = flag;
+        _IsToggle = flag;
     }
 
     bool Button::isSelectable() const
@@ -48,14 +48,14 @@ namespace GUI {
     {
         Component::select();
 
-        mSprite.setTexture(mSelectedTexture);
+        _Sprite.setTexture(_SelectedTexture);
     }
 
     void Button::deselect()
     {
         Component::deselect();
 
-        mSprite.setTexture(mNormalTexture);
+        _Sprite.setTexture(_NormalTexture);
     }
 
     void Button::activate()
@@ -63,14 +63,14 @@ namespace GUI {
         Component::activate();
 
         // If we are toggle then we should show that the button is pressed and thus "toggled".
-        if (mIsToggle)
-            mSprite.setTexture(mPressedTexture);
+        if (_IsToggle)
+            _Sprite.setTexture(_PressedTexture);
 
-        if (mCallback)
-            mCallback();
+        if (_Callback)
+            _Callback();
 
         // If we are not a toggle then deactivate the button since we are just momentarily activated.
-        if (!mIsToggle)
+        if (!_IsToggle)
             deactivate();
     }
 
@@ -78,13 +78,13 @@ namespace GUI {
     {
         Component::deactivate();
 
-        if (mIsToggle)
+        if (_IsToggle)
         {
             // Reset texture to right one depending on if we are selected or not.
             if (isSelected())
-                mSprite.setTexture(mSelectedTexture);
+                _Sprite.setTexture(_SelectedTexture);
             else
-                mSprite.setTexture(mNormalTexture);
+                _Sprite.setTexture(_NormalTexture);
         }
     }
 
@@ -93,8 +93,8 @@ namespace GUI {
 
     void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         states.transform *= getTransform();
-        target.draw(mSprite, states);
-        target.draw(mText, states);
+        target.draw(_Sprite, states);
+        target.draw(_Text, states);
     }
 
 }

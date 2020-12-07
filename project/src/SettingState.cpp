@@ -1,5 +1,5 @@
 #include "SettingState.h"
-#include "holder.h"
+#include "Holder.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 

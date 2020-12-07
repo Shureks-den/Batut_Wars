@@ -11,16 +11,16 @@
 namespace GUI{
 
     Container::Container()
-            : mChildren()
-            , mSelectedChild(-1)
+            : _Children()
+            , _SelectedChild(-1)
     {
     }
 
     void Container::pack(Component::Ptr component) {
-        mChildren.push_back(component);
+        _Children.push_back(component);
 
         if (!hasSelection() && component->isSelectable())
-            select(mChildren.size() - 1);
+            select(_Children.size() - 1);
     }
 
     bool Container::isSelectable() const
@@ -30,8 +30,8 @@ namespace GUI{
 
     void Container::handleEvent(const sf::Event& event) {
         // If we have selected a child then give it events
-        if (hasSelection() && mChildren[mSelectedChild]->isActive()) {
-            mChildren[mSelectedChild]->handleEvent(event);
+        if (hasSelection() && _Children[_SelectedChild]->isActive()) {
+            _Children[_SelectedChild]->handleEvent(event);
         }
         else if (event.type == sf::Event::KeyReleased)
         {
@@ -46,7 +46,7 @@ namespace GUI{
             else if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Space)
             {
                 if (hasSelection())
-                    mChildren[mSelectedChild]->activate();
+                    _Children[_SelectedChild]->activate();
             }
         }
     }
@@ -55,24 +55,24 @@ namespace GUI{
     {
         states.transform *= getTransform();
 
-        FOREACH(const Component::Ptr& child, mChildren)
+        FOREACH(const Component::Ptr& child, _Children)
         target.draw(*child, states);
     }
 
     bool Container::hasSelection() const
     {
-        return mSelectedChild >= 0;
+        return _SelectedChild >= 0;
     }
 
     void Container::select(std::size_t index)
     {
-        if (mChildren[index]->isSelectable())
+        if (_Children[index]->isSelectable())
         {
             if (hasSelection())
-                mChildren[mSelectedChild]->deselect();
+                _Children[_SelectedChild]->deselect();
 
-            mChildren[index]->select();
-            mSelectedChild = index;
+            _Children[index]->select();
+            _SelectedChild = index;
         }
     }
 
@@ -82,10 +82,10 @@ namespace GUI{
             return;
 
         // Search next component that is selectable, wrap around if necessary
-        int next = mSelectedChild;
+        int next = _SelectedChild;
         do
-            next = (next + 1) % mChildren.size();
-        while (!mChildren[next]->isSelectable());
+            next = (next + 1) % _Children.size();
+        while (!_Children[next]->isSelectable());
 
         // Select that component
         select(next);
@@ -97,10 +97,10 @@ namespace GUI{
             return;
 
         // Search previous component that is selectable, wrap around if necessary
-        int prev = mSelectedChild;
+        int prev = _SelectedChild;
         do
-            prev = (prev + mChildren.size() - 1) % mChildren.size();
-        while (!mChildren[prev]->isSelectable());
+            prev = (prev + _Children.size() - 1) % _Children.size();
+        while (!_Children[prev]->isSelectable());
 
         // Select that component
         select(prev);

@@ -7,15 +7,15 @@ HDRS = \
 
 SRCS = \
        project/src/main.cpp \
-       project/src/engine.cpp \
-       project/src/ship.cpp \
-       project/src/animation.cpp \
-       project/src/world.cpp \
-       project/src/game.cpp \
-       project/src/render.cpp \
-       project/src/player.cpp \
-       project/src/layer.cpp \
-       project/src/holder.cpp \
+       project/src/Engine.cpp \
+       project/src/Ship.cpp \
+       project/src/Animation.cpp \
+       project/src/World.cpp \
+       project/src/Game.cpp \
+       project/src/Render.cpp \
+       project/src/Player.cpp \
+       project/src/Layer.cpp \
+       project/src/Holder.cpp \
        project/src/Utility.cpp \
        project/src/TitleState.cpp \
        project/src/StateStack.cpp \

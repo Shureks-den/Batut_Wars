@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "game.h"
+#include "Game.h"
 
 
 int main() {

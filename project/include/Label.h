@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-#include "holder.h"
+#include "Holder.h"
 
 #include <SFML/Graphics/Text.hpp>
 
@@ -27,7 +27,7 @@ namespace GUI {
 
 
     private:
-        sf::Text mText;
+        sf::Text _Text;
     };
 
 }

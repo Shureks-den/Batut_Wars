@@ -1,6 +1,6 @@
 #include "GameState.h"
 
-#include "ship.h"
+#include "Ship.h"
 
 GameState::GameState(StateStack& stack, Context context)
           : State(stack, context),

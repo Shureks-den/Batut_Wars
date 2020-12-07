@@ -1,21 +1,21 @@
 #include "TitleState.h"
 #include "Utility.h"
-#include "holder.h"
+#include "Holder.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
 
 TitleState::TitleState(StateStack& stack, Context context)
         : State(stack, context)
-        , mText()
+        , _Text()
         , mShowText(true)
         , mTextEffectTime(sf::Time::Zero) {
     mBackgroundSprite.setTexture(*context.textures->get(textures::Id::MENU_BACKGROUND));
 
-    mText.setFont(*context.fonts->get(fonts::Id::MAIN));
-    mText.setString("Press any key to start");
-    centerOrigin(mText);
-    mText.setPosition(context.window->getView().getSize() / 2.f);
+    _Text.setFont(*context.fonts->get(fonts::Id::MAIN));
+    _Text.setString("Press any key to start");
+    centerOrigin(_Text);
+    _Text.setPosition(context.window->getView().getSize() / 2.f);
 }
 
 void TitleState::draw() {
@@ -23,7 +23,7 @@ void TitleState::draw() {
     window.draw(mBackgroundSprite);
 
     if (mShowText)
-        window.draw(mText);
+        window.draw(_Text);
 }
 
 bool TitleState::update(sf::Time dt) {

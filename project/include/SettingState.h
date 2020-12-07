@@ -1,7 +1,7 @@
 #pragma once
 
 #include "State.h"
-#include "player.h"
+#include "Player.h"
 #include "Container.h"
 #include "Button.h"
 #include "Label.h"
