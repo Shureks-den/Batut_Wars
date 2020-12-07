@@ -1,24 +1,22 @@
 #pragma once
 
-#include "State.h"
-#include "Container.h"
-
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+#include "State.h"
+#include "Container.h"
 
 class PauseState : public State {
-public:
+ public:
     PauseState(StateStack& stack, Context context);
     ~PauseState() = default;
 
     void draw() override;
     bool update(sf::Time dt) override;
-    bool handleEvent(const sf::Event& event) override;
+    bool handle_event(const sf::Event& event) override;
 
-
-private:
-    sf::Sprite			mBackgroundSprite;
-    sf::Text			mPausedText;
-    GUI::Container 		mGUIContainer;
+ private:
+    sf::Sprite _background;
+    sf::Text _paused_text;
+    GUI::Container _container;
 };

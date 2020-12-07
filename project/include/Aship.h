@@ -1,6 +1,6 @@
 #pragma once
 
-#include "animation.h"
+#include "Animation.h"
 
 namespace animation {
 

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "game.h"
+#include "Game.h"
 
 
 int main() {
@@ -9,7 +9,7 @@ int main() {
         Game game;
         game.run();
     }
-    catch (std::exception& e) {
-        std::cout << "\nEXCEPTION: " << e.what() << std::endl;
+    catch (std::exception& exeption) {
+        std::cout  << std::endl << "EXCEPTION: " << exeption.what() << std::endl;
     }
 }

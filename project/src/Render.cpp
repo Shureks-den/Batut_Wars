@@ -1,8 +1,8 @@
-#include "render.h"
+#include "Render.h"
 
 #include <vector>
 
-#include "aship.h"
+#include "Aship.h"
 
 static const size_t MAP_SIZE = 2000;  // Криво, но пока надо
 

@@ -1,54 +1,51 @@
 #pragma once
 
-#include "Component.h"
-#include "holder.h"
-
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Text.hpp>
-
 #include <vector>
 #include <string>
 #include <memory>
 #include <functional>
 
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
+
+#include "Component.h"
+#include "Holder.h"
+
 
 namespace GUI {
 
-    class Button : public Component {
-    public:
-        typedef std::shared_ptr<Button>		Ptr;
-        typedef std::function<void()>		Callback;
+class Button : public Component {
+ public:
+    typedef std::shared_ptr<Button> Ptr;
+    typedef std::function<void()> Callback;
+
+ public:
+    Button(const fonts::Holder &fonts, const textures::Holder &textures);
+
+    void set_callback(Callback callback);
+    void set_text(const std::string& text);
+    void set_toggle(bool flag);
+
+    virtual bool is_selectable() const;
+    virtual void select();
+    virtual void deselect();
+
+    virtual void activate();
+    virtual void deactivate();
+
+    virtual void handle_event(const sf::Event& event);
+
+ private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 
-    public:
-        Button(const fonts::Holder &fonts, const textures::Holder &textures);
-
-        void					setCallback(Callback callback);
-        void					setText(const std::string& text);
-        void					setToggle(bool flag);
-
-        virtual bool			isSelectable() const;
-        virtual void			select();
-        virtual void			deselect();
-
-        virtual void			activate();
-        virtual void			deactivate();
-
-        virtual void			handleEvent(const sf::Event& event);
-
-
-    private:
-        virtual void			draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-
-    private:
-        Callback				mCallback;
-        const sf::Texture&		mNormalTexture;
-        const sf::Texture&		mSelectedTexture;
-        const sf::Texture&		mPressedTexture;
-        sf::Sprite				mSprite;
-        sf::Text				mText;
-        bool					mIsToggle;
-    };
-
-}
+ private:
+    Callback _callback;
+    const sf::Texture& _normal;
+    const sf::Texture& _selected;
+    const sf::Texture& _pressed;
+    sf::Sprite _sprite;
+    sf::Text _text;
+    bool _is_toggle;
+};
+}  // namespace GUI

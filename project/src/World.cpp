@@ -1,10 +1,10 @@
-#include "world.h"
+#include "World.h"
 
 #include <cassert>
 
-#include "ship.h"
-#include "layer.h"
-#include "engine.h"
+#include "Ship.h"
+#include "Layer.h"
+#include "Engine.h"
 
 static const size_t MAP_SIZE = 2000;  // Криво, но пока надо
 
@@ -20,7 +20,13 @@ static Status to_status(engine::Entity &entity) {
     return status;
 }
 
-World::World() {;}  // TODO(ANDY) написать нормальный конструктор
+World::World() {}  // TODO(ANDY) написать нормальный конструктор
+
+World::~World() {
+    for (auto &it : _objects) {
+        delete it;
+    }
+}
 
 void World::update(sf::Time d_time) {
     while (!_actions.empty()) {
@@ -48,9 +54,7 @@ void World::update(sf::Time d_time) {
             _status[i].position.y += MAP_SIZE;
             _objects[i]->set_y(_status[i].position.y);
         }
-
     }
-
     // Рассчет коллизий
 }
 

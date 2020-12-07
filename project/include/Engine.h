@@ -1,8 +1,10 @@
 #pragma once
 
+#include <vector>
+
 #include <SFML/Graphics.hpp>
 
-#include "status.h"
+#include "Status.h"
 
 constexpr float SPEED_LIMIT = 130.0;
 constexpr float ACCELERETION_LIMIT = 10.0;

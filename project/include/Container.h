@@ -7,33 +7,28 @@
 
 
 namespace GUI {
+class Container : public Component {
+ public:
+    typedef std::shared_ptr<Container> Ptr;
 
-    class Container : public Component {
-    public:
-        typedef std::shared_ptr<Container> Ptr;
+ public:
+    Container();
 
+    void pack(Component::Ptr component);
 
-    public:
-        Container();
+    virtual bool is_selectable() const;
+    virtual void handle_event(const sf::Event& event);
 
-        void				pack(Component::Ptr component);
+ private:
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-        virtual bool		isSelectable() const;
-        virtual void		handleEvent(const sf::Event& event);
+    bool has_selection() const;
+    void select(size_t index);
+    void select_next();
+    void select_previous();
 
-
-    private:
-        virtual void		draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-        bool				hasSelection() const;
-        void				select(std::size_t index);
-        void				selectNext();
-        void				selectPrevious();
-
-
-    private:
-        std::vector<Component::Ptr>		mChildren;
-        int								mSelectedChild;
-    };
-
-}
+ private:
+    std::vector<Component::Ptr> _children;
+    int _selected_child;
+};
+}  // namespace GUI

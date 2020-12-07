@@ -1,6 +1,5 @@
-#include "game.h"
+#include "Game.h"
 
-#include <iostream>
 #include <string>
 
 #include "StateIdentifiers.h"
@@ -15,13 +14,13 @@ const sf::Time Game::_time_per_frame = sf::seconds(1.0 / 60.0);
 
 Game::Game() : _window(sf::VideoMode(640, 480), "Input", sf::Style::Close),
                _player(),
-               mTextures(),
-               mFonts(),
-               mStateStack(State::Context(_window, mTextures, mFonts, _player)) {
+               _textures(),
+               _fonts(),
+               _state_stack(State::Context(_window, _textures, _fonts, _player)) {
     _window.setKeyRepeatEnabled(false);
     _window.setVerticalSyncEnabled(true);
-    registerStates();
-    mStateStack.pushState(States::ID::Title);
+    registrates();
+    _state_stack.push(States::Id::MENU);
 }
 
 
@@ -39,7 +38,7 @@ void Game::run() {
             get_input();
             update(_time_per_frame);
 
-            if (mStateStack.isEmpty()) {
+            if (_state_stack.is_empty()) {
                 _window.close();
             }
         }
@@ -49,14 +48,14 @@ void Game::run() {
 }
 
 bool Game::update(sf::Time dt) {
-    mStateStack.update(dt);
+    _state_stack.update(dt);
     return true;
 }
 
 void Game::render() {
     _window.clear();
-    mStateStack.draw();
-    //_window.setView(_window.getDefaultView());  // Вид устанавливается в _render.set_status
+    _state_stack.draw();
+    // _window.setView(_window.getDefaultView());  // Вид устанавливается в _render.set_status
     _window.display();
 }
 
@@ -64,7 +63,7 @@ void Game::get_input() {
     sf::Event event;
 
     while (_window.pollEvent(event)) {
-        mStateStack.handleEvent(event);
+        _state_stack.handle_event(event);
 
         if (event.type == sf::Event::Closed) {
             _window.close();
@@ -72,10 +71,10 @@ void Game::get_input() {
     }
 }
 
-void Game::registerStates() {
-    mStateStack.registerState<TitleState>(States::Title);
-    mStateStack.registerState<MenuState>(States::Menu);
-    mStateStack.registerState<GameState>(States::Game);
-    mStateStack.registerState<PauseState>(States::Pause);
-    mStateStack.registerState<SettingsState>(States::Settings);
+void Game::registrates() {
+    _state_stack.registrate<TitleState>(States::TITLE);
+    _state_stack.registrate<MenuState>(States::MENU);
+    _state_stack.registrate<GameState>(States::GAME);
+    _state_stack.registrate<PauseState>(States::PAUSE);
+    _state_stack.registrate<SettingsState>(States::SETTINGS);
 }

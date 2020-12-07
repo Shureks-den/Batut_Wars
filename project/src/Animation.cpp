@@ -1,4 +1,4 @@
-#include "animation.h"
+#include "Animation.h"
 
 #include <vector>
 

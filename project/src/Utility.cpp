@@ -1,12 +1,11 @@
 #include "Utility.h"
 
+#include <cmath>
+
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-#include <cmath>
-
 std::string toString(sf::Keyboard::Key key) {
-
     #define BOOK_KEYTOSTRING_CASE(KEY) case sf::Keyboard::KEY: return #KEY;
 
     switch (key) {
@@ -119,12 +118,12 @@ std::string toString(sf::Keyboard::Key key) {
     return "";
 }
 
-void centerOrigin(sf::Sprite& sprite) {
+void centerOrigin(sf::Sprite &sprite) {
     sf::FloatRect bounds = sprite.getLocalBounds();
     sprite.setOrigin(std::floor(bounds.left + bounds.width / 2.f), std::floor(bounds.top + bounds.height / 2.f));
 }
 
-void centerOrigin(sf::Text& text) {
+void centerOrigin(sf::Text &text) {
     sf::FloatRect bounds = text.getLocalBounds();
     text.setOrigin(std::floor(bounds.left + bounds.width / 2.f), std::floor(bounds.top + bounds.height / 2.f));
 }

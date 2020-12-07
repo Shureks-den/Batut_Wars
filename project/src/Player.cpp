@@ -1,4 +1,4 @@
-#include "player.h"
+#include "Player.h"
 
 #include <string>
 #include <algorithm>

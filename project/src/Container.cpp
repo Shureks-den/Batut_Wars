@@ -1,110 +1,102 @@
-// TODO(shurek) поправить код-стайл ВЕЗДЕ
-
 #include "Container.h"
-#include "Foreach.h"
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
 
-namespace GUI{
+namespace GUI {
 
-    Container::Container()
-            : mChildren()
-            , mSelectedChild(-1)
-    {
+Container::Container() : _children(), _selected_child(-1) {}
+
+void Container::pack(Component::Ptr component) {
+    _children.push_back(component);
+
+    if (!has_selection() && component->is_selectable()) {
+        select(_children.size() - 1);
     }
-
-    void Container::pack(Component::Ptr component) {
-        mChildren.push_back(component);
-
-        if (!hasSelection() && component->isSelectable())
-            select(mChildren.size() - 1);
-    }
-
-    bool Container::isSelectable() const
-    {
-        return false;
-    }
-
-    void Container::handleEvent(const sf::Event& event) {
-        // If we have selected a child then give it events
-        if (hasSelection() && mChildren[mSelectedChild]->isActive()) {
-            mChildren[mSelectedChild]->handleEvent(event);
-        }
-        else if (event.type == sf::Event::KeyReleased)
-        {
-            if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up)
-            {
-                selectPrevious();
-            }
-            else if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down)
-            {
-                selectNext();
-            }
-            else if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Space)
-            {
-                if (hasSelection())
-                    mChildren[mSelectedChild]->activate();
-            }
-        }
-    }
-
-    void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
-    {
-        states.transform *= getTransform();
-
-        FOREACH(const Component::Ptr& child, mChildren)
-        target.draw(*child, states);
-    }
-
-    bool Container::hasSelection() const
-    {
-        return mSelectedChild >= 0;
-    }
-
-    void Container::select(std::size_t index)
-    {
-        if (mChildren[index]->isSelectable())
-        {
-            if (hasSelection())
-                mChildren[mSelectedChild]->deselect();
-
-            mChildren[index]->select();
-            mSelectedChild = index;
-        }
-    }
-
-    void Container::selectNext()
-    {
-        if (!hasSelection())
-            return;
-
-        // Search next component that is selectable, wrap around if necessary
-        int next = mSelectedChild;
-        do
-            next = (next + 1) % mChildren.size();
-        while (!mChildren[next]->isSelectable());
-
-        // Select that component
-        select(next);
-    }
-
-    void Container::selectPrevious()
-    {
-        if (!hasSelection())
-            return;
-
-        // Search previous component that is selectable, wrap around if necessary
-        int prev = mSelectedChild;
-        do
-            prev = (prev + mChildren.size() - 1) % mChildren.size();
-        while (!mChildren[prev]->isSelectable());
-
-        // Select that component
-        select(prev);
-    }
-
 }
 
+bool Container::is_selectable() const {
+    return false;
+}
+
+void Container::handle_event(const sf::Event& event) {
+    if (has_selection() && _children[_selected_child]->is_active()) {
+         _children[_selected_child]->handle_event(event);
+         return;
+    } 
+    
+    if (event.type != sf::Event::KeyReleased) {
+        return;
+    }
+
+    if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up) {
+        select_previous();
+        return;
+    }
+    
+    if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down) {
+        select_next();
+        return;
+    }
+
+    if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Space) {
+        if (has_selection()) {
+            _children[_selected_child]->activate();
+        }
+    }
+}
+
+void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+    states.transform *= getTransform();
+
+    for (auto &it : _children) {
+        target.draw(*it, states);
+    }
+}
+
+bool Container::has_selection() const {
+    return _selected_child >= 0;
+}
+
+void Container::select(size_t index) {
+    if (!_children[index]->is_selectable()) {
+        return;
+    }
+    
+    if (has_selection()) {
+        _children[_selected_child]->deselect();
+    }
+
+    _children[index]->select();
+    _selected_child = index;
+}
+
+void Container::select_next() {
+    if (!has_selection()) {
+        return;
+    }
+
+    int next = _selected_child;
+    do {
+        next = (next + 1) % _children.size();
+    } while (!_children[next]->is_selectable());
+
+    select(next);
+}
+
+void Container::select_previous() {
+    if (!has_selection()) {
+        return;
+    }
+
+    int prev = _selected_child;
+    do {
+        prev = (prev + _children.size() - 1) % _children.size();
+    } while (!_children[prev]->is_selectable());
+
+    select(prev);
+}
+
+}  // namespace GUI

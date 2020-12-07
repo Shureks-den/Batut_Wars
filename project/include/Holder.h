@@ -3,10 +3,12 @@
 #include <memory>
 #include <stdexcept>
 #include <cassert>
+#include <vector>
+
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Font.hpp>
 
-#include "identificators.h"
+#include "Identificators.h"
 
 namespace animation {
 
@@ -34,7 +36,7 @@ class Holder {
     std::vector<sf::Font> _resource_map;
 };
 
-}  // namspace fonts
+}  // namespace fonts
 
 namespace textures {
 

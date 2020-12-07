@@ -1,10 +1,11 @@
 #pragma once
 
+#include <vector>
 #include <SFML/Graphics.hpp>
 
-#include "status.h"
-#include "holder.h"
-#include "identificators.h"
+#include "Holder.h"
+#include "Status.h"
+#include "Identificators.h"
 
 namespace animation {
 

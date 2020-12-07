@@ -1,8 +1,8 @@
 #pragma once
 
-#include "player.h"
+#include "Player.h"
 #include "StateStack.h"
-#include "holder.h"
+#include "Holder.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -20,14 +20,14 @@ class Game : sf::NonCopyable {
     bool handle_event(const sf::Event& event);
     void get_input();
 
-    void registerStates();
+    void registrates();
 
     sf::RenderWindow _window;
     Player _player;  // Читать команды игрока
 
-    textures::Holder mTextures;
-    fonts::Holder mFonts;
-    StateStack mStateStack;
+    textures::Holder _textures;
+    fonts::Holder _fonts;
+    StateStack _state_stack;
 
     static const sf::Time _time_per_frame;
 };

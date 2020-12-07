@@ -1,13 +1,16 @@
 #pragma once
 
-#include "engine.h"
-#include "player.h"
-#include "status.h"
+#include <queue>
+#include <vector>
+
+#include "Engine.h"
+#include "Player.h"
+#include "Status.h"
 
 class World {
  public:
     World();
-    ~World() = default;
+    ~World();
 
     void update(sf::Time d_time);
     void push_back(engine::Entity &object);

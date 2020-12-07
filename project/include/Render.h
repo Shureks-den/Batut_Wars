@@ -1,11 +1,13 @@
 #pragma once
 
+#include <vector>
+
 #include <SFML/Graphics.hpp>
 
-#include "animation.h"
-#include "status.h"
-#include "layer.h"
-#include "holder.h"
+#include "Animation.h"
+#include "Status.h"
+#include "Layer.h"
+#include "Holder.h"
 
 class Render: private sf::NonCopyable {
  public:
@@ -17,8 +19,8 @@ class Render: private sf::NonCopyable {
     sf::View& get_view();
 
  private:
-//    void loadTextures();
     void build_scene();
+    void add_animation(size_t lay, Status &status);
 
  private:
     sf::RenderWindow &_window;
@@ -28,6 +30,4 @@ class Render: private sf::NonCopyable {
     animation::Holder _holder;
 
     sf::Vector2f _extra_size;
-
-    void add_animation(size_t lay, Status &status);
 };

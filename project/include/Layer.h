@@ -1,8 +1,10 @@
 #pragma once
 
+#include <vector>
+
 #include <SFML/Graphics.hpp>
 
-#include "animation.h"
+#include "Animation.h"
 
 namespace animation {
 

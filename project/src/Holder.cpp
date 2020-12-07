@@ -1,4 +1,4 @@
-#include "holder.h"
+#include "Holder.h"
 
 namespace animation {
 
@@ -28,7 +28,7 @@ const sf::Font* Holder::get(Id id) const {
     return &_resource_map[static_cast<size_t>(id)];
 }
 
-}  // fonts
+}  // namespace fonts
 
 namespace textures {
 
@@ -48,4 +48,4 @@ const sf::Texture* Holder::get(Id id) const {
     return &_resource_map[static_cast<size_t>(id)];
 }
 
-}  // textures
+}  // namespace textures

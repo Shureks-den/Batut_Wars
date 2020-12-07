@@ -1,8 +1,10 @@
 #pragma once
 
+#include <vector>
+
 #include <SFML/Graphics.hpp>
 
-#include "identificators.h"
+#include "Identificators.h"
 
 class Status {
  public:

@@ -1,23 +1,23 @@
 #pragma once
 
-#include "StateIdentifiers.h"
-#include "holder.h"
-#include "player.h"
+#include <memory>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
 
-#include <memory>
+#include "StateIdentifiers.h"
+#include "Holder.h"
+#include "Player.h"
 
 class StateStack;
 
 class State {
-public:
+ public:
     typedef std::unique_ptr<State> Ptr;
 
     class Context {
-    public:
+     public:
         Context(sf::RenderWindow &window, textures::Holder &textures, fonts::Holder &fonts, Player &player);  // тут заменить нашей загрузкой текстур
         sf::RenderWindow *window;
         textures::Holder *textures;
@@ -25,20 +25,20 @@ public:
         Player* player;
     };
 
-public:
+ public:
     State(StateStack& stack, Context context);
-    virtual ~State();
+    virtual ~State() = default;
     virtual void draw() = 0;
     virtual bool update(sf::Time dt) = 0;
-    virtual bool handleEvent(const sf::Event& event) = 0;
+    virtual bool handle_event(const sf::Event& event) = 0;
 
-protected:
-    void requestStackPush(States::ID stateID);
+ protected:
+    void requestStackPush(States::Id state_id);
     void requestStackPop();
     void requestStateClear();
     Context getContext() const;
 
-private:
-    StateStack *mStack;
-    Context mContext;
+ private:
+    StateStack *_stack;
+    Context _context;
 };

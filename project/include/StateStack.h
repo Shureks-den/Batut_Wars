@@ -1,66 +1,63 @@
 #pragma once
 
-#include <SFML/System/NonCopyable.hpp>
-#include <SFML/System/Time.hpp>
-
 #include <vector>
 #include <utility>
 #include <functional>
 #include <map>
 
+#include <SFML/System/NonCopyable.hpp>
+#include <SFML/System/Time.hpp>
+
 #include "State.h"
-#include "holder.h"
+#include "Holder.h"
 #include "StateIdentifiers.h"
 
 class StateStack : private sf::NonCopyable {
-public:
+ public:
     enum Action {
-        Push,
-        Pop,
-        Clear,
+        PUSH,
+        POP,
+        CLEAR,
     };
 
-public:
+ public:
     explicit StateStack(State::Context context);
     ~StateStack() = default;
 
-    template<typename T> void registerState(States::ID stateID);
+    template<typename T> void registrate(States::Id state_id);
 
     void update(sf::Time dt);
-
     void draw();
+    void handle_event(const sf::Event &event);
 
-    void handleEvent(const sf::Event &event);
+    void push(States::Id state_id);
+    void pop();
+    void clear_states();
 
-    void pushState(States::ID stateID);
+    bool is_empty() const;
 
-    void popState();
+ private:
+    State::Ptr create_state(States::Id state_id);
 
-    void clearStates();
+    void apply_pending_changes();
 
-    bool isEmpty() const;
-
-private:
-    State::Ptr createState(States::ID stateID);
-
-    void applyPendingChanges();
-
-private:
+ private:
     struct PendingChange {
-        explicit PendingChange(Action action, States::ID stateID = States::None);
+        explicit PendingChange(Action action, States::Id state_id = States::NONE);
         Action action;
-        States::ID stateID;
+        States::Id state_id;
     };
-private:
-    std::vector<State::Ptr> mStack;
-    std::vector<PendingChange> mPendingList;
-    State::Context mContext;
-    std::map<States::ID, std::function<State::Ptr()>> mFactories;
+
+ private:
+    std::vector<State::Ptr> _stack;
+    std::vector<PendingChange> _pending_list;
+    State::Context _context;
+    std::map<States::Id, std::function<State::Ptr()>> _factories;
 };
 
 template <typename T>
-void StateStack::registerState(States::ID stateID) {
-    mFactories[stateID] = [this] () {
-        return State::Ptr(new T(*this, mContext));
+void StateStack::registrate(States::Id state_id) {
+    _factories[state_id] = [this] () {
+        return State::Ptr(new T(*this, _context));
     };
 }

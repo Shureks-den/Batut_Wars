@@ -3,31 +3,25 @@
 
 
 State::Context::Context(sf::RenderWindow& window, textures::Holder& textures, fonts::Holder& fonts, Player& player)
-        : window(&window), textures(&textures), fonts(&fonts), player(&player)
-{
+      : window(&window), textures(&textures), fonts(&fonts), player(&player) {
 }
 
 State::State(StateStack& stack, Context context)
-        : mStack(&stack)
-        , mContext(context)
-{
-}
+      : _stack(&stack),
+        _context(context) {}
 
-State::~State() {
-}
-
-void State::requestStackPush(States::ID stateID) {
-    mStack->pushState(stateID);
+void State::requestStackPush(States::Id state_id) {
+    _stack->push(state_id);
 }
 
 void State::requestStackPop() {
-    mStack->popState();
+    _stack->pop();
 }
 
 void State::requestStateClear() {
-    mStack->clearStates();
+    _stack->clear_states();
 }
 
 State::Context State::getContext() const {
-    return mContext;
+    return _context;
 }
