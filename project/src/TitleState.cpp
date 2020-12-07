@@ -8,8 +8,8 @@
 TitleState::TitleState(StateStack& stack, Context context)
         : State(stack, context)
         , _Text()
-        , mShowText(true)
-        , mTextEffectTime(sf::Time::Zero) {
+        , _ShowText(true)
+        , _TextEffectTime(sf::Time::Zero) {
     _BackgroundSprite.setTexture(*context.textures->get(textures::Id::MENU_BACKGROUND));
 
     _Text.setFont(*context.fonts->get(fonts::Id::MAIN));
@@ -22,16 +22,16 @@ void TitleState::draw() {
     sf::RenderWindow& window = *getContext().window;
     window.draw(_BackgroundSprite);
 
-    if (mShowText)
+    if (_ShowText)
         window.draw(_Text);
 }
 
 bool TitleState::update(sf::Time dt) {
-    mTextEffectTime += dt;
+    _TextEffectTime += dt;
 
-    if (mTextEffectTime >= sf::seconds(0.5f)) {
-        mShowText = !mShowText;
-        mTextEffectTime = sf::Time::Zero;
+    if (_TextEffectTime >= sf::seconds(0.5f)) {
+        _ShowText = !_ShowText;
+        _TextEffectTime = sf::Time::Zero;
     }
 
     return true;

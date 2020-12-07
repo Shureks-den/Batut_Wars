@@ -1,15 +1,13 @@
-#include "Label.h"
-#include "Utility.h"
-
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include "Label.h"
+#include "Utility.h"
 
 namespace GUI {
 
     Label::Label(const std::string& text, const fonts::Holder& fonts)
-            : _Text(text, *fonts.get(fonts::Id::MAIN), 16)
-    {
+            : _Text(text, *fonts.get(fonts::Id::MAIN), 16) {
     }
 
     bool Label::isSelectable() const {
@@ -28,4 +26,4 @@ namespace GUI {
         _Text.setString(text);
     }
 
-}
+}  // namespace GUI

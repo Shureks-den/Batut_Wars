@@ -4,8 +4,7 @@ namespace GUI {
 
     Component::Component()
             : mIsSelected(false)
-            , mIsActive(false)
-    {
+            , mIsActive(false) {
     }
 
     Component::~Component() {
@@ -34,5 +33,4 @@ namespace GUI {
     void Component::deactivate() {
         mIsActive = false;
     }
-
-}
+}  // namespace GUI

@@ -3,14 +3,12 @@
 
 
 State::Context::Context(sf::RenderWindow& window, textures::Holder& textures, fonts::Holder& fonts, Player& player)
-        : window(&window), textures(&textures), fonts(&fonts), player(&player)
-{
+        : window(&window), textures(&textures), fonts(&fonts), player(&player) {
 }
 
 State::State(StateStack& stack, Context context)
         : _Stack(&stack)
-        , _Context(context)
-{
+        , _Context(context) {
 }
 
 State::~State() {

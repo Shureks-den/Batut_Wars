@@ -1,13 +1,12 @@
 #pragma once
 
-#include "State.h"
-
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+#include "State.h"
 
 class TitleState : public State {
-public:
+ public:
     TitleState(StateStack &stack, Context context);
     ~TitleState() = default;
 
@@ -15,10 +14,9 @@ public:
     bool update(sf::Time dt) override;
     bool handleEvent(const sf::Event& event) override;
 
-
-private:
+ private:
     sf::Sprite _BackgroundSprite;
     sf::Text _Text;
-    bool mShowText;
-    sf::Time mTextEffectTime;
+    bool _ShowText;
+    sf::Time _TextEffectTime;
 };

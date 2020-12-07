@@ -15,51 +15,43 @@ namespace GUI {
             , _PressedTexture(*textures.get(textures::Id::BUTTON_PRESSED))
             , _Sprite()
             , _Text("", *fonts.get(fonts::Id::MAIN), 16)
-            , _IsToggle(false)
-    {
+            , _IsToggle(false) {
         _Sprite.setTexture(_NormalTexture);
 
         sf::FloatRect bounds = _Sprite.getLocalBounds();
         _Text.setPosition(bounds.width / 2.f, bounds.height / 2.f);
     }
 
-    void Button::setCallback(Callback callback)
-    {
+    void Button::setCallback(Callback callback) {
         _Callback = std::move(callback);
     }
 
-    void Button::setText(const std::string& text)
-    {
+    void Button::setText(const std::string& text) {
         _Text.setString(text);
         centerOrigin(_Text);
     }
 
-    void Button::setToggle(bool flag)
-    {
+    void Button::setToggle(bool flag) {
         _IsToggle = flag;
     }
 
-    bool Button::isSelectable() const
-    {
+    bool Button::isSelectable() const {
         return true;
     }
 
-    void Button::select()
-    {
+    void Button::select() {
         Component::select();
 
         _Sprite.setTexture(_SelectedTexture);
     }
 
-    void Button::deselect()
-    {
+    void Button::deselect() {
         Component::deselect();
 
         _Sprite.setTexture(_NormalTexture);
     }
 
-    void Button::activate()
-    {
+    void Button::activate() {
         Component::activate();
 
         // If we are toggle then we should show that the button is pressed and thus "toggled".
@@ -74,17 +66,16 @@ namespace GUI {
             deactivate();
     }
 
-    void Button::deactivate()
-    {
+    void Button::deactivate() {
         Component::deactivate();
 
-        if (_IsToggle)
-        {
+        if (_IsToggle) {
             // Reset texture to right one depending on if we are selected or not.
-            if (isSelected())
+            if (isSelected()) {
                 _Sprite.setTexture(_SelectedTexture);
-            else
+            } else {
                 _Sprite.setTexture(_NormalTexture);
+            }
         }
     }
 
@@ -97,4 +88,4 @@ namespace GUI {
         target.draw(_Text, states);
     }
 
-}
+}  // namespace GUI

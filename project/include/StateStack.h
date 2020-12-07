@@ -49,6 +49,7 @@ class StateStack : private sf::NonCopyable {
         Action action;
         States::ID stateID;
     };
+
  private:
     std::vector<State::Ptr> _Stack;
     std::vector<PendingChange> _PendingList;

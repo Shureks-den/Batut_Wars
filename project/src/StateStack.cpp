@@ -1,15 +1,13 @@
-#include "StateStack.h"
-#include "Foreach.h"
-
 #include <cassert>
 
+#include "StateStack.h"
+#include "Foreach.h"
 
 StateStack::StateStack(State::Context context)
         : _Stack()
         , _PendingList()
         , _Context(context)
-        , _Factories()
-{
+        , _Factories() {
 }
 
 void StateStack::update(sf::Time dt) {
@@ -18,19 +16,18 @@ void StateStack::update(sf::Time dt) {
         if (!(*itr)->update(dt))
             break;
     }
-
     applyPendingChanges();
 }
 
 void StateStack::draw() {
-    // Draw all active states from bottom to top
+    //  Draw all active states from bottom to top
     FOREACH(State::Ptr& state, _Stack) {
         state->draw();
     }
 }
 
 void StateStack::handleEvent(const sf::Event& event) {
-    // Iterate from top to bottom, stop as soon as handleEvent() returns false
+    //  Iterate from top to bottom, stop as soon as handleEvent() returns false
     for (auto itr = _Stack.rbegin(); itr != _Stack.rend(); ++itr) {
         if (!(*itr)->handleEvent(event))
             break;
@@ -39,40 +36,32 @@ void StateStack::handleEvent(const sf::Event& event) {
     applyPendingChanges();
 }
 
-void StateStack::pushState(States::ID stateID)
-{
+void StateStack::pushState(States::ID stateID) {
     _PendingList.push_back(PendingChange(Push, stateID));
 }
 
-void StateStack::popState()
-{
+void StateStack::popState() {
     _PendingList.push_back(PendingChange(Pop));
 }
 
-void StateStack::clearStates()
-{
+void StateStack::clearStates() {
     _PendingList.push_back(PendingChange(Clear));
 }
 
-bool StateStack::isEmpty() const
-{
+bool StateStack::isEmpty() const {
     return _Stack.empty();
 }
 
-State::Ptr StateStack::createState(States::ID stateID)
-{
+State::Ptr StateStack::createState(States::ID stateID) {
     auto found = _Factories.find(stateID);
     assert(found != _Factories.end());
 
     return found->second();
 }
 
-void StateStack::applyPendingChanges()
-{
-    FOREACH(PendingChange change, _PendingList)
-    {
-        switch (change.action)
-        {
+void StateStack::applyPendingChanges() {
+    FOREACH(PendingChange change, _PendingList) {
+        switch (change.action) {
             case Push:
                 _Stack.push_back(createState(change.stateID));
                 break;
@@ -92,6 +81,5 @@ void StateStack::applyPendingChanges()
 
 StateStack::PendingChange::PendingChange(Action action, States::ID stateID)
         : action(action)
-        , stateID(stateID)
-{
+        , stateID(stateID) {
 }

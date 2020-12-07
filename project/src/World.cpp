@@ -50,9 +50,7 @@ void World::update(sf::Time d_time) {
             _status[i].position.y += MAP_SIZE;
             _objects[i]->set_y(_status[i].position.y);
         }
-
     }
-
     // Рассчет коллизий
 }
 

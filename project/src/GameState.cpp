@@ -8,7 +8,6 @@ GameState::GameState(StateStack& stack, Context context)
           _render(*context.window),
           _Player(*context.player),
           _frames(0) {
-
     _statistic_font.loadFromFile("project/media/Sansation.ttf");
     _statistic_text.setFont(_statistic_font);
     _statistic_text.setPosition(5.f, 5.f);
@@ -41,7 +40,7 @@ bool GameState::update(sf::Time dt) {
     std::queue<Player::Action> &actions = _world.get_actions();
     _Player.handle_realtime_event(actions);
     return true;
-}   
+}
 
 bool GameState::handleEvent(const sf::Event& event) {
     std::queue<Player::Action> &actions = _world.get_actions();

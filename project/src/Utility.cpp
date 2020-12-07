@@ -1,12 +1,11 @@
-#include "Utility.h"
+#include <cmath>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-#include <cmath>
+#include "Utility.h"
 
 std::string toString(sf::Keyboard::Key key) {
-
     #define BOOK_KEYTOSTRING_CASE(KEY) case sf::Keyboard::KEY: return #KEY;
 
     switch (key) {

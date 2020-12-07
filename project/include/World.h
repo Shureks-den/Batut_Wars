@@ -1,5 +1,8 @@
 #pragma once
 
+#include <queue>
+#include <vector>
+
 #include "Engine.h"
 #include "Player.h"
 #include "Status.h"
