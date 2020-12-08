@@ -183,7 +183,24 @@ void MoveAble::give_acceleration(Way direction) {
     (direction == Way::CONTRA) ? (_acceleration = _orientation * (- _engine_thrust)) : (_acceleration = _orientation * _engine_thrust);
 }
 
+void MoveAble::total_acceleration(Way direction, std::vector<MassiveObject> Objects) {
+    Vector tmp; 
+    this->give_acceleration(direction);
+    for (long unsigned int i = 0; i < Objects.size(); ++i) {
+        tmp = Vector(this->get_x() - Objects[i].get_x(), this->get_y() - Objects[i].get_y());
+        float radius = tmp.get_abs();
+        if (radius < Objects[i].get_range()) {
+            this->give_acceleration(Objects[i].gravitate(this->get_position()));
+        }
+    }
+}
+
 MassiveObject::MassiveObject(int mass, float range) : _mass(mass), _range(range) {}
+
+float MassiveObject::get_range() {
+    return _range;
+}
+
 
 Vector MassiveObject::gravitate(sf::Vector2f position){
 

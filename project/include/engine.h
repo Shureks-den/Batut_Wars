@@ -85,6 +85,12 @@ class Entity {
     static size_t _count;  // хз что это. TODO(anybody): прописать
 };
 
+class ImmoveAble : public Entity
+{
+    
+};
+class MassiveObject;
+
 class MoveAble : public Entity {
  public:
     MoveAble(float thrust);
@@ -92,23 +98,20 @@ class MoveAble : public Entity {
     virtual void update(sf::Time dt) = 0;
     void give_acceleration(Vector acceleration);  // Пока не используется
     void give_acceleration(Way direction);  // Просчет ускорения. Не рассчитано на взаимодействия с МассивнымиОбъектами
+    void total_acceleration(Way direction, std::vector<MassiveObject> Objects);
 
- protected:
+protected:
     Vector _speed;  // Вектор скорости движения
     Vector _acceleration;  // Вектор суммарного ускорения
     const float _engine_thrust;  // Модуль ускорения, предаваемого двигателем
     float _speed_limit;  // Предел модуля скорости
 };
 
-class ImmoveAble : public Entity
-{
-    
-};
-
 class MassiveObject : public ImmoveAble
 {
  public:
     MassiveObject(int M, float range);
+    float get_range();
     engine::Vector gravitate(sf::Vector2f position);
 
  protected:

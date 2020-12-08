@@ -65,17 +65,17 @@ void World::do_action(size_t id, Action action, sf::Time d_time) {  // TODO(ANDY
     assert(ship != nullptr);
     switch (action) {
     case Action::MOVE_FORWARD:
-        ship->give_acceleration(Way::ALONG);  // TODO(ANDY) довести до ума
+        ship->total_acceleration(Way::ALONG, {});  // TODO(ANDY) довести до ума
         break;
     case Action::MOVE_BACKWARD:
-        ship->give_acceleration(Way::CONTRA);  // TODO(ANDY) довести до ума
+        ship->total_acceleration(Way::CONTRA, {});  // TODO(ANDY) довести до ума
         break;
     case Action::MOVE_LEFT:
-        ship->rotate_orientation(engine::as_radian(- 90.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
+        ship->rotate_orientation(engine::as_radian(- 60.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
         _status[id].angle = engine::as_degree(ship->get_angle());
         break;
     case Action::MOVE_RIGHT:
-        ship->rotate_orientation(engine::as_radian(90.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
+        ship->rotate_orientation(engine::as_radian(60.0) * d_time.asSeconds());  // TODO(ANDY) довести до ума
         _status[id].angle = engine::as_degree(ship->get_angle());
         break;
 
