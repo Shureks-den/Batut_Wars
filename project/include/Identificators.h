@@ -17,7 +17,7 @@ namespace fonts {
 
 enum class Id {
     MAIN = 0,
-    INTERFACE,
+    FPS,
     COUNT
 };
 

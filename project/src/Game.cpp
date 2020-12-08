@@ -20,7 +20,7 @@ Game::Game() : _window(sf::VideoMode(640, 480), "Input", sf::Style::Close),
     _window.setKeyRepeatEnabled(false);
     _window.setVerticalSyncEnabled(true);
     registrates();
-    _state_stack.push(States::Id::MENU);
+    _state_stack.push(States::Id::TITLE);
 }
 
 

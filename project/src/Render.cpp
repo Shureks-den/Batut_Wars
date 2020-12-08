@@ -35,7 +35,12 @@ void Render::draw() {
 }
 
 void Render::update(sf::Time dt) {
-    _view.setCenter(_status[0].position);  // TODO(ANDY) вместо 0 - id данного игрока
+    for (auto &it : _status) {
+        if (it.id == _player_id) {
+            _view.setCenter(it.position);
+        }
+    }
+    // _view.setCenter(_status[_player_id].position);
     _window.setView(_view);
     for (auto &it : _animation_layers) {
         it.update(dt);
@@ -47,7 +52,13 @@ void Render::inicilize(const std::vector<Status> &status) {
     for (size_t i = 0; i < status.size(); ++i) {
         _status[i].position += _extra_size;
     }
-    _view.setCenter(_status[0].position);  // TODO(ANDY) вместо 0 - id данного игрока
+
+    for (auto &it : _status) {
+        if (it.id == _player_id) {
+            _view.setCenter(it.position);
+        }
+    }
+    // _view.setCenter(_status[_player_id].position);
     build_scene();
 }
 
@@ -100,4 +111,8 @@ void Render::add_animation(size_t lay, Status &status) {
 
 sf::View& Render::get_view() {
     return _view;
+}
+
+void Render::set_player_id(size_t id) {
+    _player_id = id;
 }

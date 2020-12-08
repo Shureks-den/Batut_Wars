@@ -20,6 +20,8 @@ namespace fonts {
 
 Holder::Holder() {
     sf::Font tmp;
+    tmp.loadFromFile("project/media/Biff.ttf");
+    _resource_map.push_back(tmp);  // TODO(ANDY) дополнять
     tmp.loadFromFile("project/media/Sansation.ttf");
     _resource_map.push_back(tmp);  // TODO(ANDY) дополнять
 }
@@ -40,7 +42,7 @@ Holder::Holder() {
     _resource_map.push_back(tmp);
     tmp.loadFromFile("project/media/ButtonSelected.png");
     _resource_map.push_back(tmp);
-    tmp.loadFromFile("project/media/MainMenu.jpg");
+    tmp.loadFromFile("project/media/Menu.jpg");
     _resource_map.push_back(tmp);
 }
 

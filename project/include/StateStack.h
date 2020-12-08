@@ -25,6 +25,7 @@ class StateStack : private sf::NonCopyable {
     ~StateStack() = default;
 
     template<typename T> void registrate(States::Id state_id);
+    void unregistrate(States::Id state_id);
 
     void update(sf::Time dt);
     void draw();

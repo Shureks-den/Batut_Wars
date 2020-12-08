@@ -8,17 +8,24 @@
 SettingsState::SettingsState(StateStack& stack, Context context)
               : State(stack, context),
                 _container() {
-    _background.setTexture(*context.textures->get(textures::Id::MENU_BACKGROUND));
+    const sf::Texture* texture = context.textures->get(textures::Id::MENU_BACKGROUND);
+    _background.setTexture(texture);
+    sf::Vector2u size = context.window->getSize();
+    sf::Vector2f menu_size;
+    menu_size.x = size.x * 1.f;
+    menu_size.y = size.y * 1.f;
+    _background.setSize(menu_size);
+    _background.setPosition(0, 0);
 
-    add_button_label(Player::MOVE_LEFT,  150.f, "Rotate Left", context);  // TODO(ANDY) позиция
+    add_button_label(Player::MOVE_LEFT, 150.f, "Rotate Left", context);  // TODO(ANDY) позиция
     add_button_label(Player::MOVE_RIGHT, 200.f, "Rotate Right", context);
-    add_button_label(Player::MOVE_FORWARD,    250.f, "Move Up", context);
-    add_button_label(Player::MOVE_BACKWARD,  300.f, "Move Down", context);
+    add_button_label(Player::MOVE_FORWARD, 250.f, "Move Up", context);
+    add_button_label(Player::MOVE_BACKWARD, 300.f, "Move Down", context);
 
     update_labels();
 
     auto backButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    backButton->setPosition(20.f, 20.f);
+    backButton->setPosition(context.window->getSize().x * 0.5f - 100.f, 100.f);
     backButton->set_text("Back");
     backButton->set_callback(std::bind(&SettingsState::requestStackPop, this));
 
@@ -69,12 +76,12 @@ void SettingsState::update_labels() {
 
 void SettingsState::add_button_label(Player::Action action, float y, const std::string& text, Context context) {
     _binding_buttons[action] = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    _binding_buttons[action]->setPosition(40, y);  // TODO(ANDY) позиция
+    _binding_buttons[action]->setPosition(context.window->getSize().x * 0.5f - 100.f, y);  // TODO(ANDY) позиция
     _binding_buttons[action]->set_text(text);
     _binding_buttons[action]->set_toggle(true);
 
     _binding_labels[action] = std::make_shared<GUI::Label>("", *context.fonts);
-    _binding_labels[action]->setPosition(40.f + 150.f, y + 15.f);  // TODO(ANDY) позиция
+    _binding_labels[action]->setPosition(context.window->getSize().x * 0.5f + 50.f, y + 15.f);  // TODO(ANDY) позиция
 
     _container.pack(_binding_buttons[action]);
     _container.pack(_binding_labels[action]);

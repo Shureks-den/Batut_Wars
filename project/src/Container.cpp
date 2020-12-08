@@ -25,8 +25,8 @@ void Container::handle_event(const sf::Event& event) {
     if (has_selection() && _children[_selected_child]->is_active()) {
          _children[_selected_child]->handle_event(event);
          return;
-    } 
-    
+    }
+
     if (event.type != sf::Event::KeyReleased) {
         return;
     }
@@ -35,7 +35,7 @@ void Container::handle_event(const sf::Event& event) {
         select_previous();
         return;
     }
-    
+
     if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down) {
         select_next();
         return;
@@ -64,7 +64,7 @@ void Container::select(size_t index) {
     if (!_children[index]->is_selectable()) {
         return;
     }
-    
+
     if (has_selection()) {
         _children[_selected_child]->deselect();
     }

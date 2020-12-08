@@ -1,4 +1,4 @@
-LIBS = -lsfml-graphics -lsfml-window -lsfml-system
+LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network
 
 TARGET = main.out
 
@@ -27,7 +27,12 @@ SRCS = \
        project/src/GameState.cpp \
        project/src/Container.cpp \
        project/src/Component.cpp \
-       project/src/Button.cpp
+       project/src/Button.cpp \
+       project/src/Server.cpp \
+       project/src/Client.cpp \
+       project/src/GameStateBase.cpp \
+       project/src/OnlineState.cpp \
+       project/src/Network.cpp
 
 
 .PHONY: all clean

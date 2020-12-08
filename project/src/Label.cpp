@@ -23,7 +23,7 @@ void Label::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 void Label::set_text(const std::string& text) {
-   _text.setString(text);
+    _text.setString(text);
 }
 
 }  // namespace GUI

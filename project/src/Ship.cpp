@@ -12,7 +12,7 @@ void Ship::update(sf::Time dt) {
     _position += tmp.get_sf();
 }
 
-animation::Id Ship::get_animation_id() {
+animation::Id Ship::get_animation_id() const {
     return animation::Id::SHIP;
 }
 

@@ -46,7 +46,7 @@ void Vector::rotate(float angle) {
     _y = _x * sin(angle) + _y * cos(angle);
 }
 
-Vector Vector::get_normal() {
+Vector Vector::get_normal() const {
     float _abs = get_abs();
     Vector normal_vector(0, 0);
     if (_abs != 0) {
@@ -112,7 +112,7 @@ Vector& Vector::operator=(const Vector &other) {
     return *this;
 }
 
-sf::Vector2f Vector::get_sf() {
+sf::Vector2f Vector::get_sf() const {
     return sf::Vector2f(_x, _y);
 }
 
@@ -122,7 +122,7 @@ Entity::Entity() {
     _id = _count++;
 }
 
-size_t Entity::get_id() {
+size_t Entity::get_id() const {
     return _id;
 }
 
@@ -142,7 +142,7 @@ void Entity::set_y(float y) {
     _position.y = y;
 }
 
-sf::Vector2f Entity::get_position() {
+sf::Vector2f Entity::get_position() const {
     return _position;
 }
 
@@ -150,7 +150,7 @@ void Entity::set_position(sf::Vector2f position) {
     _position = position;
 }
 
-std::vector<bool> Entity::get_state() {
+std::vector<bool> Entity::get_state() const {
     return _state;
 }
 

@@ -17,6 +17,7 @@ class Render: private sf::NonCopyable {
     void draw();
     void inicilize(const std::vector<Status> &status);
     sf::View& get_view();
+    void set_player_id(size_t id);
 
  private:
     void build_scene();
@@ -28,6 +29,7 @@ class Render: private sf::NonCopyable {
     std::vector<animation::Layer> _animation_layers;
     std::vector<Status> _status;
     animation::Holder _holder;
+    size_t _player_id;
 
     sf::Vector2f _extra_size;
 };

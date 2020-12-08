@@ -11,9 +11,14 @@ TitleState::TitleState(StateStack& stack, Context context)
             _text(),
             _ShowText(true),
             _textEffectTime(sf::Time::Zero) {
-    _background.setTexture(*context.textures->get(textures::Id::MENU_BACKGROUND));
-
-    _text.setFont(*context.fonts->get(fonts::Id::MAIN));
+    const sf::Texture* texture = context.textures->get(textures::Id::MENU_BACKGROUND);
+    _background.setTexture(texture);
+    sf::Vector2u size = context.window->getSize();
+    sf::Vector2f menu_size;
+    menu_size.x = size.x * 1.f;
+    menu_size.y = size.y * 1.f;
+    _background.setSize(menu_size);
+    _background.setPosition(0, 0);
     _text.setString("Loading...");
     centerOrigin(_text);
     _text.setPosition(context.window->getView().getSize() / 2.f);

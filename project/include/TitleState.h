@@ -15,7 +15,8 @@ class TitleState : public State {
     bool handle_event(const sf::Event& event) override;
 
  private:
-    sf::Sprite _background;
+    sf::RectangleShape _background;
+    sf::IntRect _uv_rect;
     sf::Text _text;
     bool _ShowText;
     sf::Time _textEffectTime;

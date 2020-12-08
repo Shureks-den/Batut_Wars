@@ -9,13 +9,18 @@
 
 MenuState::MenuState(StateStack& stack, Context context)
           : State(stack, context),
-           _container() {
+            _container() {
     const sf::Texture* texture = context.textures->get(textures::Id::MENU_BACKGROUND);
-    _background.setTexture(*texture);
+    _background.setTexture(texture);
+    sf::Vector2u size = context.window->getSize();
+    sf::Vector2f menu_size;
+    menu_size.x = size.x * 1.f;
+    menu_size.y = size.y * 1.f;
+    _background.setSize(menu_size);
+    _background.setPosition(0, 0);
 
     auto play_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    sf::Vector2u size = context.window->getSize();
-    play_button->setPosition(size.x / 2, size.y / 2);  // TODO(ANDY) размеры
+    play_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 40);  // TODO(ANDY) размеры
     play_button->set_text("Play");
     play_button->set_callback([this] () {
         requestStackPop();
@@ -23,14 +28,14 @@ MenuState::MenuState(StateStack& stack, Context context)
     });
 
     auto settings_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    settings_button->setPosition(size.x / 2, size.y / 2 + 40);
+    settings_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f);
     settings_button->set_text("Settings");
     settings_button->set_callback([this] () {
         requestStackPush(States::SETTINGS);
     });
 
     auto exit_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    exit_button->setPosition(size.x / 2, size.y / 2 + 80);
+    exit_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f + 40);
     exit_button->set_text("Exit");
     exit_button->set_callback([this] () {
         requestStackPop();

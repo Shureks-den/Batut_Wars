@@ -1,7 +1,7 @@
 #pragma once
 
-#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 #include "State.h"
 #include "Container.h"
@@ -15,6 +15,7 @@ class MenuState : public State {
     bool handle_event(const sf::Event& event) override;
 
  private:
-    sf::Sprite _background;
+    sf::RectangleShape _background;
+    sf::IntRect _uv_rect;
     GUI::Container _container;
 };

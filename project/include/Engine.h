@@ -32,7 +32,7 @@ class Vector {
     void set_y(float y);
     float get_abs() const;
     void rotate(float angle);
-    Vector get_normal();
+    Vector get_normal() const;
     Vector operator+(const Vector &other) const;
     Vector operator-(const Vector &other) const;
     Vector operator*(float coef) const;
@@ -42,7 +42,7 @@ class Vector {
     Vector operator*=(float coef);
     Vector operator/=(float coef);
     Vector& operator=(const Vector &other);
-    sf::Vector2f get_sf();
+    sf::Vector2f get_sf() const;
 
  private:
     float _x;
@@ -58,13 +58,13 @@ class Entity {
     void set_x(float x);
     void set_y(float y);
 
-    sf::Vector2f get_position();
+    sf::Vector2f get_position() const;
     void set_position(sf::Vector2f position);
 
-    size_t get_id();
-    std::vector<bool> get_state();
+    size_t get_id() const;
+    std::vector<bool> get_state() const;
 
-    virtual animation::Id get_animation_id() = 0;
+    virtual animation::Id get_animation_id() const = 0;
     virtual void update(sf::Time dt) = 0;
 
  protected:
