@@ -26,7 +26,6 @@ MenuState::MenuState(StateStack& stack, Context context)
         requestStackPop();
         requestStackPush(States::GAME);
     });
-
     auto settings_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     settings_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f);
     settings_button->set_text("Settings");
@@ -39,6 +38,12 @@ MenuState::MenuState(StateStack& stack, Context context)
     exit_button->set_text("Exit");
     exit_button->set_callback([this] () {
         requestStackPop();
+    });
+
+    auto textbox = std::make_shared<GUI::
+    textbox->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f + 100);
+     settings_button->set_callback([this] () {
+        requestStackPush(States::GAME);
     });
 
     _container.pack(play_button);
