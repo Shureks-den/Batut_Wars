@@ -64,17 +64,6 @@ void StateStack::apply_pending_changes() {
     for (auto &it : _pending_list) {
         switch (it.action) {
             case PUSH:
-                // if (it.state_id == States::Id::GAME) {
-                //     if (_stack[States::Id::GAME]) {
-                //         std::cout << "PUP GAME 1" << std::endl;
-                //         unregistrate(States::Id::GAME);  // TODO(ANDY) убрать костыль
-                //         std::cout << "PUP GAME 2" << std::endl;
-                //     }
-                //     std::cout << "PUSH GAME 1" << std::endl;
-                //     registrate<GameState>(States::Id::GAME);
-                //     // _stack[it.state_id] = State::Ptr(new GameState(*this, _context));
-                //     std::cout << "PUSH GAME 2" << std::endl;
-                // }
                 _stack.push_back(create_state(it.state_id));
                 break;
 

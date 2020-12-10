@@ -10,15 +10,16 @@ namespace network {
 
 class Client {
  public:
-    Client() = default;
+    Client();
     explicit Client(std::pair<sf::IpAddress, uint16_t> const &adress);
     ~Client() = default;
 
     size_t get_id() const;
     void send_actions();
     std::queue<Player::Action>& get_actions();
-    std::vector<Status> get_status();
+    std::vector<std::vector<Status>> get_status();
     void set_adress(std::pair<sf::IpAddress, uint16_t> const &adress);
+    bool is_connected() const;
 
  private:
     sf::TcpSocket _server;
@@ -28,6 +29,7 @@ class Client {
 
     size_t _id;
     std::queue<Player::Action> _actions;
+    bool _is_connected;
 };
 
 }  // namespace network
