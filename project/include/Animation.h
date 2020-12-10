@@ -31,9 +31,7 @@ class Animation {
 
 class Manager {
  public:
-    Manager(Animation animation, sf::Vector2f position);
-    Manager(const sf::Texture *texture, sf::Vector2f position, float angle);  // Переписать на status
-    Manager(Id id, sf::Vector2f position, float angle);
+    Manager(const sf::Texture *texture, sf::Vector2f position = sf::Vector2f(0, 0), float angle = 0);  // Переписать на status
     ~Manager() = default;
 
     void update(sf::Time d_time);
@@ -41,19 +39,24 @@ class Manager {
     void set_states(const std::vector<bool> &states);
     void set_position(const sf::Vector2f &position);
     void set_angle(const float angle);
-    sf::Vector2f get_size();
-
- protected:
-    sf::RectangleShape _body;
-    Animation _animation;
-    size_t _current;
-
-    static Holder _holder;
-
-    float _angle;
+    void set_start_angle(float start_angle);
+    sf::Vector2f get_size() const;
+    void set_size(sf::Vector2f size);
+    void set_origin(sf::Vector2f center);
 
     void set_switch_time(sf::Time switch_time);
     void set_image_count(sf::Vector2u image_count);
+
+    sf::RectangleShape _body;
+
+ protected:
+    Animation _animation;
+    size_t _current;
+
+    float _angle;
+    float _start_angle;  // Угол между анимацией и OX
 };
+
+
 
 }  // namespace animation

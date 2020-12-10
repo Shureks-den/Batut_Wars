@@ -12,8 +12,8 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     _background.setTexture(texture);
     sf::Vector2u size = context.window->getSize();
     sf::Vector2f menu_size;
-    menu_size.x = size.x * 1.f;
-    menu_size.y = size.y * 1.f;
+    menu_size.x = static_cast<float>(size.x);
+    menu_size.y = static_cast<float>(size.y);
     _background.setSize(menu_size);
     _background.setPosition(0, 0);
 

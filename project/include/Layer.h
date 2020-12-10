@@ -11,6 +11,7 @@ namespace animation {
 enum class LayerNom {
     BACKGROUND = 0,
     OBJECTS,
+    PLANETS,
     EFFECTS,
     COUNT
 };

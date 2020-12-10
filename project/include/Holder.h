@@ -9,6 +9,7 @@
 #include <SFML/Graphics/Font.hpp>
 
 #include "Identificators.h"
+#include "Animation.h"
 
 namespace animation {
 
@@ -16,11 +17,13 @@ class Holder {
  public:
     Holder();
     ~Holder() = default;
-    const sf::Texture* get_texture(Id id) const;
+    const sf::Texture* get(Id id) const;
 
  private:
     std::vector<sf::Texture> _resource_map;
 };
+
+
 
 }  // namespace animation
 

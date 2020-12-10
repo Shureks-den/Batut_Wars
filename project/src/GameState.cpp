@@ -1,18 +1,37 @@
 #include "GameState.h"
 
 #include "Ship.h"
+#include "Massive.h"
 
 #include <memory>
 
 GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, context),
                                                            _world() {
-    auto main_ship = std::unique_ptr<engine::Entity>(new space::Ship);  // TODO(ANDY) инициализация карты
+    _world.set_player_count(1);
+    // ИГРОК
+    auto main_ship = std::unique_ptr<engine::MoveAble>(new space::Ship);  // TODO(ANDY) инициализация карты
     main_ship->set_position(sf::Vector2f(1000, 1000));
+    main_ship->set_id(0);
     _render.set_player_id(main_ship->get_id());
-    _world.push_back(std::move(main_ship));
-    // space::Ship *other_ship = new space::Ship;  // тупой бот
-    // other_ship->set_position(sf::Vector2f(1100, 1000));
-    // _world.push_back(*other_ship);
+    _world.push_player(std::move(main_ship));
+
+    // ЧЕРНАЯ ДЫРОЧКА
+    auto blackhole = std::unique_ptr<engine::ImmoveAble>(new space::Massive(100, 125.0f));
+    blackhole->set_position(sf::Vector2f(600, 700));
+    blackhole->set_id(0);
+    _world.push_back(std::move(blackhole));
+    auto blackhole_2 = std::unique_ptr<engine::ImmoveAble>(new space::Massive(100, 125.0f));
+    blackhole_2->set_position(sf::Vector2f(1300, 1300));
+    blackhole_2->set_id(1);
+    _world.push_back(std::move(blackhole_2));
+
+    // ТУПОЙ БОТ
+    auto bot = std::unique_ptr<engine::MoveAble>(new space::Ship);
+    bot->set_position(sf::Vector2f(1200, 1000));
+    bot->give_acceleration(Direction::FORWARD);
+    bot->set_id(0);
+    _world.push_back(std::move(bot));
+
     _render.inicilize(_world.get_status());
 }
 

@@ -6,10 +6,17 @@
 
 namespace engine {
 
-float to_radian(float degrees) {
-    constexpr static float coef = M_PI / 180;
+float as_radian(float degrees) {
+    constexpr static float coef = PI / 180;
     return degrees * coef;
 }
+
+float as_degree(float radian){
+    constexpr static float coef = 180 / PI;
+    return radian * coef;
+}
+
+
 
 Vector::Vector(float x, float y) {
     _x = x;
@@ -116,10 +123,10 @@ sf::Vector2f Vector::get_sf() const {
     return sf::Vector2f(_x, _y);
 }
 
-size_t Entity::_count = 0;  // static - член класса Entity
+Entity::Entity() : _orientation(1.0f, 0.0f) {}  // TODO(Tony) сделать сеттер ориентации
 
-Entity::Entity() {
-    _id = _count++;
+void Entity::set_id(size_t id) {
+    _id = id;
 }
 
 size_t Entity::get_id() const {
@@ -142,6 +149,14 @@ void Entity::set_y(float y) {
     _position.y = y;
 }
 
+float Entity::get_angle() const {  // [-pi, pi]
+    float angle = acos(_orientation.get_x() / _orientation.get_abs());
+    if (_orientation.get_y() < 0) {
+        angle *= -1;
+    }
+    return angle;
+}
+
 sf::Vector2f Entity::get_position() const {
     return _position;
 }
@@ -154,37 +169,25 @@ std::vector<bool> Entity::get_state() const {
     return _state;
 }
 
-MoveAble::MoveAble() : _speed(0.0f, - 1.0f), _acceleration(0.0f, - 1.0f) {}
-
-void MoveAble::rotate(float angle) {
-    float x = _speed.get_x() * cos(angle) - _speed.get_y() * sin(angle);
-    float y = _speed.get_x() * sin(angle) + _speed.get_y() * cos(angle);
-    _speed.set_x(x);
-    _speed.set_y(y);
-    x = _acceleration.get_x() * cos(angle) - _acceleration.get_y() * sin(angle);
-    y = _acceleration.get_x() * sin(angle) + _acceleration.get_y() * cos(angle);
-    _acceleration.set_x(x);
-    _acceleration.set_y(y);
+void Entity::rotate_orientation(float angle) {
+    _orientation.rotate(angle);
 }
+
+MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(90) {} // TODO(Tony) сеттер для seed_limit
+
+MoveAble::MoveAble(float thrust, float speed) : _engine_thrust(thrust), _speed_limit(speed) {} 
 
 void MoveAble::give_acceleration(Vector acceleration) {
     _acceleration += acceleration;
 }
 
-void MoveAble::give_acceleration(Direction direction, float d_acceleration) {
-    Vector delta = _speed.get_normal();
-    delta *= (direction == Direction::BACKWARD) ? - d_acceleration : d_acceleration;
+void MoveAble::give_acceleration(Direction direction) {
+    _acceleration = _orientation * ((direction == Direction::FORWARD) ? _engine_thrust : - _engine_thrust);
+}
 
-    if (direction == Direction::RIGHT) {
-        delta.rotate(to_radian(M_PI / 2));
-    } else if (direction == Direction::LEFT) {
-        delta.rotate(to_radian(- M_PI / 2));
-    }
-
-    _acceleration += delta;
-    if (_acceleration.get_abs() <= ACCELERETION_LIMIT) {
-        _acceleration = _acceleration.get_normal() * ACCELERETION_LIMIT;
-    }
+void MoveAble::rotate(float angle) {
+    _speed.rotate(angle);
+    _orientation.rotate(angle);
 }
 
 }  // namespace engine

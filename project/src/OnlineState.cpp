@@ -5,7 +5,7 @@
 OnlineState::OnlineState(StateStack& stack, Context context) : GameStateBase(stack, context) {}
 
 bool OnlineState::update(sf::Time dt) {
-    _render.set_status(_client.get_status());
+//    _render.set_status(_client.get_status());
     _render.update(dt);
     update_statistic(dt);
 

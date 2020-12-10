@@ -16,6 +16,5 @@ class MenuState : public State {
 
  private:
     sf::RectangleShape _background;
-    sf::IntRect _uv_rect;
     GUI::Container _container;
 };

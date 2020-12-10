@@ -5,6 +5,7 @@ namespace animation {
 enum class Id {
       SHIP = 0,
       SPACE,
+      BLACKHOLE,
       BULLET,
       PLANET,
       EXPLOSION,

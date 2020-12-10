@@ -8,9 +8,11 @@ Holder::Holder() {
     _resource_map.push_back(tmp);  // TODO(ANDY) дополнять
     tmp.loadFromFile("project/media/space.jpg");
     _resource_map.push_back(tmp);
+    tmp.loadFromFile("project/media/planet-15.png");
+    _resource_map.push_back(tmp);
 }
 
-const sf::Texture* Holder::get_texture(Id id) const {
+const sf::Texture* Holder::get(Id id) const {
     return &_resource_map[static_cast<size_t>(id)];
 }
 
@@ -36,13 +38,13 @@ namespace textures {
 
 Holder::Holder() {
     sf::Texture tmp;
-    tmp.loadFromFile("project/media/ButtonNormal.png");
+    tmp.loadFromFile("project/media/NormalButton.png");
     _resource_map.push_back(tmp);
-    tmp.loadFromFile("project/media/ButtonPressed.png");
+    tmp.loadFromFile("project/media/PushedButton.png");
     _resource_map.push_back(tmp);
-    tmp.loadFromFile("project/media/ButtonSelected.png");
+    tmp.loadFromFile("project/media/SelectedButton.png");
     _resource_map.push_back(tmp);
-    tmp.loadFromFile("project/media/Menu.jpg");
+    tmp.loadFromFile("project/media/Menu.jpg", sf::IntRect(0, 0, 3840, 2880));
     _resource_map.push_back(tmp);
 }
 

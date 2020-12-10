@@ -20,7 +20,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     _background.setPosition(0, 0);
 
     auto play_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    play_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 40);  // TODO(ANDY) размеры
+    play_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 50);  // TODO(ANDY) размеры
     play_button->set_text("Play");
     play_button->set_callback([this] () {
         requestStackPop();
@@ -35,7 +35,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     });
 
     auto exit_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    exit_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f + 40);
+    exit_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f + 50);
     exit_button->set_text("Exit");
     exit_button->set_callback([this] () {
         requestStackPop();

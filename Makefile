@@ -32,7 +32,9 @@ SRCS = \
        project/src/Client.cpp \
        project/src/GameStateBase.cpp \
        project/src/OnlineState.cpp \
-       project/src/Network.cpp
+       project/src/Network.cpp \
+       project/src/Massive.cpp \
+	   project/src/AnimationCreator.cpp
 
 
 .PHONY: all clean
