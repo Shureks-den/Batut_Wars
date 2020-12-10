@@ -34,7 +34,8 @@ SRCS = \
        project/src/OnlineState.cpp \
        project/src/Network.cpp \
        project/src/Massive.cpp \
-	   project/src/AnimationCreator.cpp
+	   project/src/AnimationCreator.cpp \
+       project/src/Textbox.cpp
 
 
 .PHONY: all clean
