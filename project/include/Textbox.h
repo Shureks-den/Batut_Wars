@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Network/IpAddress.hpp>
 
 #include "Component.h"
 #include "Holder.h"
@@ -26,11 +27,15 @@ class Textbox : public Component {
     void set_callback(Callback callback);
     std::string get_text();
 
-    virtual bool is_selectable() const;
     virtual void select();
     virtual void deselect();
 
+    virtual void activate();
+    virtual void deactivate();
+    void handle_event(const sf::Event& event, sf::IpAddress *ip);
     virtual void handle_event(const sf::Event& event);
+
+    void setText (const sf::String & str);
 
  private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
