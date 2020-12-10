@@ -3,7 +3,6 @@
 
 #include "Game.h"
 
-
 int main() {
     try {
         Game game;

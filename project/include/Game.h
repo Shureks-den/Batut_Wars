@@ -10,9 +10,9 @@
 
 class Game : sf::NonCopyable {
  public:
-    Game();
-    ~Game() = default;
-    void run();
+  Game();
+  ~Game() = default;
+  void run();
 
  private:
     bool update(sf::Time dt);
@@ -29,5 +29,5 @@ class Game : sf::NonCopyable {
     fonts::Holder _fonts;
     StateStack _state_stack;
 
-    static const sf::Time _time_per_frame;
+  static const sf::Time _time_per_frame;
 };

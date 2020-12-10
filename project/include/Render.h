@@ -9,7 +9,7 @@
 #include "Layer.h"
 #include "AnimationCreator.h"
 
-class Render: private sf::NonCopyable {
+class Render : private sf::NonCopyable {
  public:
     explicit Render(sf::RenderWindow& window);
     void update(sf::Time dt);
