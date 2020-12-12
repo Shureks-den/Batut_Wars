@@ -1,12 +1,15 @@
 #pragma once
 
-#include "Player.h"
-#include "StateStack.h"
-#include "Holder.h"
+#include <thread>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+
+#include "Player.h"
+#include "Client.h"
+#include "StateStack.h"
+#include "Holder.h"
 
 class Game : sf::NonCopyable {
  public:
@@ -27,6 +30,11 @@ class Game : sf::NonCopyable {
 
     textures::Holder _textures;
     fonts::Holder _fonts;
+
+    std::pair<sf::IpAddress, uint16_t> _network_info;  // Как сервер
+    network::Client _client;
+    std::thread _server_thread;
+
     StateStack _state_stack;
 
   static const sf::Time _time_per_frame;

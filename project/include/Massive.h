@@ -1,9 +1,10 @@
+#pragma once
+
 #include "Engine.h"
 
 namespace space {
 
-class Massive : public engine::ImmoveAble
-{
+class Massive : public engine::ImmoveAble {
  public:
     Massive(int mass, float range);
     ~Massive() = default;

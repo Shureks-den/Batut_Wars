@@ -18,6 +18,7 @@ class Container : public Component {
 
     virtual bool is_selectable() const;
     virtual void handle_event(const sf::Event& event);
+    Component::Ptr& operator[](const size_t index);
 
  private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

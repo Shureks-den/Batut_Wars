@@ -26,7 +26,7 @@ static Status to_status(engine::Entity const &entity) {
     status.is_removed = false;  // TODO(ANDY) в зависимости от hp
     status.animation_id = entity.get_animation_id();
     switch (status.animation_id) {  // TODO(ANDY) переписать на функцию
-    case animation::Id::SHIP:  
+    case animation::Id::SHIP:
         status.lay_id = static_cast<size_t>(animation::LayerNom::OBJECTS);
         break;
     case animation::Id::BLACKHOLE:
@@ -187,7 +187,7 @@ void World::do_action(size_t id, Player::Action action, sf::Time d_time) {  // T
         ship.rotate(engine::as_radian(- 90.0) * d_time.asSeconds());
         break;
     case Player::Action::MOVE_RIGHT:
-        ship.rotate(engine::as_radian(90.0) * d_time.asSeconds()); 
+        ship.rotate(engine::as_radian(90.0) * d_time.asSeconds());
         break;
 
     default:

@@ -5,14 +5,12 @@
 #include <SFML/Network/IpAddress.hpp>
 
 #include "Button.h"
-#include "Textbox.h"
 #include "Utility.h"
 #include "Holder.h"
 
 MenuState::MenuState(StateStack& stack, Context context)
           : State(stack, context),
             _container() {
-    sf::IpAddress ip;
     const sf::Texture* texture = context.textures->get(textures::Id::MENU_BACKGROUND);
     _background.setTexture(texture);
     sf::Vector2u size = context.window->getSize();
@@ -23,12 +21,20 @@ MenuState::MenuState(StateStack& stack, Context context)
     _background.setPosition(0, 0);
 
     auto play_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    play_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 50);  // TODO(ANDY) размеры
+    play_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 100);  // TODO(ANDY) размеры
     play_button->set_text("Play");
     play_button->set_callback([this] () {
         requestStackPop();
         requestStackPush(States::GAME);
     });
+
+    auto client_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+    client_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 50);
+    client_button->set_text("Online game");
+    client_button->set_callback([this] () {
+        requestStackPush(States::ONLINE_MENU);
+    });
+
     auto settings_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     settings_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f);
     settings_button->set_text("Settings");
@@ -43,19 +49,10 @@ MenuState::MenuState(StateStack& stack, Context context)
         requestStackPop();
     });
 
-    auto textbox = std::make_shared<GUI::Textbox>(*context.fonts, *context.textures);
-    textbox->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 100);
-    sf::Event event;
-    textbox->handle_event(event, &ip);
-    textbox->set_callback([this] () {
-        requestStackPush(States::SETTINGS);
-    });
-    
-
     _container.pack(play_button);
+    _container.pack(client_button);
     _container.pack(settings_button);
     _container.pack(exit_button);
-    _container.pack(textbox);
 }
 
 void MenuState::draw() {

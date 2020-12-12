@@ -2,7 +2,6 @@
 
 #include "GameStateBase.h"
 #include "Client.h"
-#include "Container.h"
 
 class OnlineState : public GameStateBase {
  public:
@@ -14,8 +13,5 @@ class OnlineState : public GameStateBase {
     bool handle_event(const sf::Event& event) override;
 
  private:
-    network::Client _client;
-
-    sf::RectangleShape _background;
-    GUI::Container _container;
+    network::Client *_client;
 };

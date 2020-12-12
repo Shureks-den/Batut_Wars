@@ -32,7 +32,7 @@ class Animation {
 
 class Manager {
  public:
-    Manager(const sf::Texture *texture, sf::Vector2f position = sf::Vector2f(0, 0), float angle = 0);  // Переписать на status
+    explicit Manager(const sf::Texture *texture, sf::Vector2f position = sf::Vector2f(0, 0), float angle = 0);  // Переписать на status
     ~Manager() = default;
 
     void update(sf::Time d_time);

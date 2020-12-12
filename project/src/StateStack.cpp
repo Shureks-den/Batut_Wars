@@ -1,9 +1,6 @@
-#include <cassert>
-
-#include <iostream>
-
 #include "StateStack.h"
-#include "GameState.h"
+
+#include <cassert>
 
 StateStack::StateStack(State::Context context)
            : _stack(),
@@ -78,10 +75,6 @@ void StateStack::apply_pending_changes() {
     }
 
     _pending_list.clear();
-}
-
-void StateStack::unregistrate(States::Id state_id) {
-    _factories.erase(state_id);
 }
 
 StateStack::PendingChange::PendingChange(Action action, States::Id state_id)

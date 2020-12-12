@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <utility>
+#include <thread>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Time.hpp>
@@ -9,6 +11,7 @@
 #include "StateIdentifiers.h"
 #include "Holder.h"
 #include "Player.h"
+#include "Client.h"
 
 class StateStack;
 
@@ -18,11 +21,20 @@ class State {
 
     class Context {
      public:
-        Context(sf::RenderWindow &window, textures::Holder &textures, fonts::Holder &fonts, Player &player);  // тут заменить нашей загрузкой текстур
+        Context(sf::RenderWindow &window,
+                textures::Holder &textures,
+                fonts::Holder &fonts,
+                Player &player,
+                std::pair<sf::IpAddress, uint16_t> &network_info,
+                network::Client &client,
+                std::thread &thread);
         sf::RenderWindow *window;
         textures::Holder *textures;
         fonts::Holder *fonts;
         Player* player;
+        std::pair<sf::IpAddress, uint16_t> *network_info;
+        network::Client *client;
+        std::thread *server_thread;
     };
 
  public:

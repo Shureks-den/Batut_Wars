@@ -24,12 +24,12 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 
     update_labels();
 
-    auto backButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    backButton->setPosition(context.window->getSize().x * 0.5f - 100.f, 100.f);
-    backButton->set_text("Back");
-    backButton->set_callback(std::bind(&SettingsState::requestStackPop, this));
+    auto back_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+    back_button->setPosition(context.window->getSize().x * 0.5f - 100.f, 100.f);
+    back_button->set_text("Back");
+    back_button->set_callback(std::bind(&SettingsState::requestStackPop, this));
 
-    _container.pack(backButton);
+    _container.pack(back_button);
 }
 
 void SettingsState::draw() {

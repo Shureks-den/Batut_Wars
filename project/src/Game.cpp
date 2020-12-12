@@ -1,15 +1,17 @@
 #include "Game.h"
 
 #include <string>
-// #include <thread>
+#include <utility>
 
 #include "StateIdentifiers.h"
 #include "TitleState.h"
 #include "MenuState.h"
+#include "OnlineMenuState.h"
 #include "GameState.h"
 #include "SettingState.h"
 #include "GameState.h"
 #include "PauseState.h"
+#include "OnlineState.h"
 
 const sf::Time Game::_time_per_frame = sf::seconds(1.0 / 60.0);
 
@@ -17,7 +19,10 @@ Game::Game() : _window(sf::VideoMode(640, 480), "Input", sf::Style::Close),
                _player(),
                _textures(),
                _fonts(),
-               _state_stack(State::Context(_window, _textures, _fonts, _player)) {
+               _network_info(),
+               _client(),
+               _server_thread(),
+               _state_stack(State::Context(_window, _textures, _fonts, _player, _network_info, _client, _server_thread)) {
     _window.setKeyRepeatEnabled(false);
     _window.setVerticalSyncEnabled(true);
     registrates();
@@ -75,7 +80,9 @@ void Game::get_input() {
 void Game::registrates() {
     _state_stack.registrate<TitleState>(States::TITLE);
     _state_stack.registrate<MenuState>(States::MENU);
+    _state_stack.registrate<OnlineMenuState>(States::ONLINE_MENU);
     _state_stack.registrate<GameState>(States::GAME);
+    _state_stack.registrate<OnlineState>(States::ONLINE);
     _state_stack.registrate<PauseState>(States::PAUSE);
     _state_stack.registrate<SettingsState>(States::SETTINGS);
 }

@@ -2,8 +2,21 @@
 #include "StateStack.h"
 
 
-State::Context::Context(sf::RenderWindow& window, textures::Holder& textures, fonts::Holder& fonts, Player& player)
-      : window(&window), textures(&textures), fonts(&fonts), player(&player) {
+State::Context::Context(sf::RenderWindow &window,
+                        textures::Holder &textures,
+                        fonts::Holder &fonts,
+                        Player &player, 
+                        std::pair<sf::IpAddress, uint16_t> &network_info,
+                        network::Client &client,
+                        std::thread &server_thread)
+
+                      : window(&window),
+                        textures(&textures),
+                        fonts(&fonts),
+                        player(&player),
+                        network_info(&network_info),
+                        client(&client),
+                        server_thread(&server_thread) {
 }
 
 State::State(StateStack& stack, Context context)

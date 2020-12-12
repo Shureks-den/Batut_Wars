@@ -7,7 +7,7 @@ namespace network {
 Client::Client() : _is_connected(false) {}
 
 Client::Client(std::pair<sf::IpAddress, uint16_t> const &adress) {
-    set_adress(adress);
+    connect(adress);
 }
 
 size_t Client::get_id() const {
@@ -24,7 +24,7 @@ std::queue<Player::Action>& Client::get_actions() {
     return _actions;
 }
 
-void Client::set_adress(std::pair<sf::IpAddress, uint16_t> const &adress) {
+void Client::connect(std::pair<sf::IpAddress, uint16_t> const &adress) {
     _server.connect(adress.first, adress.second);
     _server.setBlocking(true);
     sf::Packet input_packet;
@@ -33,6 +33,12 @@ void Client::set_adress(std::pair<sf::IpAddress, uint16_t> const &adress) {
     input_packet >> tmp;
     _id = static_cast<size_t>(tmp);
     _server.setBlocking(false);
+    _is_connected = true;
+}
+
+void Client::disconnect() {
+    _server.disconnect();
+    _server.setBlocking(true);  // TODO(ANDY) надо или нет?
     _is_connected = true;
 }
 

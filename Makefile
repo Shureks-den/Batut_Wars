@@ -1,4 +1,4 @@
-LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network
+LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -pthread
 
 TARGET = main.out
 
@@ -28,15 +28,15 @@ SRCS = \
        project/src/Container.cpp \
        project/src/Component.cpp \
        project/src/Button.cpp \
-       project/src/Server.cpp \
        project/src/Client.cpp \
-       project/src/GameStateBase.cpp \
+       project/src/Server.cpp \
        project/src/OnlineState.cpp \
+       project/src/GameStateBase.cpp \
        project/src/Network.cpp \
        project/src/Massive.cpp \
-	   project/src/AnimationCreator.cpp \
-       project/src/Textbox.cpp
-
+       project/src/AnimationCreator.cpp \
+       project/src/Textbox.cpp \
+       project/src/OnlineMenuState.cpp
 
 .PHONY: all clean
 

@@ -2,7 +2,6 @@
 
 #include <SFML/Network.hpp>
 
-#include "GameState.h"
 #include "Player.h"
 #include "Status.h"
 
@@ -18,7 +17,8 @@ class Client {
     void send_actions();
     std::queue<Player::Action>& get_actions();
     std::vector<std::vector<Status>> get_status();
-    void set_adress(std::pair<sf::IpAddress, uint16_t> const &adress);
+    void connect(std::pair<sf::IpAddress, uint16_t> const &adress);
+    void disconnect();
     bool is_connected() const;
 
  private:

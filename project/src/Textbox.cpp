@@ -14,8 +14,7 @@ Textbox::Textbox(const fonts::Holder& fonts, const textures::Holder& textures)
               _normal(textures.get(textures::Id::BUTTON_NORMAL)),
               _selected(textures.get(textures::Id::BUTTON_SELECTED)),
               _is_toggle(false),
-              _text("", *fonts.get(fonts::Id::MAIN), 16)
-               {
+              _text("", *fonts.get(fonts::Id::MAIN), 16) {
     _background.setTexture(_normal);
     _background.setSize(sf::Vector2f(200, 50));
     _text.setPosition(100, 25);
@@ -68,11 +67,11 @@ void Textbox::handle_event(const sf::Event& event, sf::IpAddress *ip) {
     if (event.type == sf::Event::TextEntered) {
             //Обработка ввода
         _textChanged = true ;
-        switch ( event.text.unicode ) {
-            case 0xD: //Return
-                _newText += L'\n' ;
+        switch (event.text.unicode) {
+            case 0xD:  // Return
+                _newText += L'\n';
                 break ;
-            case 0x8://Backspace
+            case 0x8:  // Backspace
                 if ( !_newText.isEmpty() )
                     _newText.erase(_newText.getSize()-1) ;
                 break ;

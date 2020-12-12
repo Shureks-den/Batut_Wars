@@ -99,4 +99,8 @@ void Container::select_previous() {
     select(prev);
 }
 
+Component::Ptr& Container::operator[](const size_t index) {
+    return _children[index];
+}
+
 }  // namespace GUI

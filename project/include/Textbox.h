@@ -35,7 +35,7 @@ class Textbox : public Component {
     void handle_event(const sf::Event& event, sf::IpAddress *ip);
     virtual void handle_event(const sf::Event& event);
 
-    void setText (const sf::String & str);
+    void setText(const sf::String & str);
 
  private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -47,10 +47,11 @@ class Textbox : public Component {
     const sf::Texture* _normal;
     const sf::Texture* _selected;
     bool _is_toggle;
-  
+
     sf::Text _text;
-    mutable sf::String _newText ;
-    mutable bool _textChanged ;
-    
+    mutable sf::String _newText;
+    mutable bool _textChanged;
+
 };
+
 }  // namespace GUI

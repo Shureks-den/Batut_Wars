@@ -1,12 +1,12 @@
 #pragma once
 
 #include <vector>
+#include <cmath>
 
 #include <SFML/Graphics.hpp>
 
 #include "Status.h"
 
-#include <cmath>
 #define _USE_MATH_DEFINES
 
 constexpr double PI = M_PI;
@@ -28,7 +28,7 @@ float as_degree(float radian);
 
 class Vector {
  public:
-    Vector(float x = 0, float y = 0);
+    explicit Vector(float x = 0, float y = 0);
     Vector(const Vector &other);
     ~Vector() = default;
     float get_x() const;
@@ -98,7 +98,7 @@ class ImmoveAble : public Entity {
 class MoveAble : public Entity {
  public:
     MoveAble() = default;  // TODO(Tony) прописать конструктор по умолчанию
-    MoveAble(float thrust);
+    explicit MoveAble(float thrust);
     MoveAble(float thrust, float speed);
     virtual ~MoveAble() = default;
     void rotate(float angle);
