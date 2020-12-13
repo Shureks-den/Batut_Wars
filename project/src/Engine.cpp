@@ -112,7 +112,7 @@ sf::Vector2f Vector::get_sf() const {
     return sf::Vector2f(_x, _y);
 }
 
-Entity::Entity() : _orientation(1.0f, 0.0f) {}  // TODO(Tony) сделать сеттер ориентации
+Entity::Entity() : _orientation(1.0f, 0.0f), _is_destroyed(false) {}  // TODO(Tony) сделать сеттер ориентации
 
 void Entity::set_id(size_t id) {
     _id = id;
@@ -129,6 +129,8 @@ float Entity::get_y() const { return _position.y; }
 void Entity::set_x(float x) { _position.x = x; }
 
 void Entity::set_y(float y) { _position.y = y; }
+
+void Entity::set_is_destroyed(bool value) { _is_destroyed = value; }
 
 float Entity::get_angle() const {  // [-pi, pi]
     float angle = acos(_orientation.get_x() / _orientation.get_abs());
@@ -157,15 +159,15 @@ MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(90) {} /
 MoveAble::MoveAble(float thrust, float speed) : _engine_thrust(thrust), _speed_limit(speed) {} 
 
 void MoveAble::give_acceleration(Vector acceleration) {
-  _acceleration += acceleration;
+  _dictated_acceleration += acceleration;
 }
 
 void MoveAble::give_acceleration(Direction direction) {
-  _acceleration += _orientation * ((direction == Direction::FORWARD) ? _engine_thrust : - _engine_thrust);
+  _engine_acceleration += _orientation * ((direction == Direction::FORWARD) ? _engine_thrust : - _engine_thrust);
 }
 
 void MoveAble::rotate(float angle) {
-    _speed.rotate(angle);
+    _engine_speed.rotate(angle);
     _orientation.rotate(angle);
 }
 

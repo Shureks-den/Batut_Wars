@@ -1,5 +1,6 @@
 #include "Massive.h"
 #include "Engine.h"
+#include "Ship.h"
 #include <iostream>
 
 namespace space {
@@ -7,8 +8,12 @@ namespace space {
 Massive::Massive(int mass, float range) : _mass(mass), _range(range) {}
 
 void Massive::smash(engine::MoveAble &moveable) {
-    
-    // TODO(Tony): заглушка, реализовать
+    float critical_radius = this->_range + SHIPE_WIDTH;
+    engine::Vector tmp(moveable.get_x() - this->get_x(), moveable.get_y() - this->get_y()); 
+    float radius = tmp.get_abs();
+    if (radius <= critical_radius) {
+        moveable.set_is_destroyed(true);
+    }
 }
 
 
@@ -48,7 +53,7 @@ void Massive::update(sf::Time dt) {
 }
 
 float Massive::get_zone() {
-    return _range * (_mass * 0.1);
+    return _range * (_mass * 0.02);
 }
 
 } // namespace space

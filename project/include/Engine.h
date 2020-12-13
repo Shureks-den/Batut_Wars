@@ -62,6 +62,7 @@ class Entity {
     float get_y() const;
     void set_x(float x);
     void set_y(float y);
+    void set_is_destroyed(bool value);
     float get_angle() const;  // [рад] Угол между orientation и Ох. Увеличение угла по часовой стрелке.
     void rotate_orientation(float angle);  // Изменение направляющего вектора
 
@@ -81,6 +82,7 @@ class Entity {
     std::vector<bool> _state;
     size_t _id;
     static size_t _count;
+    bool _is_destroyed;
 };
 
 class MoveAble;
@@ -111,9 +113,10 @@ class MoveAble : public Entity {
     virtual void update(sf::Time dt) = 0;
 
  protected:
-    Vector _speed;  // Вектор скорости движения
-    Vector _acceleration;  // Вектор суммарного ускорения
-
+    Vector _engine_speed;  // Вектор скорости движения
+    Vector _engine_acceleration;  // Вектор суммарного ускорения
+    Vector _dictated_speed;
+    Vector _dictated_acceleration;
     const float _engine_thrust;  // Модуль ускорения, предаваемого двигателем
     float _speed_limit;  // Предел модуля скорости
 };
