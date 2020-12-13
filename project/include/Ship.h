@@ -15,8 +15,6 @@ class Ship : public engine::MoveAble {
     animation::Id get_animation_id() const override;
 
  protected:
-    int _HP;
-    float armor;
 };
 
 }  // end namespace space

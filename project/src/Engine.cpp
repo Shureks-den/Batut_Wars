@@ -1,6 +1,7 @@
 #include "Engine.h"
 
 #include <cmath>
+#include <iostream>
 
 #define _USE_MATH_DEFINES
 
@@ -109,17 +110,17 @@ Vector& Vector::operator=(const Vector& other) {
 }
 
 sf::Vector2f Vector::get_sf() const {
-    return sf::Vector2f(_x, _y);
+  return sf::Vector2f(_x, _y);
 }
 
 Entity::Entity() : _orientation(1.0f, 0.0f), _is_destroyed(false) {}  // TODO(Tony) сделать сеттер ориентации
 
 void Entity::set_id(size_t id) {
-    _id = id;
+  _id = id;
 }
 
 size_t Entity::get_id() const {
-    return _id;
+  return _id;
 }
 
 float Entity::get_x() const { return _position.x; }
@@ -133,28 +134,28 @@ void Entity::set_y(float y) { _position.y = y; }
 void Entity::set_is_destroyed(bool value) { _is_destroyed = value; }
 
 float Entity::get_angle() const {  // [-pi, pi]
-    float angle = acos(_orientation.get_x() / _orientation.get_abs());
-    if (_orientation.get_y() < 0) {
-        angle *= -1;
-    }
-    return angle;
+  float angle = acos(_orientation.get_x() / _orientation.get_abs());
+  if (_orientation.get_y() < 0) {
+    angle *= -1;
+  }
+  return angle;
 }
 
 sf::Vector2f Entity::get_position() const {
-    return _position;
+  return _position;
 }
 
 void Entity::set_position(sf::Vector2f position) { _position = position; }
 
 std::vector<bool> Entity::get_state() const {
-    return _state;
+  return _state;
 }
 
 void Entity::rotate_orientation(float angle) {
-    _orientation.rotate(angle);
+  _orientation.rotate(angle);
 }
 
-MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(90) {} // TODO(Tony) сеттер для seed_limit
+MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(90), _HP(100) {} // TODO(Tony) сеттер для seed_limit
 
 MoveAble::MoveAble(float thrust, float speed) : _engine_thrust(thrust), _speed_limit(speed) {} 
 
@@ -167,8 +168,19 @@ void MoveAble::give_acceleration(Direction direction) {
 }
 
 void MoveAble::rotate(float angle) {
-    _engine_speed.rotate(angle);
-    _orientation.rotate(angle);
+  _engine_speed.rotate(angle);
+  _orientation.rotate(angle);
 }
+
+void MoveAble::set_hp(int value) {
+  _HP = value;
+  std::cout << _HP;
+}
+
+
+void MoveAble::collision(engine::MoveAble &moveable) {
+  
+}
+
 
 }  // namespace engine

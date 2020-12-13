@@ -74,10 +74,11 @@ void World::update(sf::Time d_time) {
     // }
 
     for (auto &player : _players) {
-        // for (auto &moveable : _moveable) {
-        //     player->collision(*moveable);
-        //     moveable->collison(*player);
-        // }
+        
+        for (auto &moveable : _moveable) {
+            player->collision(*moveable);
+            moveable->collison(*player);
+        }
         for (auto &immoveable : _immoveable) {
             immoveable->smash(*player);
             immoveable->component_acceleration(*player);

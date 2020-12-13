@@ -2,7 +2,7 @@
 
 namespace space {
 
-Ship::Ship() : engine::MoveAble(50, 100), _HP(100) {}
+Ship::Ship() : engine::MoveAble(50, 100) {}
 
 void Ship::update(sf::Time dt) {    
     _engine_speed += _engine_acceleration * dt.asSeconds();
@@ -13,7 +13,7 @@ void Ship::update(sf::Time dt) {
     }
 
     if (_dictated_acceleration.get_abs() == 0) {
-        _dictated_speed /= 2;
+        _dictated_speed /= 1.1;
     }
     
     engine::Vector total_speed = _engine_speed + _dictated_speed;

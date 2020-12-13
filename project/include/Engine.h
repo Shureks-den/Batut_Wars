@@ -109,6 +109,10 @@ class MoveAble : public Entity {
     void give_acceleration(Vector acceleration);
     void give_acceleration(Direction direction);
 
+    void set_hp(int value);
+
+    void collision(engine::MoveAble &moveable);
+
     virtual animation::Id get_animation_id() const = 0;
     virtual void update(sf::Time dt) = 0;
 
@@ -119,6 +123,8 @@ class MoveAble : public Entity {
     Vector _dictated_acceleration;
     const float _engine_thrust;  // Модуль ускорения, предаваемого двигателем
     float _speed_limit;  // Предел модуля скорости
+    int _HP;
+    float armor;
 };
 
 }  // end namespace engine
