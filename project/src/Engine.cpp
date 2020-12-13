@@ -118,6 +118,14 @@ void Entity::set_id(size_t id) {
     _id = id;
 }
 
+sf::Vector2f Entity::get_size() const {
+  return _size;
+}
+
+void Entity::set_size(sf::Vector2f size) {
+  _size = size;
+}
+
 size_t Entity::get_id() const {
     return _id;
 }

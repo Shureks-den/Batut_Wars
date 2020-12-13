@@ -3,7 +3,10 @@ LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -pthread
 TARGET = main.out
 
 HDRS = \
-       project/include
+       project/include \
+       project/include/GUI \
+       project/include/Network \
+       project/include/GUI
 
 SRCS = \
        project/src/main.cpp \
@@ -17,26 +20,26 @@ SRCS = \
        project/src/Layer.cpp \
        project/src/Holder.cpp \
        project/src/Utility.cpp \
-       project/src/TitleState.cpp \
-       project/src/StateStack.cpp \
-       project/src/State.cpp \
-       project/src/SettingState.cpp \
-       project/src/PauseState.cpp \
-       project/src/MenuState.cpp \
-       project/src/Label.cpp \
-       project/src/GameState.cpp \
+       project/src/States/TitleState.cpp \
+       project/src/States/StateStack.cpp \
+       project/src/States/State.cpp \
+       project/src/States/SettingState.cpp \
+       project/src/States/PauseState.cpp \
+       project/src/States/MenuState.cpp \
+       project/src/GUI/Label.cpp \
+       project/src/States/GameState.cpp \
        project/src/Container.cpp \
-       project/src/Component.cpp \
-       project/src/Button.cpp \
-       project/src/Client.cpp \
-       project/src/Server.cpp \
-       project/src/OnlineState.cpp \
-       project/src/GameStateBase.cpp \
-       project/src/Network.cpp \
+       project/src/GUI/Component.cpp \
+       project/src/GUI/Button.cpp \
+       project/src/Network/Client.cpp \
+       project/src/Network/Server.cpp \
+       project/src/States/OnlineState.cpp \
+       project/src/States/GameStateBase.cpp \
+       project/src/Network/Network.cpp \
        project/src/Massive.cpp \
        project/src/AnimationCreator.cpp \
-       project/src/Textbox.cpp \
-       project/src/OnlineMenuState.cpp
+       project/src/GUI/Textbox.cpp \
+       project/src/States/OnlineMenuState.cpp
 
 .PHONY: all clean
 

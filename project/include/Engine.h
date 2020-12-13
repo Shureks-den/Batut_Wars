@@ -67,6 +67,8 @@ class Entity {
 
     sf::Vector2f get_position() const;
     void set_position(sf::Vector2f position);
+    sf::Vector2f get_size() const;
+    void set_size(sf::Vector2f size);
 
     size_t get_id() const;
     void set_id(size_t id);
@@ -76,6 +78,7 @@ class Entity {
     virtual void update(sf::Time dt) = 0;
 
  protected:
+    sf::Vector2f _size;
     sf::Vector2f _position;
     Vector _orientation;  // Направляющий вектор
     std::vector<bool> _state;

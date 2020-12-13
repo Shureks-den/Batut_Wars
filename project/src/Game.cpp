@@ -3,15 +3,15 @@
 #include <string>
 #include <utility>
 
-#include "StateIdentifiers.h"
-#include "TitleState.h"
-#include "MenuState.h"
-#include "OnlineMenuState.h"
-#include "GameState.h"
-#include "SettingState.h"
-#include "GameState.h"
-#include "PauseState.h"
-#include "OnlineState.h"
+#include "States/StateIdentifiers.h"
+#include "States/TitleState.h"
+#include "States/MenuState.h"
+#include "States/OnlineMenuState.h"
+#include "States/GameState.h"
+#include "States/SettingState.h"
+#include "States/GameState.h"
+#include "States/PauseState.h"
+#include "States/OnlineState.h"
 
 const sf::Time Game::_time_per_frame = sf::seconds(1.0 / 60.0);
 

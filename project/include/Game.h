@@ -9,7 +9,7 @@
 #include "Player.h"
 #include "Client.h"
 #include "Server.h"
-#include "StateStack.h"
+#include "States/StateStack.h"
 #include "Holder.h"
 
 class Game : sf::NonCopyable {
