@@ -161,7 +161,7 @@ void MoveAble::give_acceleration(Vector acceleration) {
 }
 
 void MoveAble::give_acceleration(Direction direction) {
-    _acceleration = _orientation * ((direction == Direction::FORWARD) ? _engine_thrust : - _engine_thrust);
+  _acceleration += _orientation * ((direction == Direction::FORWARD) ? _engine_thrust : - _engine_thrust);
 }
 
 void MoveAble::rotate(float angle) {

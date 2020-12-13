@@ -7,7 +7,10 @@ class Massive : public engine::ImmoveAble
  public:
     Massive(int mass, float range);
     ~Massive() = default;
-    void collision(engine::MoveAble &moveable) override;  // TODO(Tony)
+    void smash(engine::MoveAble &moveable) override;  // TODO(Tony)
+    void component_acceleration(engine::MoveAble &moveable);
+    float get_zone();
+   
 
     float get_range();
     engine::Vector gravitate(sf::Vector2f position);

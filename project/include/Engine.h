@@ -10,7 +10,7 @@
 #define _USE_MATH_DEFINES
 
 constexpr double PI = M_PI;
-constexpr double G = 6.67e-11;  // система СИ
+constexpr double G = 66;  // система СИ
 
 constexpr float SPEED_LIMIT = 130.0;
 constexpr float ACCELERETION_LIMIT = 10.0;
@@ -89,7 +89,9 @@ class ImmoveAble : public Entity {
  public:
     ImmoveAble() = default;
     virtual ~ImmoveAble() = default;
-    virtual void collision(MoveAble &moveable) = 0;
+    virtual void smash(MoveAble &moveable) = 0;
+    virtual void component_acceleration(engine::MoveAble &moveable) = 0;
+
 
     virtual animation::Id get_animation_id() const = 0;
     virtual void update(sf::Time dt) = 0;
@@ -104,15 +106,14 @@ class MoveAble : public Entity {
     void rotate(float angle);
     void give_acceleration(Vector acceleration);
     void give_acceleration(Direction direction);
-//    void total_acceleration(Way direction, std::vector<MassiveObject> Objects);  // TODO(Tony) убрать. Смотри комментарии
 
     virtual animation::Id get_animation_id() const = 0;
     virtual void update(sf::Time dt) = 0;
 
  protected:
     Vector _speed;  // Вектор скорости движения
-    Vector _outside_speed;  // Мгновенная скорость, приданная другими объектами
     Vector _acceleration;  // Вектор суммарного ускорения
+
     const float _engine_thrust;  // Модуль ускорения, предаваемого двигателем
     float _speed_limit;  // Предел модуля скорости
 };

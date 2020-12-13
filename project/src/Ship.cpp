@@ -4,7 +4,7 @@ namespace space {
 
 Ship::Ship() : engine::MoveAble(50, 100) {}
 
-void Ship::update(sf::Time dt) {
+void Ship::update(sf::Time dt) {    
     _speed += _acceleration * dt.asSeconds();
     if (_speed.get_abs() >= _speed_limit) {
         _speed = _speed.get_normal() * _speed_limit;;
