@@ -49,9 +49,8 @@ std::pair<sf::IpAddress, uint16_t> Server::get_adress() const {
 
 void Server::accept_clients() {
     while (true) {  // Пока хост не запустил игру
-        if (!_selector.wait()) {
-            continue;
-        }
+        _selector.wait();
+        std::cout << "INPUT PACKET" << std::endl;
 
         if (_clients.size() != 0 && _selector.isReady(*_clients[_host])) {
             if (is_started()) {
@@ -60,15 +59,10 @@ void Server::accept_clients() {
         }
 
         add_client();
-        std::cout << "PLAYER CONNECTED" << std::endl;
     }
 }
 
 void Server::get_client_actions() {
-    if (!_selector.wait()) {
-        return;
-    }
-
     sf::Packet input_packet;
     for (auto &it : _clients) {
         if (!_selector.isReady(*it)) {

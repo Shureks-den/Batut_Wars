@@ -10,6 +10,8 @@ Holder::Holder() {
     _resource_map.push_back(tmp);
     tmp.loadFromFile("project/media/planet-15.png");
     _resource_map.push_back(tmp);
+    tmp.loadFromFile("project/media/bullet.png");
+    _resource_map.push_back(tmp);
 }
 
 const sf::Texture* Holder::get(Id id) const {
