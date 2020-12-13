@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 
+
 namespace GUI {
 
 Container::Container() : _children(), _selected_child(-1) {}
@@ -21,10 +22,14 @@ bool Container::is_selectable() const {
     return false;
 }
 
-void Container::handle_event(const sf::Event& event) {
+void Container::handle_event(const sf::Event &event) {
     if (has_selection() && _children[_selected_child]->is_active()) {
-         _children[_selected_child]->handle_event(event);
-         return;
+        if ((event.key.code == sf::Keyboard::Enter || event.key.code == sf::Keyboard::Space) && event.type == sf::Event::KeyReleased) {
+            _children[_selected_child]->deactivate();
+        } else {
+            _children[_selected_child]->handle_event(event);
+        }
+        return;
     }
 
     if (event.type != sf::Event::KeyReleased) {
@@ -41,7 +46,7 @@ void Container::handle_event(const sf::Event& event) {
         return;
     }
 
-    if (event.key.code == sf::Keyboard::Return || event.key.code == sf::Keyboard::Space) {
+    if (event.key.code == sf::Keyboard::Enter || event.key.code == sf::Keyboard::Space) {
         if (has_selection()) {
             _children[_selected_child]->activate();
         }

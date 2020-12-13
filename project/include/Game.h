@@ -8,6 +8,7 @@
 
 #include "Player.h"
 #include "Client.h"
+#include "Server.h"
 #include "StateStack.h"
 #include "Holder.h"
 
@@ -33,6 +34,7 @@ class Game : sf::NonCopyable {
 
     std::pair<sf::IpAddress, uint16_t> _network_info;  // Как сервер
     network::Client _client;
+    network::Server _server;
     std::thread _server_thread;
 
     StateStack _state_stack;

@@ -42,9 +42,9 @@ class Button : public Component {
  private:
     Callback _callback;
     sf::RectangleShape _background;
-    const sf::Texture* _normal;
-    const sf::Texture* _selected;
-    const sf::Texture* _pressed;
+    const sf::Texture *_normal;
+    const sf::Texture *_selected;
+    const sf::Texture *_pressed;
     sf::Text _text;
     bool _is_toggle;
 };

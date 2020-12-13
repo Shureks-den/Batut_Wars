@@ -3,8 +3,8 @@
 #include <memory>
 
 OnlineState::OnlineState(StateStack& stack, Context context)
-            : GameStateBase(stack, context)/*,
-              _client(context.client) */{}
+            : GameStateBase(stack, context),
+              _client(context.client) {}
 
 bool OnlineState::update(sf::Time dt) {
     _render.set_status(_client->get_status());

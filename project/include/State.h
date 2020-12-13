@@ -12,6 +12,7 @@
 #include "Holder.h"
 #include "Player.h"
 #include "Client.h"
+#include "Server.h"
 
 class StateStack;
 
@@ -27,6 +28,7 @@ class State {
                 Player &player,
                 std::pair<sf::IpAddress, uint16_t> &network_info,
                 network::Client &client,
+                network::Server &server,
                 std::thread &thread);
         sf::RenderWindow *window;
         textures::Holder *textures;
@@ -34,6 +36,7 @@ class State {
         Player* player;
         std::pair<sf::IpAddress, uint16_t> *network_info;
         network::Client *client;
+        network::Server *server;
         std::thread *server_thread;
     };
 

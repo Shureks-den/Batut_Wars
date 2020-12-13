@@ -66,7 +66,7 @@ bool SettingsState::handle_event(const sf::Event& event) {
 }
 
 void SettingsState::update_labels() {
-    Player& player = *getContext().player;
+    Player &player = *getContext().player;
 
     for (size_t i = 0; i < Player::COUNT; ++i) {
         sf::Keyboard::Key key = player.get_key(static_cast<Player::Action>(i));

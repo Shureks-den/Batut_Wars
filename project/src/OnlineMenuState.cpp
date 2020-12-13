@@ -1,9 +1,11 @@
 #include "OnlineMenuState.h"
 
+#include <memory>
+#include <iostream>
+
 #include "Textbox.h"
 #include "Button.h"
-
-#include <memory>
+#include "Server.h"
 
 OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
             : State(stack, context),
@@ -17,15 +19,23 @@ OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
     _background.setSize(menu_size);
     _background.setPosition(0, 0);
 
-    auto ip_textbox = std::make_shared<GUI::Textbox>(*context.fonts, *context.textures);
+    ip_textbox = std::make_shared<GUI::Textbox>(*context.fonts, *context.textures);
     ip_textbox->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 125);
+    ip_textbox->set_toggle(true);
+    ip_textbox->set_opening("ip: ");
 
-    auto port_textbox = std::make_shared<GUI::Textbox>(*context.fonts, *context.textures);
+    port_textbox = std::make_shared<GUI::Textbox>(*context.fonts, *context.textures);
     port_textbox->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 75);
+    port_textbox->set_toggle(true);
+    port_textbox->set_opening("port: ");
 
     auto server_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     server_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 25);
     server_button->set_text("Create server");
+    server_button->set_callback([this] () {
+        start_server();
+        //requestStackPush(States::Id::CLIENT_WAITING);
+    });
     // TODO(ANDY) по нажанию - запуск сервера в отдельном потоке, вывод ip и port в текстбоксы,
     // запись ip и port в context.network_info (мб бесполезное поле - убрать)
     // запуск server в context.server_thread
@@ -35,15 +45,19 @@ OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
     auto connect_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     connect_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f + 25);
     connect_button->set_text("Connect");
+    connect_button->set_callback([this] () {
+        start_client();
+        //requestStackPush(States::Id::CLIENT_WAITING);
+    });
     // TODO(ANDY) по нажанию - считать ip и port, client->connect(ip, port)
     // Запустить стейт ожидания онлайн игры
 
     auto back_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     back_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f + 75);
     back_button->set_text("Back");
-    //back_button->set_callback(std::bind(&OnlineMenuState::requestStackPop, this));
-
-    // sf::String ip = dynamic_cast<<std::shared_ptr<GUI::Textbox>>>(_container[0])->get_text();
+    back_button->set_callback([this] () {
+        requestStackPop();
+    });
 
     _container.pack(ip_textbox);
     _container.pack(port_textbox);
@@ -65,5 +79,31 @@ void OnlineMenuState::draw() {
 
 bool OnlineMenuState::handle_event(const sf::Event& event) {
     _container.handle_event(event);
-    return true;
+    return false;
+}
+
+void OnlineMenuState::start_client() {
+    getContext().network_info->first = ip_textbox->get_text();  // TODO(ANDY) ловить исключения
+    getContext().network_info->second = static_cast<uint16_t>(std::stoi(port_textbox->get_text()));
+    if (getContext().client->connect(*getContext().network_info)) {
+        requestStackPush(States::Id::ONLINE);
+    } else {
+        std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод
+    }
+}
+
+void OnlineMenuState::start_server() {
+    *getContext().server_thread = std::thread([this]() {
+        getContext().server->run();
+    });
+    getContext().server_thread->detach();
+    *getContext().network_info = getContext().server->get_adress();
+    std::cout << "START SERVER" << std::endl;
+    std::cout << getContext().network_info->first << std::endl;
+    std::cout << getContext().network_info->second << std::endl;
+    if (getContext().client->connect(*getContext().network_info)) {
+        requestStackPush(States::Id::ONLINE);
+    } else {
+        std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод
+    }
 }

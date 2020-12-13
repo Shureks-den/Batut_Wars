@@ -8,6 +8,7 @@ State::Context::Context(sf::RenderWindow &window,
                         Player &player, 
                         std::pair<sf::IpAddress, uint16_t> &network_info,
                         network::Client &client,
+                        network::Server &server,
                         std::thread &server_thread)
 
                       : window(&window),
@@ -16,6 +17,7 @@ State::Context::Context(sf::RenderWindow &window,
                         player(&player),
                         network_info(&network_info),
                         client(&client),
+                        server(&server),
                         server_thread(&server_thread) {
 }
 

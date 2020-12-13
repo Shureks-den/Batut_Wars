@@ -24,6 +24,9 @@ class Textbox : public Component {
     Textbox(const fonts::Holder &fonts, const textures::Holder &textures);
     virtual bool is_selectable() const;
 
+    void set_toggle(bool flag);
+    void set_opening(std::string string);
+    void set_string(const std::string& string);
     void set_callback(Callback callback);
     std::string get_text();
 
@@ -32,26 +35,24 @@ class Textbox : public Component {
 
     virtual void activate();
     virtual void deactivate();
-    void handle_event(const sf::Event& event, sf::IpAddress *ip);
-    virtual void handle_event(const sf::Event& event);
 
-    void setText(const sf::String & str);
+    void handle_event(const sf::Event &event) override;
 
  private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 
  private:
     Callback _callback;
     sf::RectangleShape _background;
-    const sf::Texture* _normal;
-    const sf::Texture* _selected;
+    const sf::Texture *_normal;
+    const sf::Texture *_selected;
+    const sf::Texture *_pressed;
     bool _is_toggle;
 
     sf::Text _text;
-    mutable sf::String _newText;
-    mutable bool _textChanged;
-
+    std::string _string;
+    std::string _opening;
 };
 
 }  // namespace GUI

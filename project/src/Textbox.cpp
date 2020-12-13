@@ -5,7 +5,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "Utility.h"
-
+#include <iostream>
 
 namespace GUI {
 
@@ -13,6 +13,7 @@ Textbox::Textbox(const fonts::Holder& fonts, const textures::Holder& textures)
               : _callback(),
               _normal(textures.get(textures::Id::BUTTON_NORMAL)),
               _selected(textures.get(textures::Id::BUTTON_SELECTED)),
+              _pressed(textures.get(textures::Id::BUTTON_PRESSED)),
               _is_toggle(false),
               _text("", *fonts.get(fonts::Id::MAIN), 16) {
     _background.setTexture(_normal);
@@ -22,6 +23,22 @@ Textbox::Textbox(const fonts::Holder& fonts, const textures::Holder& textures)
 
 void Textbox::set_callback(Callback callback) {
     _callback = std::move(callback);
+}
+
+void Textbox::set_toggle(bool flag) {
+    _is_toggle = flag;
+}
+
+void Textbox::set_string(const std::string& string) {
+    _string = string;
+    _text.setString(_opening + _string);
+    centerOrigin(_text);
+}
+
+void Textbox::set_opening(std::string string) {
+    _opening = string;
+    _text.setString(_opening + _string);
+    centerOrigin(_text);
 }
 
 bool Textbox::is_selectable() const {
@@ -40,18 +57,16 @@ void Textbox::deselect() {
 
 void Textbox::activate() {
     Component::activate();
+    std::cout << "ACTIVATE" << std::endl;
 
-    if (_callback) {
-        _callback();
+    if (_is_toggle) {
+        _background.setTexture(_selected);
     }
-
-    if (!_is_toggle)
-        deactivate();
-    }
+}
 
 void Textbox::deactivate() {
     Component::deactivate();
-
+    std::cout << "DEACTIVATE" << std::endl;
     if (_is_toggle) {
         if (is_selected()) {
             _background.setTexture(_selected);
@@ -61,45 +76,36 @@ void Textbox::deactivate() {
     }
 }
 
-void Textbox::handle_event(const sf::Event&) {}
+void Textbox::handle_event(const sf::Event &event) {
+    if (event.type == sf::Event::KeyReleased && event.text.unicode == 13) {
+        deactivate();
+        return;
+    }
 
-void Textbox::handle_event(const sf::Event& event, sf::IpAddress *ip) {
-    if (event.type == sf::Event::TextEntered) {
-            //Обработка ввода
-        _textChanged = true ;
-        switch (event.text.unicode) {
-            case 0xD:  // Return
-                _newText += L'\n';
-                break ;
-            case 0x8:  // Backspace
-                if ( !_newText.isEmpty() )
-                    _newText.erase(_newText.getSize()-1) ;
-                break ;
-            default : {
-                    _newText += static_cast<wchar_t>(event.text.unicode) ;
-            }
+    if (event.type != sf::Event::TextEntered) {
+        return;
+    }
+
+    if (event.text.unicode == 8) {
+        if (_string.size() != 0) {
+            _string.pop_back();
         }
+    } else if ((event.text.unicode >= 48 && event.text.unicode <= 58) || event.text.unicode == 46) {
+        _string.push_back(static_cast<char>(event.text.unicode));
     }
-    if (event.key.code == sf::Keyboard::Enter) {
-        *ip = get_text();
-    }
+
+    _text.setString(_opening + _string);
+    centerOrigin(_text);
 }
 
-void Textbox::setText (const sf::String & str) {
-        _text.setString(str);
-    }
-
 std::string Textbox::get_text() {
-        return _newText;
-    }
+        return _string;
+}
 
-void Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-     if (_textChanged) {
-            const_cast<Textbox*>(this)->setText (_newText);
-            _textChanged = false ;
-        }
+void Textbox::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     states.transform *= getTransform();
     target.draw(_background, states);
     target.draw(_text, states);
 }
+
 }  // namespace GUI

@@ -59,9 +59,10 @@ void Button::activate() {
         _callback();
     }
 
-    if (!_is_toggle)
+    if (!_is_toggle) {
         deactivate();
     }
+}
 
 void Button::deactivate() {
     Component::deactivate();

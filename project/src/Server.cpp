@@ -1,6 +1,7 @@
 #include "Server.h"
 
 #include <utility>
+#include <iostream>
 
 #include "Network.h"
 
@@ -8,11 +9,9 @@ namespace network {
 
 Server::Server() : _time_per_update(sf::seconds(1.0 / 120.0)),
                    _ip(sf::IpAddress::getLocalAddress()),
-                   _port(sf::Socket::AnyPort),
-                   _host(0) {
-    _listener.listen(_port);
-    _selector.add(_listener);
-}
+                   //_port(sf::Socket::AnyPort),
+                   _port(2000),
+                   _host(0) {}
 
 Server::~Server() {
     for (auto &it : _clients) {
@@ -21,6 +20,9 @@ Server::~Server() {
 }
 
 void Server::run() {
+    _listener.listen(_port);
+    _selector.add(_listener);
+
     accept_clients();
 
     sf::Clock clock;
@@ -58,6 +60,7 @@ void Server::accept_clients() {
         }
 
         add_client();
+        std::cout << "PLAYER CONNECTED" << std::endl;
     }
 }
 

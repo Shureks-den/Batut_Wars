@@ -2,6 +2,7 @@
 
 #include "Container.h"
 #include "State.h"
+#include "Textbox.h"
 
 class OnlineMenuState : public State {
  public:
@@ -15,4 +16,10 @@ class OnlineMenuState : public State {
  private:
     sf::RectangleShape _background;
     GUI::Container _container;
+
+    std::shared_ptr<GUI::Textbox> ip_textbox;
+    std::shared_ptr<GUI::Textbox> port_textbox;
+
+    void start_client();
+    void start_server();
 };

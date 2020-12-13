@@ -24,8 +24,11 @@ std::queue<Player::Action>& Client::get_actions() {
     return _actions;
 }
 
-void Client::connect(std::pair<sf::IpAddress, uint16_t> const &adress) {
-    _server.connect(adress.first, adress.second);
+bool Client::connect(std::pair<sf::IpAddress, uint16_t> const &adress) {
+    sf::Socket::Status status = _server.connect(adress.first, adress.second);
+    if (status != sf::Socket::Status::Done) {
+        return false;
+    }
     _server.setBlocking(true);
     sf::Packet input_packet;
     _server.receive(input_packet);
@@ -34,6 +37,7 @@ void Client::connect(std::pair<sf::IpAddress, uint16_t> const &adress) {
     _id = static_cast<size_t>(tmp);
     _server.setBlocking(false);
     _is_connected = true;
+    return true;
 }
 
 void Client::disconnect() {

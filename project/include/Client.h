@@ -17,7 +17,7 @@ class Client {
     void send_actions();
     std::queue<Player::Action>& get_actions();
     std::vector<std::vector<Status>> get_status();
-    void connect(std::pair<sf::IpAddress, uint16_t> const &adress);
+    bool connect(std::pair<sf::IpAddress, uint16_t> const &adress);
     void disconnect();
     bool is_connected() const;
 
