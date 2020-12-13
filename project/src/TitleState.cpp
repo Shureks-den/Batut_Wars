@@ -19,7 +19,9 @@ TitleState::TitleState(StateStack& stack, Context context)
     menu_size.y = size.y * 1.f;
     _background.setSize(menu_size);
     _background.setPosition(0, 0);
-    _text.setString("Loading...");
+    const sf::Font* font = context.fonts->get(fonts::Id::MAIN);
+    _text.setFont(*font);
+    _text.setString("Press any key to continue");
     centerOrigin(_text);
     _text.setPosition(context.window->getView().getSize() / 2.f);
 }

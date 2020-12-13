@@ -83,10 +83,15 @@ bool OnlineMenuState::handle_event(const sf::Event& event) {
 }
 
 void OnlineMenuState::start_client() {
+    std::cout << "Before connect1";
     getContext().network_info->first = ip_textbox->get_text();  // TODO(ANDY) ловить исключения
+    std::cout << "Before connect2";
     getContext().network_info->second = static_cast<uint16_t>(std::stoi(port_textbox->get_text()));
+    std::cout << "Before connect3";
     if (getContext().client->connect(*getContext().network_info)) {
         requestStackPush(States::Id::ONLINE);
+        std::cout << "Connect is good";
+
     } else {
         std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод
     }
