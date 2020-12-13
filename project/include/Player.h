@@ -5,13 +5,14 @@
 
 #include <SFML/Window/Event.hpp>
 
-class Player {
+class Player { // TODO(someone) добавить в настройки еще одну менюшку
  public:
     enum Action {
         MOVE_LEFT = 0,
         MOVE_RIGHT,
         MOVE_FORWARD,
         MOVE_BACKWARD,
+        FIRE,
         COUNT
     };
 

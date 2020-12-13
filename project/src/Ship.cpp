@@ -2,7 +2,9 @@
 
 namespace space {
 
-Ship::Ship() : engine::MoveAble(50, 100) {}
+Ship::Ship() : engine::MoveAble(50, 100) {
+    this->set_size(sf::Vector2f(50.0f, 50.0f));
+}
 
 void Ship::update(sf::Time dt) {
     _speed += _acceleration * dt.asSeconds();
@@ -14,6 +16,12 @@ void Ship::update(sf::Time dt) {
     _position += tmp.get_sf();
     _acceleration.set_x(0);
     _acceleration.set_y(0);
+}
+
+std::unique_ptr<Bullet> Ship::fire() {
+    auto bullet = std::unique_ptr<Bullet>(new Bullet);
+    bullet->set_position(_position);
+    return bullet;
 }
 
 animation::Id Ship::get_animation_id() const {

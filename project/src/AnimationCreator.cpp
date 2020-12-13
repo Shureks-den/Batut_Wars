@@ -12,6 +12,8 @@ Creator::Creator() {
     _method_map.push_back(ptr);
     ptr = &Creator::make_blackhole;
     _method_map.push_back(ptr);
+    ptr = &Creator::make_bullet;
+    _method_map.push_back(ptr);
 }
 
 Manager Creator::get_animation(Id id) const {
@@ -34,6 +36,7 @@ Manager Creator::make_space() const {
     // Исходный размер: 450 450
     Manager space(_holder.get(Id::SPACE));
     space.set_image_count(sf::Vector2u(1, 1));
+    space.set_switch_time(sf::seconds(1.f));
     return space;
 }
 
@@ -44,6 +47,16 @@ Manager Creator::make_blackhole() const {
     blackhole.set_size(sf::Vector2f(250, 250));
     blackhole.set_origin(sf::Vector2f(125, 125));
     return blackhole;
+}
+
+Manager Creator::make_bullet() const {
+    // Исходный размер 640 160
+    Manager bullet(_holder.get(Id::BULLET));
+    bullet.set_image_count(sf::Vector2u(4, 1));
+    bullet.set_size(sf::Vector2f(30, 30));
+    bullet.set_origin(sf::Vector2f(15, 15));
+    bullet.set_switch_time(sf::seconds(0.1f));
+    return bullet;
 }
 
 }  // namespace animation

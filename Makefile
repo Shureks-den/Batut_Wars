@@ -39,7 +39,8 @@ SRCS = \
        project/src/Massive.cpp \
        project/src/AnimationCreator.cpp \
        project/src/GUI/Textbox.cpp \
-       project/src/States/OnlineMenuState.cpp
+       project/src/States/OnlineMenuState.cpp \
+       project/src/Bullet.cpp
 
 .PHONY: all clean
 

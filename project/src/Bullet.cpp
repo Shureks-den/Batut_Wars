@@ -1,4 +1,7 @@
 #include "Bullet.h"
+#include <iostream>
+
+namespace space {
 
 Bullet::Bullet() : engine::MoveAble(0,200) {
     _speed = _orientation * 200;
@@ -16,7 +19,7 @@ void Bullet::update(sf::Time dt) {
     _acceleration.set_y(0);
 }
 
-animation::Id Bullet::get_animation_id() {
+animation::Id Bullet::get_animation_id() const {
     return animation::Id::BULLET;
 } 
 
@@ -28,11 +31,14 @@ int Bullet::getDamage() const {
     return _dmg;
 }
 
-void Bullet::collusion(Entity &object) {
-    if (this->get_x() + this->get_size().x <= object.get_x() + object.get_size().x / 2 ||
-        this->get_x() - this->get_size().x >= object.get_x() - object.get_size().x / 2 ||
-        this->get_y() + this->get_size().y <= object.get_y() + object.get_size().y / 2 ||
-        this->get_y() - this->get_size().y >= object.get_y() - object.get_size().y / 2 ) {
-            std::cout << "BOOOOOM" << std::endl;
+void Bullet::collision(engine::MoveAble &object) {
+    sf::Vector2f size = object.get_size();
+    if (_position.x <= object.get_x() + size.x / 2 &&
+        _position.x >= object.get_x() - size.x / 2 &&
+        _position.y <= object.get_y() + size.y / 2 &&
+        _position.y >= object.get_y() - size.y / 2 ) {
+        std::cout << "BOOOOOM" << std::endl;
     }
 }
+
+}  //namespace space

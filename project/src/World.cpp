@@ -14,9 +14,9 @@ enum class StatusLay {
     PLAYER = 0,
     MOVEABLE,
     IMMOVEABLE,
+    BULLET,
     COUNT
     // MOVEABLE,
-    // BULLET,
     // COUNT
 };
 
@@ -31,6 +31,9 @@ static Status to_status(engine::Entity const &entity) {
         break;
     case animation::Id::BLACKHOLE:
         status.lay_id = static_cast<size_t>(animation::LayerNom::PLANETS);
+        break;
+    case animation::Id::BULLET:
+        status.lay_id = static_cast<size_t>(animation::LayerNom::OBJECTS);
         break;
     default:
         break;
@@ -69,9 +72,9 @@ void World::update(sf::Time d_time) {
         it->update(d_time);
     }
 
-    // for (auto &it : _bullet) {
-    //     it->update(d_time);
-    // }
+    for (auto &it : _bullet) {
+        it->update(d_time);
+    }
 
     for (auto &player : _players) {
         // for (auto &moveable : _moveable) {
@@ -81,25 +84,26 @@ void World::update(sf::Time d_time) {
         for (auto &immoveable : _immoveable) {
             immoveable->collision(*player);
         }
-        // for (auto &bullet : _bullet) {
-        //     bullet->collision(*player);
-        // }
+
+        for (auto &bullet : _bullet) {
+            bullet->collision(*player);
+        }
     }
 
     for (auto &immoveable : _immoveable) {
-        // for (auto &bullet : _bullet) {
-        //     immoveable->collision(*bullet);
-        // }
+        for (auto &bullet : _bullet) {
+            immoveable->collision(*bullet);
+        }
         for (auto &moveable : _moveable) {
             immoveable->collision(*moveable);
         }
     }
 
-    // for (auto &bullet : _bullet) {
-    //     for (auto &moveable : _moveable) {
-    //         bullet->collision(*moveable);
-    //     }
-    // }
+    for (auto &bullet : _bullet) {
+        for (auto &moveable : _moveable) {
+            bullet->collision(*moveable);
+        }
+    }
 
     for (size_t i = 0; i < _players.size(); ++i) {
         sf::Vector2f position = _players[i]->get_position();  // TODO(ANDY) обновление status (после реализации angle в Entity)
@@ -118,6 +122,25 @@ void World::update(sf::Time d_time) {
         }
 
         _status[static_cast<size_t>(StatusLay::PLAYER)][i] = to_status(*_players[i]);
+    }
+
+    for (size_t i = 0; i < _bullet.size(); ++i) {
+        sf::Vector2f position = _bullet[i]->get_position();  // TODO(ANDY) обновление status (после реализации angle в Entity)
+
+        if (position.x > MAP_SIZE) {
+            _bullet[i]->set_x(position.x - MAP_SIZE);
+        }
+        if (position.x < 0) {
+            _bullet[i]->set_x(position.x + MAP_SIZE);
+        }
+        if (position.y > MAP_SIZE) {
+            _bullet[i]->set_y(position.y - MAP_SIZE);
+        }
+        if (position.y < 0) {
+            _bullet[i]->set_y(position.y + MAP_SIZE);
+        }
+
+        _status[static_cast<size_t>(StatusLay::BULLET)][i] = to_status(*_bullet[i]);
     }
 
     for (size_t i = 0; i < _moveable.size(); ++i) {
@@ -158,11 +181,11 @@ void World::push_back(std::unique_ptr<engine::ImmoveAble> immoveable) {
     _status[static_cast<size_t>(StatusLay::IMMOVEABLE)].push_back(status);
 }
 
-// void World::push_back(std::unique_ptr<engine::Bullet> bullet) {
-//     _bullet.push_back(std::move(bullet));
-//     Status status = to_status(dynamic_cast<engine::Entity&>(*_bullet.back()));
-//     _status.push_back(status);
-// }
+void World::push_back(std::unique_ptr<space::Bullet> bullet) {
+    _bullet.push_back(std::move(bullet));
+    Status status = to_status(dynamic_cast<engine::Entity&>(*_bullet.back()));
+    _status[static_cast<size_t>(StatusLay::BULLET)].push_back(status);
+}
 
 // void World::push_back(std::unique_ptr<engine::Entity> object) {
 //     _objects.push_back(std::move(object));
@@ -189,7 +212,10 @@ void World::do_action(size_t id, Player::Action action, sf::Time d_time) {  // T
     case Player::Action::MOVE_RIGHT:
         ship.rotate(engine::as_radian(90.0) * d_time.asSeconds());
         break;
-
+    case Player::Action::FIRE:
+        _bullet.push_back(std::move(ship.fire()));
+        _bullet.back()->set_id(_player_count + _moveable.size() + _bullet.size());
+        break;
     default:
         break;
     }

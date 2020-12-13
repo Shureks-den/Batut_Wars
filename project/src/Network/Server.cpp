@@ -50,19 +50,18 @@ std::pair<sf::IpAddress, uint16_t> Server::get_adress() const {
 void Server::accept_clients() {
     while (true) {  // Пока хост не запустил игру
         if (_selector.wait()) {
-            if(_selector.isReady(_listener)) {
-                add_client();
-                std::cout << "PLAYER CONNECTED" << std::endl;
+            
+            if (_clients.size() != 0 && _selector.isReady(*_clients[_host])) {
+                if (is_started()) {
+                    return;
+                }
             }
+        add_client();
         }
     }
 }
 
 void Server::get_client_actions() {
-    if (!_selector.wait()) {
-        return;
-    }
-
     sf::Packet input_packet;
     for (auto &it : _clients) {
         if (!_selector.isReady(*it)) {

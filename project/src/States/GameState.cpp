@@ -2,6 +2,7 @@
 
 #include "Ship.h"
 #include "Massive.h"
+#include "Bullet.h"
 
 #include <memory>
 
