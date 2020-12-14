@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+
+#include <SFML/System/Time.hpp>
+
 #include "Engine.h"
 #include "Bullet.h"
 
@@ -14,7 +18,10 @@ class Ship : public engine::MoveAble {
     animation::Id get_animation_id() const override;
     std::unique_ptr<Bullet> fire();
 
- protected:
+ private:
+
+    const sf::Time _recharge;  // Перезарядка между выстрелами
+    sf::Time _countdown;  // Текущий кд
 };
 
 }  // end namespace space

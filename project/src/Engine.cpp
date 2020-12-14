@@ -1,6 +1,7 @@
 #include "Engine.h"
 
 #include <cmath>
+#include <iostream>
 
 #define _USE_MATH_DEFINES
 
@@ -17,13 +18,12 @@ float as_degree(float radian){
 }
 
 
-
 Vector::Vector(float x, float y) {
   _x = x;
   _y = y;
 }
 
-Vector::Vector(const Vector& other) {
+Vector::Vector(const Vector &other) {
   this->_x = other._x;
   this->_y = other._y;
 }
@@ -119,11 +119,11 @@ void Entity::set_id(size_t id) {
 }
 
 sf::Vector2f Entity::get_size() const {
-  return _size;
+    return _size;
 }
 
 void Entity::set_size(sf::Vector2f size) {
-  _size = size;
+    _size = size;
 }
 
 size_t Entity::get_id() const {
@@ -139,11 +139,7 @@ void Entity::set_x(float x) { _position.x = x; }
 void Entity::set_y(float y) { _position.y = y; }
 
 float Entity::get_angle() const {  // [-pi, pi]
-    float angle = acos(_orientation.get_x() / _orientation.get_abs());
-    if (_orientation.get_y() < 0) {
-        angle *= -1;
-    }
-    return angle;
+    return (_orientation.get_y() < 0) ? - acos(_orientation.get_x()) : acos(_orientation.get_x());
 }
 
 sf::Vector2f Entity::get_position() const {
@@ -173,6 +169,7 @@ void MoveAble::give_acceleration(Direction direction) {
 }
 
 void MoveAble::rotate(float angle) {
+    std::cout << "MOVEABLE ROTATE" << std::endl;
     _speed.rotate(angle);
     _orientation.rotate(angle);
 }

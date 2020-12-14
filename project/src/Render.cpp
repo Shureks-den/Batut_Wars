@@ -23,7 +23,7 @@ Render::Render(sf::RenderWindow& window)
     for (size_t i = 0; i <= x_count; ++i) {  // TODO(ANDY) размерность карты
         for (size_t j = 0; j <= y_count; ++j) {
             space.set_position(sf::Vector2f(i * width, j * height));
-            _animation_layers[0].push_back(space);
+            _animation_layers[static_cast<size_t>(animation::LayerNom::BACKGROUND)].push_back(space);
         }
     }
 }
@@ -86,6 +86,7 @@ void Render::set_status(const std::vector<std::vector<Status>> &status) {
         for (size_t j = _status[i].size(); j < status[i].size(); ++j) {
             _status[i].push_back(status[i][j]);
             _status[i][j].position += _extra_size;
+            add_animation(_status[i][j].lay_id, _status[i][j]);
         }
     }
 }

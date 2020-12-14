@@ -42,8 +42,8 @@ class World {
     std::vector<std::vector<Status>> _status;
 
     size_t _player_count;
-    // size_t _moveable_count;
-    // size_t _bullet_count;
+    size_t _moveable_count;
+    size_t _immoveable_count;
 
     void do_action(size_t id, Player::Action action, sf::Time d_time);
 };

@@ -3,6 +3,7 @@
 #include <cassert>
 #include <memory>
 #include <algorithm>
+#include <iostream>
 
 #include "Ship.h"
 #include "Layer.h"
@@ -44,7 +45,9 @@ static Status to_status(engine::Entity const &entity) {
     return status;
 }
 
-World::World() {
+World::World() : _player_count(0),
+                 _moveable_count(0),
+                 _immoveable_count(0) {
     // TODO(SHUREK) чтение карты из файла
     _status.resize(static_cast<size_t>(StatusLay::COUNT));
 }
@@ -145,7 +148,6 @@ void World::update(sf::Time d_time) {
 
     for (size_t i = 0; i < _moveable.size(); ++i) {
         _status[static_cast<size_t>(StatusLay::MOVEABLE)][i] = to_status(*_moveable[i]);
-        _status[static_cast<size_t>(StatusLay::MOVEABLE)][i].id += _player_count;
     }
 
     for (size_t i = 0; i < _immoveable.size(); ++i) {
@@ -164,27 +166,48 @@ bool World::is_over() {
 }
 
 void World::push_player(std::unique_ptr<engine::MoveAble> player) {
-    _players.push_back(std::move(player));
-    Status status = to_status(dynamic_cast<engine::Entity&>(*_players.back()));
+    if (player == nullptr) {
+        return;
+    }
+
+    player->set_id(_player_count++);
+    Status status = to_status(dynamic_cast<engine::Entity&>(*player));
     _status[static_cast<size_t>(StatusLay::PLAYER)].push_back(status);
+    _players.push_back(std::move(player));
 }
 
 void World::push_back(std::unique_ptr<engine::MoveAble> moveable) {
-    _moveable.push_back(std::move(moveable));
-    Status status = to_status(dynamic_cast<engine::Entity&>(*_moveable.back()));
+    if (moveable == nullptr) {
+        return;
+    }
+
+    moveable->set_id(_player_count + _moveable_count++);
+    Status status = to_status(dynamic_cast<engine::Entity&>(*moveable));
     _status[static_cast<size_t>(StatusLay::MOVEABLE)].push_back(status);
+    _moveable.push_back(std::move(moveable));
 }
 
 void World::push_back(std::unique_ptr<engine::ImmoveAble> immoveable) {
-    _immoveable.push_back(std::move(immoveable));
-    Status status = to_status(dynamic_cast<engine::Entity&>(*_immoveable.back()));
+    if (immoveable == nullptr) {
+        return;
+    }
+
+    immoveable->set_id(_immoveable_count++);
+    Status status = to_status(dynamic_cast<engine::Entity&>(*immoveable));
     _status[static_cast<size_t>(StatusLay::IMMOVEABLE)].push_back(status);
+    _immoveable.push_back(std::move(immoveable));
 }
 
 void World::push_back(std::unique_ptr<space::Bullet> bullet) {
-    _bullet.push_back(std::move(bullet));
-    Status status = to_status(dynamic_cast<engine::Entity&>(*_bullet.back()));
+    if (bullet == nullptr) {
+        return;
+    }
+
+    bullet->set_id(_player_count + _moveable_count++);
+    Status status = to_status(dynamic_cast<engine::Entity&>(*bullet));
     _status[static_cast<size_t>(StatusLay::BULLET)].push_back(status);
+    _bullet.push_back(std::move(bullet));
+    std::cout << "BULLET id = " << _status[static_cast<size_t>(StatusLay::BULLET)].back().id << std::endl;
 }
 
 // void World::push_back(std::unique_ptr<engine::Entity> object) {
@@ -213,8 +236,7 @@ void World::do_action(size_t id, Player::Action action, sf::Time d_time) {  // T
         ship.rotate(engine::as_radian(90.0) * d_time.asSeconds());
         break;
     case Player::Action::FIRE:
-        _bullet.push_back(std::move(ship.fire()));
-        _bullet.back()->set_id(_player_count + _moveable.size() + _bullet.size());
+        push_back(std::move(ship.fire()));
         break;
     default:
         break;
