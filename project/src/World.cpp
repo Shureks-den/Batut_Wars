@@ -3,7 +3,6 @@
 #include <cassert>
 #include <memory>
 #include <algorithm>
-#include <iostream>
 
 #include "Ship.h"
 #include "Layer.h"
@@ -207,7 +206,6 @@ void World::push_back(std::unique_ptr<space::Bullet> bullet) {
     Status status = to_status(dynamic_cast<engine::Entity&>(*bullet));
     _status[static_cast<size_t>(StatusLay::BULLET)].push_back(status);
     _bullet.push_back(std::move(bullet));
-    std::cout << "BULLET id = " << _status[static_cast<size_t>(StatusLay::BULLET)].back().id << std::endl;
 }
 
 // void World::push_back(std::unique_ptr<engine::Entity> object) {

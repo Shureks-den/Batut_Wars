@@ -55,7 +55,7 @@ Manager Creator::make_bullet() const {
     bullet.set_image_count(sf::Vector2u(4, 1));
     bullet.set_size(sf::Vector2f(30, 30));
     bullet.set_origin(sf::Vector2f(15, 15));
-    bullet.set_switch_time(sf::seconds(0.1f));
+    bullet.set_switch_time(sf::seconds(0.03f));
     return bullet;
 }
 

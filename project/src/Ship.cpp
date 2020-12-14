@@ -5,7 +5,7 @@
 namespace space {
 
 Ship::Ship() : engine::MoveAble(35, 150),
-               _recharge(sf::seconds(3)),
+               _recharge(sf::seconds(1.5f)),
                _countdown(_recharge) {
     this->set_size(sf::Vector2f(50.0f, 50.0f));
 }
@@ -24,8 +24,6 @@ void Ship::update(sf::Time dt) {
     if (_countdown > sf::Time::Zero) {
         _countdown -= (_countdown > dt) ? dt : _countdown;
     }
-
-    std::cout << "RAD: " << get_angle() << " DEG: " << engine::as_degree(get_angle()) << " OR_ABS: " << _orientation.get_abs() << std::endl;
 }
 
 std::unique_ptr<Bullet> Ship::fire() {
@@ -36,7 +34,7 @@ std::unique_ptr<Bullet> Ship::fire() {
     _countdown = _recharge;
 
     auto bullet = std::make_unique<Bullet>();
-    bullet->set_position(_position);
+    bullet->set_position(_position + _orientation.get_sf() * _size.x * 0.5f);
     bullet->rotate(get_angle());
     return bullet;
 }

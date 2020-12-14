@@ -3,7 +3,7 @@
 
 namespace space {
 
-Bullet::Bullet() : engine::MoveAble(0, 200) {
+Bullet::Bullet() : engine::MoveAble(0, 350) {
     _speed = _orientation * 200;
 }
 
@@ -37,7 +37,7 @@ void Bullet::collision(engine::MoveAble &object) {
         _position.x >= object.get_x() - size.x / 2 &&
         _position.y <= object.get_y() + size.y / 2 &&
         _position.y >= object.get_y() - size.y / 2 ) {
-        //std::cout << "BOOOOOM" << std::endl;
+        std::cout << "BOOOOOM" << std::endl;
     }
 }
 

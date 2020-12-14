@@ -10,7 +10,7 @@ Holder::Holder() {
     _resource_map.push_back(tmp);
     tmp.loadFromFile("project/media/planet-15.png");
     _resource_map.push_back(tmp);
-    tmp.loadFromFile("project/media/bullet.png");
+    tmp.loadFromFile("project/media/bullet-2.png");
     _resource_map.push_back(tmp);
 }
 

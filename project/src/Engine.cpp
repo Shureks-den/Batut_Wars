@@ -1,7 +1,6 @@
 #include "Engine.h"
 
 #include <cmath>
-#include <iostream>
 
 #define _USE_MATH_DEFINES
 
@@ -39,8 +38,10 @@ void Vector::set_y(float y) { _y = y; }
 float Vector::get_abs() const { return sqrt((_x * _x) + (_y * _y)); }
 
 void Vector::rotate(float angle) {
-  _x = _x * cos(angle) - _y * sin(angle);
-  _y = _x * sin(angle) + _y * cos(angle);
+  float x = _x;
+  float y = _y;
+  _x = x * cos(angle) - y * sin(angle);
+  _y = x * sin(angle) + y * cos(angle);
 }
 
 Vector Vector::get_normal() const {
@@ -154,6 +155,7 @@ std::vector<bool> Entity::get_state() const {
 
 void Entity::rotate_orientation(float angle) {
     _orientation.rotate(angle);
+    _orientation = _orientation.get_normal();  // Убираем накопившуюся погрешность
 }
 
 MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(90) {} // TODO(Tony) сеттер для seed_limit
@@ -161,7 +163,7 @@ MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(90) {} /
 MoveAble::MoveAble(float thrust, float speed) : _engine_thrust(thrust), _speed_limit(speed) {} 
 
 void MoveAble::give_acceleration(Vector acceleration) {
-  _acceleration += acceleration;
+    _acceleration += acceleration;
 }
 
 void MoveAble::give_acceleration(Direction direction) {
@@ -169,9 +171,9 @@ void MoveAble::give_acceleration(Direction direction) {
 }
 
 void MoveAble::rotate(float angle) {
-    std::cout << "MOVEABLE ROTATE" << std::endl;
     _speed.rotate(angle);
     _orientation.rotate(angle);
+    _orientation = _orientation.get_normal();  // Убираем накопившуюся погрешность
 }
 
 }  // namespace engine

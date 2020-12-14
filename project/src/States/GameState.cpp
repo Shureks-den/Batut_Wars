@@ -11,7 +11,7 @@ GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, 
     // ИГРОК
     auto main_ship = std::unique_ptr<engine::MoveAble>(new space::Ship);  // TODO(ANDY) инициализация карты
     main_ship->set_position(sf::Vector2f(1000, 1000));
-    // main_ship->rotate(engine::as_radian(120));
+    main_ship->rotate(engine::as_radian(- 90));
     _world.push_player(std::move(main_ship));
     _render.set_player_id(0);
 
