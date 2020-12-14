@@ -15,9 +15,7 @@ enum class StatusLay {
     MOVEABLE,
     IMMOVEABLE,
     BULLET,
-    COUNT
-    // MOVEABLE,
-    // COUNT
+    COUNT,
 };
 
 static Status to_status(engine::Entity const &entity) {

@@ -23,7 +23,7 @@ Game::Game() : _window(sf::VideoMode(640, 480), "Batut Wars", sf::Style::Close),
                _client(),
                _server(),
                _server_thread(),
-               _state_stack(State::Context(_window, _textures, _fonts, _player, _network_info, _client, _server, _server_thread)) {
+               _state_stack(State::Context(_window, _textures, _fonts, _player, _network_info, _client, _server, _server_thread, _musicplayer )) {
     _window.setKeyRepeatEnabled(false);
     _window.setVerticalSyncEnabled(true);
     registrates();

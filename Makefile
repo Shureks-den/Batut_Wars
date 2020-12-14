@@ -1,4 +1,4 @@
-LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -pthread
+LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -pthread -lsfml-audio
 
 TARGET = main.out
 
@@ -40,7 +40,8 @@ SRCS = \
        project/src/AnimationCreator.cpp \
        project/src/GUI/Textbox.cpp \
        project/src/States/OnlineMenuState.cpp \
-       project/src/Bullet.cpp
+       project/src/Bullet.cpp \
+       project/src/Music.cpp
 
 .PHONY: all clean
 

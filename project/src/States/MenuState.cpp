@@ -11,6 +11,7 @@
 MenuState::MenuState(StateStack& stack, Context context)
           : State(stack, context),
             _container() {
+    context.music -> play(Music::MenuTheme);
     const sf::Texture* texture = context.textures->get(textures::Id::MENU_BACKGROUND);
     _background.setTexture(texture);
     sf::Vector2u size = context.window->getSize();

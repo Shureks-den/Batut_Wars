@@ -18,9 +18,10 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     _background.setPosition(0, 0);
 
     add_button_label(Player::MOVE_LEFT, 150.f, "Rotate Left", context);  // TODO(ANDY) позиция
-    add_button_label(Player::MOVE_RIGHT, 200.f, "Rotate Right", context);
+    add_button_label(Player::MOVE_RIGHT, 200.f, "Rotate Right   ", context);  // TODO(SOMEONE) пофиксить шрифты
     add_button_label(Player::MOVE_FORWARD, 250.f, "Move Up", context);
     add_button_label(Player::MOVE_BACKWARD, 300.f, "Move Down", context);
+    add_button_label(Player::FIRE, 350.f, "Fire", context);
 
     update_labels();
 

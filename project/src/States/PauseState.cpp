@@ -12,6 +12,7 @@ PauseState::PauseState(StateStack& stack, Context context)
         , _background()
         , _paused_text()
         , _container() {
+    getContext().music->setPaused(true);
     const sf::Font* font = context.fonts->get(fonts::Id::MAIN);
     sf::Vector2f windowSize(context.window->getSize());
 
@@ -60,4 +61,8 @@ bool PauseState::update(sf::Time) {
 bool PauseState::handle_event(const sf::Event& event) {
     _container.handle_event(event);
     return false;
+}
+
+PauseState::~PauseState() {
+   getContext().music->setPaused(false);
 }

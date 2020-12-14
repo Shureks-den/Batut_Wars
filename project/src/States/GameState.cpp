@@ -9,6 +9,7 @@
 GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, context),
                                                            _world() {
     // ИГРОК
+    context.music->play(Music::MissionTheme);
     auto main_ship = std::unique_ptr<engine::MoveAble>(new space::Ship);  // TODO(ANDY) инициализация карты
     main_ship->set_position(sf::Vector2f(1000, 1000));
     main_ship->rotate(engine::as_radian(- 90));

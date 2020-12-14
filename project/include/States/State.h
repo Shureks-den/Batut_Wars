@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Client.h"
 #include "Server.h"
+#include "Music.h"
 
 class StateStack;
 
@@ -29,7 +30,9 @@ class State {
                 std::pair<sf::IpAddress, uint16_t> &network_info,
                 network::Client &client,
                 network::Server &server,
-                std::thread &thread);
+                std::thread &thread,
+                MusicPlayer &music);
+        
         sf::RenderWindow *window;
         textures::Holder *textures;
         fonts::Holder *fonts;
@@ -38,6 +41,7 @@ class State {
         network::Client *client;
         network::Server *server;
         std::thread *server_thread;
+        MusicPlayer *music;
     };
 
  public:
