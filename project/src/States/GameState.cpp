@@ -18,10 +18,10 @@ GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, 
     _render.set_player_id(0);
 
     // ЧЕРНАЯ ДЫРОЧКА
-    auto blackhole = std::unique_ptr<engine::ImmoveAble>(new space::Massive(10, 125.0f));
+    auto blackhole = std::unique_ptr<engine::ImmoveAble>(new space::Massive(100, 125.0f));
     blackhole->set_position(sf::Vector2f(600, 700));
     _world.push_back(std::move(blackhole));
-    auto blackhole_2 = std::unique_ptr<engine::ImmoveAble>(new space::Massive(10, 125.0f));
+    auto blackhole_2 = std::unique_ptr<engine::ImmoveAble>(new space::Massive(100, 125.0f));
     blackhole_2->set_position(sf::Vector2f(1300, 1300));
     _world.push_back(std::move(blackhole_2));
 

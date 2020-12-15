@@ -23,6 +23,7 @@ class Creator {
     Manager make_space() const;
     Manager make_blackhole() const;
     Manager make_bullet() const;
+    Manager make_portal() const;
 };
 
 }  // namespace animation

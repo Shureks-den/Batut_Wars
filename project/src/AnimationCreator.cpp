@@ -14,6 +14,8 @@ Creator::Creator() {
     _method_map.push_back(ptr);
     ptr = &Creator::make_bullet;
     _method_map.push_back(ptr);
+    ptr = &Creator::make_portal;
+    _method_map.push_back(ptr);
 }
 
 Manager Creator::get_animation(Id id) const {
@@ -56,6 +58,16 @@ Manager Creator::make_bullet() const {
     bullet.set_size(sf::Vector2f(30, 30));
     bullet.set_origin(sf::Vector2f(15, 15));
     bullet.set_switch_time(sf::seconds(0.03f));
+    return bullet;
+}
+
+Manager Creator::make_portal() const {
+    // Исходный размер 728 824
+    Manager bullet(_holder.get(Id::PORTAL));
+    bullet.set_image_count(sf::Vector2u(4, 4));
+    bullet.set_size(sf::Vector2f(182, 206));
+    bullet.set_origin(sf::Vector2f(75, 85));
+    bullet.set_switch_time(sf::seconds(0.3f));
     return bullet;
 }
 

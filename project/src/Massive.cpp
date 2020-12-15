@@ -50,7 +50,7 @@ animation::Id Massive::get_animation_id() const {
 void Massive::update(sf::Time) {}
 
 float Massive::get_zone() {
-    return _range * (_mass * 0.02);
+    return _range * (_mass * 0.03);
 }
 
 } // namespace space

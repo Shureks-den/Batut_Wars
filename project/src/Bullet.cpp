@@ -4,7 +4,7 @@
 namespace space {
 
 Bullet::Bullet() : engine::MoveAble(0, 350) {
-    _engine_speed = _orientation * 200;
+    _engine_speed = _orientation * 350;
 }
 
 void Bullet::update(sf::Time dt) {
@@ -25,6 +25,8 @@ void Bullet::update(sf::Time dt) {
     _position += tmp.get_sf();
     _dictated_acceleration.set_x(0);
     _dictated_acceleration.set_y(0);
+    _engine_acceleration.set_x(0);
+    _engine_acceleration.set_y(0);
 }
 
 animation::Id Bullet::get_animation_id() const {
