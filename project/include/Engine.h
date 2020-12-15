@@ -10,7 +10,7 @@
 #define _USE_MATH_DEFINES
 
 constexpr double PI = M_PI;
-constexpr double G = 6.67e-11;  // система СИ
+constexpr double G = 66;  // система СИ
 
 constexpr float SPEED_LIMIT = 130.0;
 constexpr float ACCELERETION_LIMIT = 10.0;
@@ -62,6 +62,7 @@ class Entity {
     float get_y() const;
     void set_x(float x);
     void set_y(float y);
+    void set_is_destroyed(bool value);
     float get_angle() const;  // [рад] Угол между orientation и Ох. Увеличение угла по часовой стрелке.
     void rotate_orientation(float angle);  // Изменение направляющего вектора
 
@@ -85,6 +86,7 @@ class Entity {
     std::vector<bool> _state;
     size_t _id;
     static size_t _count;
+    bool _is_destroyed;
 };
 
 class MoveAble;
@@ -94,6 +96,7 @@ class ImmoveAble : public Entity {
     ImmoveAble() = default;
     virtual ~ImmoveAble() = default;
     virtual void collision(MoveAble &moveable) = 0;
+    virtual void component_acceleration(MoveAble &moveable) = 0;
 
     virtual animation::Id get_animation_id() const = 0;
     virtual void update(sf::Time dt) = 0;
@@ -108,17 +111,23 @@ class MoveAble : public Entity {
     void rotate(float angle);
     void give_acceleration(Vector acceleration);
     void give_acceleration(Direction direction);
-//    void total_acceleration(Way direction, std::vector<MassiveObject> Objects);  // TODO(Tony) убрать. Смотри комментарии
+
+    void set_hp(int value);
+
+    virtual void collision(MoveAble &moveable) = 0;
 
     virtual animation::Id get_animation_id() const = 0;
     virtual void update(sf::Time dt) = 0;
 
  protected:
-    Vector _speed;  // Вектор скорости движения
-    Vector _outside_speed;  // Мгновенная скорость, приданная другими объектами
-    Vector _acceleration;  // Вектор суммарного ускорения
+    Vector _engine_speed;  // Вектор скорости движения
+    Vector _engine_acceleration;  // Вектор суммарного ускорения
+    Vector _dictated_speed;
+    Vector _dictated_acceleration;
     const float _engine_thrust;  // Модуль ускорения, предаваемого двигателем
     float _speed_limit;  // Предел модуля скорости
+    int _HP;
+    float armor;
 };
 
 }  // end namespace engine

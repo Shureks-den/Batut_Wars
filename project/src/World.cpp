@@ -77,12 +77,14 @@ void World::update(sf::Time d_time) {
     }
 
     for (auto &player : _players) {
+        
         // for (auto &moveable : _moveable) {
         //     player->collision(*moveable);
-        //     moveable->collsison(*player);
+        //     moveable->collision(*player);
         // }
         for (auto &immoveable : _immoveable) {
-            immoveable->collision(*player);
+            // immoveable->collision(*player);
+            immoveable->component_acceleration(*player);
         }
 
         for (auto &bullet : _bullet) {
@@ -93,9 +95,11 @@ void World::update(sf::Time d_time) {
     for (auto &immoveable : _immoveable) {
         for (auto &bullet : _bullet) {
             immoveable->collision(*bullet);
+            immoveable->component_acceleration(*bullet);
         }
         for (auto &moveable : _moveable) {
-            immoveable->collision(*moveable);
+            // immoveable->collision(*moveable);
+            immoveable->component_acceleration(*moveable);
         }
     }
 
@@ -250,3 +254,7 @@ std::queue<Player::Action>& World::get_actions() {
 void World::set_player_count(size_t player_count) {
     _player_count = player_count;
 }
+
+
+// R = 125
+// Ship =64*48

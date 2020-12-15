@@ -1,11 +1,30 @@
 #include "Massive.h"
+#include "Engine.h"
+#include "Ship.h"
+#include <iostream>
 
 namespace space {
 
 Massive::Massive(int mass, float range) : _mass(mass), _range(range) {}
 
-void Massive::collision(engine::MoveAble &moveable) {
-    moveable.get_angle();  // TODO(Tony) заглушка, реализовать
+void Massive::collision(engine::MoveAble &) {
+    // float critical_radius = this->_range + 12;
+    // engine::Vector tmp(moveable.get_x() - this->get_x(), moveable.get_y() - this->get_y()); 
+    // float radius = tmp.get_abs();
+    // if (radius <= critical_radius) {
+    //     moveable.set_hp(0);
+    //     moveable.set_is_destroyed(true);
+    //     exit(0);
+    // }
+}
+
+
+void Massive::component_acceleration(engine::MoveAble &moveable) {
+    engine::Vector tmp(moveable.get_x() - this->get_x(), moveable.get_y() - this->get_y()); 
+    float radius = tmp.get_abs();
+    if (radius < this->get_zone()) {
+        moveable.give_acceleration(gravitate(moveable.get_position()));
+    }
 }
 
 float Massive::get_range() {
@@ -30,4 +49,8 @@ animation::Id Massive::get_animation_id() const {
 
 void Massive::update(sf::Time) {}
 
-}  // namespace space
+float Massive::get_zone() {
+    return _range * (_mass * 0.02);
+}
+
+} // namespace space
