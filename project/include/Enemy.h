@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <queue>
 
 #include <SFML/System/Time.hpp>
 
@@ -9,8 +10,15 @@
 #include "Bullet.h"
 
 namespace space {
-
+   
 class Enemy : public engine::MoveAble {
+ public:
+    enum bot_actions {
+       NOPLAYER,
+       ROTATE,
+       FIRE,
+       COUNT
+    };
  public:
     Enemy();
     ~Enemy() = default;
@@ -19,16 +27,15 @@ class Enemy : public engine::MoveAble {
     animation::Id get_animation_id() const override;
     
     std::unique_ptr<Bullet> fire();
-    void turn_to_player(Ship *player_ship);
-    void move();
+    void turn_to_player(Ship &player_ship);
 
  private:
-    bool spot_player(Ship *player_ship);
+    bool spot_player(Ship &player_ship);
     const sf::Time _recharge;  // Перезарядка между выстрелами
     sf::Time _countdown;
     sf::Vector2f _vision; // 
     float _rotate_speed;
-    float _acc
+    std::queue<int> _action_queue;
      
 };
 

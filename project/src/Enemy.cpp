@@ -4,7 +4,7 @@
 
 namespace space {
 
-Enemy::Enemy() : engine::MoveAble(35, 150),
+Enemy::Enemy() : engine::MoveAble(35, 35),
                _recharge(sf::seconds(1.5f)),
                _countdown(_recharge),
                _vision(100,100),
@@ -13,8 +13,11 @@ Enemy::Enemy() : engine::MoveAble(35, 150),
 }
 
 void Enemy::update(sf::Time dt) {
-    if(spot_player && _speed.get_x() != 0 && _speed.get_y() != 0) {
+    if(spot_player() && _speed.get_x() != 0 && _speed.get_y() != 0) {
         _speed -= _acceleration * dt.asSeconds();
+    }
+    if(!spot_player() && _speed != _speed_limit) {
+        _speed += _acceleration * dt.asSeconds();
     }
     
     engine::Vector tmp = _speed * dt.asSeconds();
@@ -49,7 +52,6 @@ bool Enemy::spot_player(Ship *player_ship) {
     player_ship->get_position().x <= this->get_position().x + _vision.x &&
     player_ship->get_position().y >= this->get_position().y - _vision.y &&
     player_ship->get_position().y <= this->get_position().y + _vision.y) {   // если корабль игрока в квадрате видимости
-        
         return true;
     }
     return false;
@@ -63,17 +65,11 @@ void Enemy::turn_to_player(Ship *player_ship) {  // проверить рабо�
 
         float rotate_angle = acos((new_orientaion.x * this->get_orientation().x + new_orientaion.y + 
         this->get_orientation().y)/(norm_orientation * this->get_abs(this->get_orientation()))));
-        while (this->get_angle != rotate_angle) {
-            this->angle += _rotate_speed;
+        while (this->get_angle() != rotate_angle) {
+            this->get_angle() += _rotate_speed;
         }
     }
 }
 
-void Enemy::move() {
-    if(!this->spot_player() && _countdown == sf::Time::Zero) {
-        _speed = _speed_limit / 3;
-        rotate(90);
-    }
-}
 
 }  // namespace space
