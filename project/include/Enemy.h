@@ -28,7 +28,7 @@ class Enemy : public engine::MoveAble {
     sf::Time _countdown;
     sf::Vector2f _vision; // 
     float _rotate_speed;
-    float _acc
+    float _acc;
      
 };
 

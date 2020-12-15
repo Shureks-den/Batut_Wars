@@ -25,10 +25,10 @@ GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, 
     blackhole_2->set_position(sf::Vector2f(1300, 1300));
     _world.push_back(std::move(blackhole_2));
 
-    // ТУПОЙ БОТ
-    auto bot = std::unique_ptr<engine::MoveAble>(new space::Enemy);
-    bot->set_position(sf::Vector2f(1200, 1000));
-    _world.push_back(std::move(bot));
+    // // ТУПОЙ БОТ
+    // auto bot = std::unique_ptr<engine::MoveAble>(new space::Enemy);
+    // bot->set_position(sf::Vector2f(1200, 1000));
+    // _world.push_back(std::move(bot));
 
     _render.inicilize(_world.get_status());
 }
