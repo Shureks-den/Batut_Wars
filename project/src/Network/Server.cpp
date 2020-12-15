@@ -49,8 +49,7 @@ std::pair<sf::IpAddress, uint16_t> Server::get_adress() const {
 
 void Server::accept_clients() {
     while (true) {  // Пока хост не запустил игру
-        if (_selector.wait()) {
-            
+        if (_selector.wait()) {            
             if (_clients.size() != 0 && _selector.isReady(*_clients[_host])) {
                 if (is_started()) {
                     return;

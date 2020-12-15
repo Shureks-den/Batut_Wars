@@ -5,7 +5,7 @@
 
 #include <SFML/Window/Event.hpp>
 
-class Player { // TODO(someone) добавить в настройки еще одну менюшку
+class Player { 
  public:
     enum Action {
         MOVE_LEFT = 0,

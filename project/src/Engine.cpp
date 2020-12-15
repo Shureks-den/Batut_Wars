@@ -176,4 +176,8 @@ void MoveAble::rotate(float angle) {
     _orientation = _orientation.get_normal();  // Убираем накопившуюся погрешность
 }
 
+Vector Entity::get_orientation() {
+  return _orientation;
+}
+
 }  // namespace engine

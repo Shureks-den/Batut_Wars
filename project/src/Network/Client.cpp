@@ -1,6 +1,7 @@
 #include "Client.h"
 
 #include "Network.h"
+#include <iostream>
 
 namespace network {
 
@@ -25,10 +26,11 @@ std::queue<Player::Action>& Client::get_actions() {
 }
 
 bool Client::connect(std::pair<sf::IpAddress, uint16_t> const &adress) {
-    _server.setBlocking(true);
-    if (_server.connect(adress.first, adress.second, sf::seconds(15)) != sf::Socket::Done) {
+    std::cout << "Client is trying to connect" << std::endl;
+    if (_server.connect(adress.first, adress.second, sf::seconds(10)) != sf::Socket::Done) {
         return false;
     }
+    std::cout << "Connectd" << std::endl;
     sf::Packet input_packet;
     _server.receive(input_packet);
     int tmp;

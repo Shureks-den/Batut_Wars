@@ -69,6 +69,7 @@ class Entity {
     void set_position(sf::Vector2f position);
     sf::Vector2f get_size() const;
     void set_size(sf::Vector2f size);
+    Vector get_orientation();
 
     size_t get_id() const;
     void set_id(size_t id);

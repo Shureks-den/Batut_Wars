@@ -24,8 +24,8 @@ class Client {
  private:
     sf::TcpSocket _server;
 
-    // sf::IpAddress _server_ip;
-    // uint16_t _server_port;
+     sf::IpAddress _server_ip;
+     uint16_t _server_port;
 
     size_t _id;
     std::queue<Player::Action> _actions;
