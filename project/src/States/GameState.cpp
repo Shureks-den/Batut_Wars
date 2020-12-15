@@ -1,6 +1,7 @@
 #include "States/GameState.h"
 
 #include "Ship.h"
+#include "Enemy.h"
 #include "Massive.h"
 #include "Bullet.h"
 
@@ -25,10 +26,9 @@ GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, 
     _world.push_back(std::move(blackhole_2));
 
     // ТУПОЙ БОТ
-    // auto bot = std::unique_ptr<engine::MoveAble>(new space::Ship);
-    // bot->set_position(sf::Vector2f(1200, 1000));
-    // bot->give_acceleration(Direction::FORWARD);
-    // _world.push_back(std::move(bot));
+    auto bot = std::unique_ptr<engine::MoveAble>(new space::Enemy);
+    bot->set_position(sf::Vector2f(1200, 1000));
+    _world.push_back(std::move(bot));
 
     _render.inicilize(_world.get_status());
 }

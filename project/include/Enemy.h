@@ -19,15 +19,17 @@ class Enemy : public engine::MoveAble {
     animation::Id get_animation_id() const override;
     
     std::unique_ptr<Bullet> fire();
-    void turn_to_player();
+    void turn_to_player(Ship *player_ship);
     void move();
 
  private:
-    float _rotate_speed;
-    bool spot_player(Ship player_ship);
-    sf::Vector2f _vision;  // видимость
+    bool spot_player(Ship *player_ship);
     const sf::Time _recharge;  // Перезарядка между выстрелами
-    sf::Time _countdown;  // Текущий кд
+    sf::Time _countdown;
+    sf::Vector2f _vision; // 
+    float _rotate_speed;
+    float _acc
+     
 };
 
 }  // end namespace space

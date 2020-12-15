@@ -41,7 +41,8 @@ SRCS = \
        project/src/GUI/Textbox.cpp \
        project/src/States/OnlineMenuState.cpp \
        project/src/Bullet.cpp \
-       project/src/Music.cpp
+       project/src/Music.cpp \
+       project/src/Enemy.cpp
 
 .PHONY: all clean
 

@@ -13,11 +13,10 @@ Enemy::Enemy() : engine::MoveAble(35, 150),
 }
 
 void Enemy::update(sf::Time dt) {
-    _speed += _acceleration * dt.asSeconds();
-    if (_speed.get_abs() >= _speed_limit) {
-        _speed = _speed.get_normal() * _speed_limit;;
+    if(spot_player && _speed.get_x() != 0 && _speed.get_y() != 0) {
+        _speed -= _acceleration * dt.asSeconds();
     }
-
+    
     engine::Vector tmp = _speed * dt.asSeconds();
     _position += tmp.get_sf();
     _acceleration.set_x(0);
@@ -56,8 +55,8 @@ bool Enemy::spot_player(Ship *player_ship) {
     return false;
 }
 
-void Enemy::turn_to_player() {  // проверить работоспособность точно запихнуть в update
-    if (this->spot_player()) {
+void Enemy::turn_to_player(Ship *player_ship) {  // проверить работоспособность точно запихнуть в update
+    if (this->spot_player(player_ship)) {
         sf::Vector2f new_orientaion(player_ship->get_position().x - this->get_position().x, 
             player_ship->get_position().y - this->get_position().y);
             float norm_orientation = sqrt(pow(new_orientaion.x,2), pow(new_orientaion.y, 2));
