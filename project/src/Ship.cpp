@@ -18,8 +18,10 @@ void Ship::update(sf::Time dt) {
         _engine_speed = _engine_speed.get_normal() * _speed_limit;
     }
 
-    if (_dictated_acceleration.get_abs() == 0) {
-        _dictated_speed /= 1.1;
+    if (_dictated_speed.get_abs() > 0) {
+        _dictated_speed *= (1 - dt.asSeconds());
+    } else {
+        _dictated_speed = engine::Vector(0, 0);
     }
     
     engine::Vector total_speed = _engine_speed + _dictated_speed;

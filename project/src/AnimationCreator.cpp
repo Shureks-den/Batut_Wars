@@ -66,7 +66,7 @@ Manager Creator::make_portal() const {
     Manager bullet(_holder.get(Id::PORTAL));
     bullet.set_image_count(sf::Vector2u(4, 4));
     bullet.set_size(sf::Vector2f(182, 206));
-    bullet.set_origin(sf::Vector2f(75, 85));
+    bullet.set_origin(sf::Vector2f(91, 103));
     bullet.set_switch_time(sf::seconds(0.3f));
     return bullet;
 }

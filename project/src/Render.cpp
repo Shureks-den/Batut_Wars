@@ -2,7 +2,7 @@
 
 #include <vector>
 
-static constexpr size_t MAP_SIZE = 4 * 450;  // Криво, но пока надо. 450 - размер текстурки космоса
+static constexpr size_t MAP_SIZE = 10 * 450;  // Криво, но пока надо. 450 - размер текстурки космоса
 
 Render::Render(sf::RenderWindow& window)
     : _window(window) {
@@ -10,7 +10,6 @@ Render::Render(sf::RenderWindow& window)
 
     _animation_layers.resize(static_cast<size_t>(animation::LayerNom::COUNT));
     auto space = _creator.get_animation(animation::Id::SPACE);
-    space.set_position(sf::Vector2f(0, 0));
     space.set_angle(0);
     size_t width = space.get_size().x;
     size_t height = space.get_size().y;
@@ -21,23 +20,22 @@ Render::Render(sf::RenderWindow& window)
     size_t y_count = ((MAP_SIZE + _extra_size.y) / height + 1) * 2;
 
     auto portal = _creator.get_animation(animation::Id::PORTAL);
-    portal.set_position(sf::Vector2f(0, 0));
     portal.set_angle(0);
 
-    for (size_t i = 0; i <= 3 * 4; ++i) {  // TODO(ANDY) размерность карты
-            portal.set_position(sf::Vector2f(i * width / 3, 0) + _extra_size);
+    for (size_t i = 0; i <= 4 * 10; ++i) {  // TODO(ANDY) размерность карты
+            portal.set_position(sf::Vector2f(i * width / 4, 0) + _extra_size);
             _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)].push_back(portal);
     }
-    for (size_t i = 0; i <= 3 * 4; ++i) {  // TODO(ANDY) размерность карты
-            portal.set_position(sf::Vector2f(i * width / 3, 4 * 450) + _extra_size);
+    for (size_t i = 0; i <= 4 * 10; ++i) {  // TODO(ANDY) размерность карты
+            portal.set_position(sf::Vector2f(i * width / 4, 10 * 450) + _extra_size);
             _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)].push_back(portal);
     }
-    for (size_t i = 0; i <= 3 * 4; ++i) {  // TODO(ANDY) размерность карты
-            portal.set_position(sf::Vector2f(0, i * height / 3) + _extra_size);
+    for (size_t i = 0; i <= 4 * 10; ++i) {  // TODO(ANDY) размерность карты
+            portal.set_position(sf::Vector2f(0, i * height / 4) + _extra_size);
             _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)].push_back(portal);
     }
-    for (size_t i = 0; i <= 3 * 4; ++i) {  // TODO(ANDY) размерность карты
-            portal.set_position(sf::Vector2f(4 * 450, i * height / 3) + _extra_size);
+    for (size_t i = 0; i <= 4 * 10; ++i) {  // TODO(ANDY) размерность карты
+            portal.set_position(sf::Vector2f(10 * 450, i * height / 4) + _extra_size);
             _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)].push_back(portal);
     }
 

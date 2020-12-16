@@ -8,7 +8,7 @@
 #include "Layer.h"
 #include "Engine.h"
 
-static constexpr size_t MAP_SIZE = 4 * 450;  // Криво, но пока надо
+static constexpr size_t MAP_SIZE = 10 * 450;  // Криво, но пока надо
 
 enum class StatusLay {
     PLAYER = 0,
