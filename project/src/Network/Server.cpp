@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Network.h"
+#include "Ship.h"
 
 namespace network {
 
@@ -13,17 +14,21 @@ Server::Server() : _time_per_update(sf::seconds(1.0 / 120.0)),
                    _port(2000),
                    _host(0) {}
 
-Server::~Server() {
-    for (auto &it : _clients) {
-        delete it;
-    }
-}
+Server::~Server() {}
 
 void Server::run() {
     _listener.listen(_port);
     _selector.add(_listener);
 
     accept_clients();
+
+    for (size_t i = 0; i < _clients.size(); ++i) {
+        auto player = std::unique_ptr<space::Ship>(new space::Ship());
+        player->set_id(i);
+        player->set_position(sf::Vector2f(200 + 200 * i, 400));
+        _world.push_player(std::move(player));
+    }
+    std::cout << "LET'S START GAME" << std::endl;
 
     sf::Clock clock;
     sf::Time total_time = sf::Time::Zero;
@@ -49,13 +54,18 @@ std::pair<sf::IpAddress, uint16_t> Server::get_adress() const {
 
 void Server::accept_clients() {
     while (true) {  // Пока хост не запустил игру
-        if (_selector.wait()) {            
-            if (_clients.size() != 0 && _selector.isReady(*_clients[_host])) {
-                if (is_started()) {
-                    return;
-                }
+        if (_selector.wait()) {
+            // if (_clients.size() != 0 && _selector.isReady(*_clients[_host])) {
+            //     if (is_started()) {
+            //         return;
+            //     }
+            // }
+            add_client();
+        }
+        if (_clients.size() != 0) {
+            if (is_started()) {
+                return;
             }
-        add_client();
         }
     }
 }
@@ -63,9 +73,9 @@ void Server::accept_clients() {
 void Server::get_client_actions() {
     sf::Packet input_packet;
     for (auto &it : _clients) {
-        if (!_selector.isReady(*it)) {
-            continue;
-        }
+        // if (!_selector.isReady(*it)) {
+        //     continue;
+        // }
 
         if (it->receive(input_packet) == sf::Socket::Done) {
             input_packet >> _world.get_actions();
@@ -74,33 +84,51 @@ void Server::get_client_actions() {
 }
 
 void Server::send_update() {
-    sf::Packet input_packet;
+    sf::Packet output_packet;
+    auto status = _world.get_status();
+    output_packet << status;
     for (auto &it : _clients) {
-        if (!_selector.isReady(*it)) {
-            continue;
-        }
+        // if (!_selector.isReady(*it)) {
+        //     continue;
+        // }
 
-        if (it->receive(input_packet) == sf::Socket::Done) {
-            input_packet >> _world.get_actions();
-        }
+        it->send(output_packet);
     }
 }
 
 void Server::add_client() {
-    if (_selector.isReady(_listener)) {      // TODO(ANDY) подключение игроков и ожидание
-        auto *socket = new sf::TcpSocket;
+    // if (_selector.isReady(_listener)) { // Почему-то ломается
+        std::cout << "ADD CLIENT 1" << std::endl;
+        auto socket = std::shared_ptr<sf::TcpSocket>(new sf::TcpSocket);
+        std::cout << "ADD CLIENT 2" << std::endl;
         _listener.accept(*socket);
+        std::cout << "ADD CLIENT 3" << std::endl;
         sf::Packet output_packet;
+        std::cout << "ADD CLIENT 4" << std::endl;
         output_packet << static_cast<int>(_clients.size());
+        std::cout << "SERVER IS GOING TO SEND ID " << _clients.size() << std::endl;
 
-        if (socket->receive(output_packet) == sf::Socket::Done) {
-            _clients.push_back(socket);
+        if (socket->send(output_packet) == sf::Socket::Done) {
+            std::cout << "SERVER SELECTOR ADD SOCKET"<< std::endl;
             _selector.add(*socket);
+            std::cout << "SERVER PUSH_BACK" << std::endl;
+            _clients.push_back(std::move(socket));
+            std::cout << "CLIENTS: " << _clients.size() << std::endl;
+        } else {
+            std::cout << "FAIL SENDING ID" << _clients.size() << std::endl;
         }
-    }
+    // }
 }
 
 bool Server::is_started() {
+    std::cout << "IS STARTED?" << std::endl;
+    if (_clients.size() == 1) {
+        std::cout << "GAME START" << std::endl;
+        return true;
+    } else {
+        return false;
+    }
+
     sf::Packet input_packet;
     if (_clients[_host]->receive(input_packet) != sf::Socket::Done) {
         return false;

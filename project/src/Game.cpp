@@ -62,7 +62,6 @@ bool Game::update(sf::Time dt) {
 void Game::render() {
     _window.clear();
     _state_stack.draw();
-    // _window.setView(_window.getDefaultView());  // Вид устанавливается в _render.set_status
     _window.display();
 }
 

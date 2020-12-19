@@ -87,8 +87,6 @@ void OnlineMenuState::start_client() {
     getContext().network_info->second = static_cast<uint16_t>(std::stoi(port_textbox->get_text()));
     if (getContext().client->connect(*getContext().network_info)) {
         requestStackPush(States::Id::ONLINE);
-        std::cout << "Connect is good";
-
     } else {
         std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод
     }
@@ -99,13 +97,14 @@ void OnlineMenuState::start_server() {
         getContext().server->run();
     });
     getContext().server_thread->detach();
-    // *getContext().network_info = getContext().server->get_adress();
-    // std::cout << "START SERVER" << std::endl;
-    // std::cout << getContext().network_info->first << std::endl;
-    // std::cout << getContext().network_info->second << std::endl;
-    // if (getContext().client->connect(*getContext().network_info)) {
-    //     requestStackPush(States::Id::ONLINE);
-    // } else {
-    //     std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод
-    // }
+    *getContext().network_info = getContext().server->get_adress();
+    std::cout << "START SERVER" << std::endl;
+    std::cout << getContext().network_info->first << std::endl;
+    std::cout << getContext().network_info->second << std::endl;
+    sf::sleep(sf::seconds(1));
+    if (getContext().client->connect(*getContext().network_info)) {
+        requestStackPush(States::Id::ONLINE);
+    } else {
+        std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод
+    }
 }

@@ -4,7 +4,7 @@
 
 static constexpr size_t MAP_SIZE = 10 * 450;  // Криво, но пока надо. 450 - размер текстурки космоса
 
-Render::Render(sf::RenderWindow& window)
+Render::Render(sf::RenderWindow &window)
     : _window(window) {
     _view.setSize(640, 480);
 
