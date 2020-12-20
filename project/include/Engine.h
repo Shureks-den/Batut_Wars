@@ -96,7 +96,7 @@ class ImmoveAble : public Entity {
     ImmoveAble() = default;
     virtual ~ImmoveAble() = default;
     virtual void collision(MoveAble &moveable) = 0;
-    virtual void component_acceleration(MoveAble &moveable) = 0;
+    virtual void trigger(MoveAble &moveable) = 0;
 
     virtual animation::Id get_animation_id() const = 0;
     virtual void update(sf::Time dt) = 0;

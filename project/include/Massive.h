@@ -9,7 +9,7 @@ class Massive : public engine::ImmoveAble {
     Massive(int mass, float range);
     ~Massive() = default;
     void collision(engine::MoveAble &moveable) override;  // TODO(Tony)
-    void component_acceleration(engine::MoveAble &moveable);
+    void trigger(engine::MoveAble &moveable);
     float get_zone();
    
 

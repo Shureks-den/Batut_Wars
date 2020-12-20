@@ -19,7 +19,7 @@ void Massive::collision(engine::MoveAble &) {
 }
 
 
-void Massive::component_acceleration(engine::MoveAble &moveable) {
+void Massive::trigger(engine::MoveAble &moveable) {
     engine::Vector tmp(moveable.get_x() - this->get_x(), moveable.get_y() - this->get_y()); 
     float radius = tmp.get_abs();
     if (radius < this->get_zone()) {

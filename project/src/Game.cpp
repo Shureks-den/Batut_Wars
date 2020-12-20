@@ -15,7 +15,7 @@
 
 const sf::Time Game::_time_per_frame = sf::seconds(1.0 / 60.0);
 
-Game::Game() : _window(sf::VideoMode(640, 480), "Batut Wars", sf::Style::Close),
+Game::Game() : _window(sf::VideoMode(1280, 960), "Batut Wars", sf::Style::Close),
                _player(),
                _textures(),
                _fonts(),

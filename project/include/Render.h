@@ -26,7 +26,7 @@ class Render : private sf::NonCopyable {
  private:
     sf::RenderWindow &_window;
     sf::View _view;
-    std::vector<animation::Layer> _animation_layers;
+    std::array<animation::Layer, static_cast<size_t>(animation::Id::COUNT)> _animation_layers;
     std::vector<std::vector<Status>> _status;
     animation::Creator _creator;
     size_t _player_id;

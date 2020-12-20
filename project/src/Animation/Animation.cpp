@@ -4,8 +4,7 @@
 
 namespace animation {
 
-Animation::Animation(const sf::Texture *texture, sf::Vector2u image_count,
-                     sf::Time switch_time) {
+Animation::Animation(const sf::Texture *texture, sf::Vector2u image_count, sf::Time switch_time) {
   _image_count = image_count;
   _switch_time = switch_time;
   _total_time = sf::Time::Zero;
@@ -53,15 +52,26 @@ void Animation::set_image_count(sf::Vector2u image_count) {
   _current_image.y = 0;
 }
 
+sf::Vector2u Animation::get_current() const {
+  return _current_image;
+}
+
 Manager::Manager(const sf::Texture *texture, sf::Vector2f position, float angle) {
-    _animation = Animation(texture, sf::Vector2u(1, 1), sf::seconds(0.1f));
+    _image_count = sf::Vector2u(1, 1);
+    _switch_time = sf::seconds(0.1f);
+    _total_time = sf::Time::Zero;
+    _current_image.x = 0;
+    _current_image.y = 0;
+
+    _uv_rect.width = texture->getSize().x / static_cast<float>(_image_count.x);
+    _uv_rect.height = texture->getSize().y / static_cast<float>(_image_count.y);
+
     _body.setPosition(position);
-    _body.setSize(sf::Vector2f(_animation.uv_rect.width, _animation.uv_rect.height));
-    _body.setTextureRect(_animation.uv_rect);
+    _body.setSize(sf::Vector2f(_uv_rect.width, _uv_rect.height));
+    _body.setTextureRect(_uv_rect);
     _body.setTexture(texture);
-    _body.setOrigin(_animation.uv_rect.width / 2, _animation.uv_rect.height / 2);
+    _body.setOrigin(_uv_rect.width / 2, _uv_rect.height / 2);
     _angle = angle;
-    _current = 0;
 }
 
 void Manager::draw(sf::RenderWindow &window) {
@@ -69,39 +79,66 @@ void Manager::draw(sf::RenderWindow &window) {
 }
 
 void Manager::update(sf::Time d_time) {
-    _animation.update(_current, d_time, true);
-    _body.setTextureRect(_animation.uv_rect);
+    // _current_image.y = row;
+    _total_time += d_time;
+
+    if (_total_time >= _switch_time) {
+       _total_time -= _switch_time;
+       _current_image.x++;
+
+        if (_current_image.x >= _image_count.x) {
+            _current_image.x = 0;
+        }
+    }
+
+  _uv_rect.top = _current_image.y * _uv_rect.height;
+
+  // if (is_forward) {
+  if (true) {
+    _uv_rect.left = _current_image.x * _uv_rect.width;
+    _uv_rect.width = abs(_uv_rect.width);
+  } else {
+    _uv_rect.left = (_current_image.x + 1) * abs(_uv_rect.width);
+    _uv_rect.width = -abs(_uv_rect.width);
+  }
+
+
+    _body.setTextureRect(_uv_rect);
     _body.setRotation(_angle + _start_angle);
 }
 
-void Manager::set_angle(const float angle) { _angle = angle; }
+void Manager::set_angle(const float angle) {
+    _angle = angle;
+}
 
 void Manager::set_start_angle(const float start_angle) {
     _start_angle = start_angle;
 }
 
-void Manager::set_states(const std::vector<bool> &states) {
-  if (states.empty()) {
-    _current = 0;  // TODO(ANDY) правило перехода из status в _current
-  } else {
-    _current = _current;
-  }
+void Manager::set_states(const std::vector<bool> &) {
+    // TODO(ANDY) правило перехода из status в _current
 }
 
 void Manager::set_position(const sf::Vector2f &position) {
-  _body.setPosition(position);
+    _body.setPosition(position);
 }
 
 void Manager::set_switch_time(sf::Time switch_time) {
-  _animation.set_switch_time(switch_time);
+    _switch_time = switch_time;
 }
 
 void Manager::set_image_count(sf::Vector2u image_count) {
-  _animation.set_image_count(image_count);
-  _body.setSize(
-      sf::Vector2f(_animation.uv_rect.width, _animation.uv_rect.height));
-  _body.setTextureRect(_animation.uv_rect);
-  _body.setOrigin(_animation.uv_rect.width / 2, _animation.uv_rect.height / 2);
+    _uv_rect.width *= _image_count.x;
+    _uv_rect.height *= _image_count.y;
+    _image_count = image_count;
+    _uv_rect.width = _uv_rect.width / static_cast<float>(image_count.x);
+    _uv_rect.height = _uv_rect.height / static_cast<float>(image_count.y);
+    _current_image.x = 0;
+    _current_image.y = 0;
+
+  _body.setSize(sf::Vector2f(_uv_rect.width, _uv_rect.height));
+  _body.setTextureRect(_uv_rect);
+  _body.setOrigin(_uv_rect.width / 2, _uv_rect.height / 2);
 }
 
 sf::Vector2f Manager::get_size() const {
