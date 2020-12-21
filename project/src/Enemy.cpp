@@ -74,19 +74,19 @@ void Enemy::spot_player(Ship &player_ship) {
     _is_player_spotted = false;
 }
 
-void Enemy::turn_to_player() {  // проверить работоспособность точно запихнуть в update
-    if (_is_player_spotted) {
-        sf::Vector2f new_orientaion(player_ship.get_position().x - this->get_position().x, 
-            player_ship.get_position().y - this->get_position().y);
-        float norm_orientation = sqrt(pow(new_orientaion.x,2), pow(new_orientaion.y, 2));
+// void Enemy::turn_to_player() {  // проверить работоспособность точно запихнуть в update
+//     if (_is_player_spotted) {
+//         sf::Vector2f new_orientaion(player_ship.get_position().x - this->get_position().x, 
+//             player_ship.get_position().y - this->get_position().y);
+//         float norm_orientation = sqrt(pow(new_orientaion.x,2), pow(new_orientaion.y, 2));
 
-        float rotate_angle = acos((new_orientaion.x * this->get_orientation().x + new_orientaion.y + 
-        this->get_orientation().y)/(norm_orientation * this->get_abs(this->get_orientation()))));
-        while (this->get_angle() != rotate_angle) {
-            this->get_angle() += _rotate_speed;
-        }
-    }
-}
+//         float rotate_angle = acos((new_orientaion.x * this->get_orientation().x + new_orientaion.y + 
+//         this->get_orientation().y)/(norm_orientation * this->get_abs(this->get_orientation()))));
+//         while (this->get_angle() != rotate_angle) {
+//             this->get_angle() += _rotate_speed;
+//         }
+//     }
+// }
 
 void Enemy::collision(engine::MoveAble &) {}
  
