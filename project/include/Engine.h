@@ -113,6 +113,8 @@ class MoveAble : public Entity {
     void give_acceleration(Vector acceleration);
     void give_acceleration(Direction direction);
 
+    virtual void trigger(MoveAble &moveable) = 0;
+
     void set_hp(int value);
 
     virtual void collision(MoveAble &moveable) = 0;

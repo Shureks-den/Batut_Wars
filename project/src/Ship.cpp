@@ -57,4 +57,6 @@ animation::Id Ship::get_animation_id() const {
 
 void Ship::collision(engine::MoveAble &) {}
 
+void Ship::trigger(MoveAble &) {}
+
 }  // namespace space

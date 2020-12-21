@@ -12,6 +12,7 @@ class Bullet : public engine::MoveAble {
     int get_damage() const;
     void collision(engine::MoveAble &object);
     animation::Id get_animation_id() const override;
+    void trigger(engine::MoveAble &moveable);
 
     void update(sf::Time dt) override;
 

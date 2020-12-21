@@ -14,8 +14,8 @@ namespace space {
 class Enemy : public engine::MoveAble {
  public:
     enum bot_actions {
-       NOPLAYER,
-       ROTATE,
+       ROTATE_LEFT,
+       ROTATE_RIGHT,
        FIRE,
        COUNT
     };
@@ -30,7 +30,9 @@ class Enemy : public engine::MoveAble {
     void collision(engine::MoveAble &MoveAble) override;
     void turn_to_player();
 
-   void spot_player(Ship &player_ship);
+    void trigger(engine::MoveAble &moveable);
+
+    void spot_player(Ship &player_ship);
 
  private:
     bool _is_player_spotted;
@@ -39,7 +41,7 @@ class Enemy : public engine::MoveAble {
     sf::Time _rotate_time;  // Время до поворота
     sf::Vector2f _vision; //  квадрат обзора
     float _rotate_speed;
-    float _acc;
+    std::queue<bot_actions> action_queue;
      
 };
 

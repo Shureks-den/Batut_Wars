@@ -76,15 +76,27 @@ animation::Id Enemy::get_animation_id() const {
     return animation::Id::SHIP;
 }
 
-void Enemy::spot_player(Ship &player_ship) {
-    if(player_ship.get_position().x >= this-> get_position().x - _vision.x &&
-    player_ship.get_position().x <= this->get_position().x + _vision.x &&
-    player_ship.get_position().y >= this->get_position().y - _vision.y &&
-    player_ship.get_position().y <= this->get_position().y + _vision.y) {   // если корабль игрока в квадрате видимости
-        _is_player_spotted = true;
+// void Enemy::spot_player(Ship &player_ship) {
+//     if(player_ship.get_position().x >= this-> get_position().x - _vision.x &&
+//     player_ship.get_position().x <= this->get_position().x + _vision.x &&
+//     player_ship.get_position().y >= this->get_position().y - _vision.y &&
+//     player_ship.get_position().y <= this->get_position().y + _vision.y) {   // если корабль игрока в квадрате видимости
+//         _is_player_spotted = true;
+//         return;
+//     }
+//     _is_player_spotted = false;
+// }
+
+void Enemy::trigger(engine::MoveAble &moveable) {
+    if (moveable.is_destroyed()) {
         return;
+        _is_player_spotted = false;
     }
-    _is_player_spotted = false;
+
+    engine::Vector tmp(moveable.get_x() - this->get_x(), moveable.get_y() - this->get_y()); 
+    if (tmp.get_x() < _vision.x && tmp.get_y() < _vision.y) {
+        _is_player_spotted = true;
+    }
 }
 
 // void Enemy::turn_to_player() {  // проверить работоспособность точно запихнуть в update
