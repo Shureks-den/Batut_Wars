@@ -28,15 +28,16 @@ class Enemy : public engine::MoveAble {
     
     std::unique_ptr<Bullet> fire();
     void collision(engine::MoveAble &MoveAble) override;
-    void turn_to_player(Ship &player_ship);
+    void turn_to_player();
 
    void spot_player(Ship &player_ship);
 
  private:
     bool _is_player_spotted;
     const sf::Time _recharge;  // Перезарядка между выстрелами
-    sf::Time _countdown;
-    sf::Vector2f _vision; // 
+    sf::Time _countdown;   
+    sf::Time _rotate_time;  // Время до поворота
+    sf::Vector2f _vision; //  квадрат обзора
     float _rotate_speed;
     float _acc;
      

@@ -4,10 +4,11 @@
 
 namespace space {
 
-Enemy::Enemy() : engine::MoveAble(35, 35),
+Enemy::Enemy() : engine::MoveAble(60, 70),
                _is_player_spotted(false),
                _recharge(sf::seconds(1.5f)),
                _countdown(_recharge),
+               _rotate_time(sf::seconds(2)),
                _vision(100,100),
                _rotate_speed(1.f) {
     set_size(sf::Vector2f(50.0f, 64.0f));
@@ -16,7 +17,16 @@ Enemy::Enemy() : engine::MoveAble(35, 35),
 void Enemy::update(sf::Time dt) {
     if(!_is_player_spotted) {
         std::cout << "wtf" << std::endl;
-        _engine_speed = engine::Vector(20.f,20.f)
+
+        if (_rotate_time > sf::seconds(1) && _rotate_time < sf::seconds(7)) {   // простое перемещение запустите прочекайте
+            give_acceleration(Direction::FORWARD);
+        }
+        if (_rotate_time > sf::seconds(7)) {
+            rotate(engine::as_radian(90.0) * dt.asSeconds());
+        }
+        if(_rotate_time == sf::Time::Zero) {
+            _rotate_time = sf::seconds(10);
+        }
     }
     
     _engine_speed += _engine_acceleration * dt.asSeconds();
@@ -43,6 +53,9 @@ void Enemy::update(sf::Time dt) {
 
     if (_countdown > sf::Time::Zero) {
         _countdown -= (_countdown > dt) ? dt : _countdown;
+    }
+    if (_rotate_time > sf::Time::Zero) {
+        _rotate_time -= (_rotate_time > dt) ? dt : _rotate_time;
     }
 }
 
@@ -74,19 +87,19 @@ void Enemy::spot_player(Ship &player_ship) {
     _is_player_spotted = false;
 }
 
-void Enemy::turn_to_player() {  // проверить работоспособность точно запихнуть в update
-    if (_is_player_spotted) {
-        sf::Vector2f new_orientaion(player_ship.get_position().x - this->get_position().x, 
-            player_ship.get_position().y - this->get_position().y);
-        float norm_orientation = sqrt(pow(new_orientaion.x,2), pow(new_orientaion.y, 2));
+// void Enemy::turn_to_player() {  // проверить работоспособность точно запихнуть в update
+//     if (_is_player_spotted) {
+//         sf::Vector2f new_orientaion(player_ship.get_position().x - this->get_position().x, 
+//             player_ship.get_position().y - this->get_position().y);
+//         float norm_orientation = sqrt(pow(new_orientaion.x,2), pow(new_orientaion.y, 2));
 
-        float rotate_angle = acos((new_orientaion.x * this->get_orientation().x + new_orientaion.y + 
-        this->get_orientation().y)/(norm_orientation * this->get_abs(this->get_orientation()))));
-        while (this->get_angle() != rotate_angle) {
-            this->get_angle() += _rotate_speed;
-        }
-    }
-}
+//         float rotate_angle = acos((new_orientaion.x * this->get_orientation().x + new_orientaion.y + 
+//         this->get_orientation().y)/(norm_orientation * this->get_abs(this->get_orientation()))));
+//         while (this->get_angle() != rotate_angle) {
+//             this->get_angle() += _rotate_speed;
+//         }
+//     }
+// }
 
 void Enemy::collision(engine::MoveAble &) {}
  
