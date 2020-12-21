@@ -1,16 +1,15 @@
 #pragma once
 
-#include <thread>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <thread>
 
-#include "Player.h"
 #include "Client.h"
+#include "Holder.h"
+#include "Player.h"
 #include "Server.h"
 #include "States/StateStack.h"
-#include "Holder.h"
 
 class Game : sf::NonCopyable {
  public:
@@ -19,27 +18,26 @@ class Game : sf::NonCopyable {
   void run();
 
  private:
-    bool update(sf::Time dt);
-    void render();
-    bool handle_event(const sf::Event& event);
-    void get_input();
+  bool update(sf::Time dt);
+  void render();
+  bool handle_event(const sf::Event& event);
+  void get_input();
 
-    void registrates();
+  void registrates();
 
-    sf::RenderWindow _window;
-    Player _player;  // Читать команды игрока
+  sf::RenderWindow _window;
+  Player _player;  // Читать команды игрока
 
-    textures::Holder _textures;
-    fonts::Holder _fonts;
+  textures::Holder _textures;
+  fonts::Holder _fonts;
 
-    std::pair<sf::IpAddress, uint16_t> _network_info;  // Как сервер
-    network::Client _client;
-    network::Server _server;
-    std::thread _server_thread;
-    MusicPlayer _musicplayer;
+  std::pair<sf::IpAddress, uint16_t> _network_info;  // Как сервер
+  network::Client _client;
+  network::Server _server;
+  std::thread _server_thread;
+  MusicPlayer _musicplayer;
 
-
-    StateStack _state_stack;
+  StateStack _state_stack;
 
   static const sf::Time _time_per_frame;
 };

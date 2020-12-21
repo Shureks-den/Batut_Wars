@@ -43,6 +43,7 @@ SRCS = \
        project/src/GUI/Textbox.cpp \
        project/src/States/OnlineMenuState.cpp \
        project/src/Bullet.cpp \
+       project/src/Commet.cpp \
        project/src/Music.cpp \
        project/src/Animation/A-Ship.cpp \
        project/src/Animation/A-Space.cpp \
