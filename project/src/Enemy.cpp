@@ -28,6 +28,10 @@ void Enemy::update(sf::Time dt) {
             _rotate_time = sf::seconds(10);
         }
     }
+
+    if (_is_player_spotted) {
+        std::cout << "spotted" << std::endl;
+    }
     
     _engine_speed += _engine_acceleration * dt.asSeconds();
     _dictated_speed += _dictated_acceleration * dt.asSeconds();
@@ -89,13 +93,17 @@ animation::Id Enemy::get_animation_id() const {
 
 void Enemy::trigger(engine::MoveAble &moveable) {
     if (moveable.is_destroyed()) {
-        return;
         _is_player_spotted = false;
+        return;
     }
-
-    engine::Vector tmp(moveable.get_x() - this->get_x(), moveable.get_y() - this->get_y()); 
-    if (tmp.get_x() < _vision.x && tmp.get_y() < _vision.y) {
+ 
+    if(moveable.get_position().x >= this-> get_position().x - _vision.x &&
+     moveable.get_position().x <= this->get_position().x + _vision.x &&
+     moveable.get_position().y >= this->get_position().y - _vision.y &&
+     moveable.get_position().y <= this->get_position().y + _vision.y) {
         _is_player_spotted = true;
+    } else {
+        _is_player_spotted = false;
     }
 }
 
