@@ -107,6 +107,13 @@ void World::update(sf::Time d_time) {
         }
     }
 
+    for (auto &it : _enemies) {   // enemies пустые, сделать пушбек ботов в них!!!!
+        auto bullet = it->fire();
+        if (bullet != nullptr) {
+            push_back(std::move(bullet));
+        }
+    }
+
     for (auto &bullet : _bullet) {
         for (auto &moveable : _moveable) {
             bullet->collision(*moveable);
@@ -158,6 +165,7 @@ void World::update(sf::Time d_time) {
     for (size_t i = 0; i < _immoveable.size(); ++i) {
         _status[static_cast<size_t>(StatusLay::IMMOVEABLE)][i] = to_status(*_immoveable[i]);
     }
+
 }
 
 bool World::is_over() {

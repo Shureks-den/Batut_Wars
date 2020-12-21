@@ -43,6 +43,7 @@ class Enemy : public engine::MoveAble {
     float _rotate_speed;
     sf::Vector2f _player_location;
     std::queue<bot_actions> action_queue;
+    bool _aimed;
      
 };
 

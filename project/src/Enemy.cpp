@@ -10,12 +10,14 @@ Enemy::Enemy() : engine::MoveAble(60, 70),
                _countdown(_recharge),
                _rotate_time(sf::seconds(2)),
                _vision(100,100),
-               _rotate_speed(0.01f) {
+               _rotate_speed(0.05f),
+               _aimed(false) {
     set_size(sf::Vector2f(50.0f, 64.0f));
 }
 
 void Enemy::update(sf::Time dt) {
     if(!_is_player_spotted) {    // афк действия, если игрока нет рядом, просто двигается, крутится
+        _aimed = false;
         if (_rotate_time > sf::seconds(1) && _rotate_time < sf::seconds(7)) {   // простое перемещение запустите прочекайте
             give_acceleration(Direction::FORWARD);
         }
@@ -27,11 +29,11 @@ void Enemy::update(sf::Time dt) {
         }
     }
 
-    if (_is_player_spotted) {    // TODO(anyone) сделать изящное торможение и/или другое перемещение
+    if (_is_player_spotted) {    // TODO(anyone) сделать изящное торможение и/или другое перемещение 
        // give_acceleration(Direction::BACKWARD);
        // _engine_speed += _engine_acceleration * dt.asSeconds();
-       _engine_speed = engine::Vector(0,0);
-        turn_to_player();    
+       _engine_speed = engine::Vector(0,0);  // сделано так в целях удобства отладки
+        turn_to_player();   
     }
     
     _engine_speed += _engine_acceleration * dt.asSeconds();
@@ -62,10 +64,11 @@ void Enemy::update(sf::Time dt) {
     if (_rotate_time > sf::Time::Zero) {
         _rotate_time -= (_rotate_time > dt) ? dt : _rotate_time;
     }
+    std::cout << _aimed << std::endl;
 }
 
 std::unique_ptr<Bullet> Enemy::fire() {
-    if (_countdown != sf::Time::Zero) {
+    if (_countdown != sf::Time::Zero || _aimed == false) {
         return nullptr;
     }
 
@@ -103,12 +106,13 @@ void Enemy::turn_to_player() {  // проверить работоспособн
         _player_location.y - this->get_position().y);
     float norm_orientation = sqrt(pow(new_orientaion.x,2) + pow(new_orientaion.y, 2));
 
-    float rotate_angle = acos((new_orientaion.x * this->get_orientation().get_x() + new_orientaion.x + 
+    float rotate_angle = acos((new_orientaion.x * this->get_orientation().get_x() + new_orientaion.y * 
     this->get_orientation().get_y())/(norm_orientation * this->get_orientation().get_abs()));
-    if (rotate_angle != 0) {
+    if (fabs(rotate_angle) > 0.15) {
+        _aimed = false;
         this->rotate(_rotate_speed);
     } else {
-        fire();
+        _aimed = true;   // буп-бип цель захвачена, пли
     }
 }
 

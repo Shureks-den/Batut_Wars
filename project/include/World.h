@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Status.h"
 #include "Bullet.h"
+#include "Enemy.h"
 
 class World {
  public:
@@ -35,6 +36,7 @@ class World {
     std::queue<std::pair<size_t, Player::Action>> _actions_;
 
     std::vector<std::unique_ptr<engine::MoveAble>> _players;
+    std::vector<std::unique_ptr<space::Enemy>> _enemies;
     std::vector<std::unique_ptr<engine::MoveAble>> _moveable;
     std::vector<std::unique_ptr<space::Bullet>> _bullet;
     std::vector<std::unique_ptr<engine::ImmoveAble>> _immoveable;
