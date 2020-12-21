@@ -41,6 +41,7 @@ class Enemy : public engine::MoveAble {
     sf::Time _rotate_time;  // Время до поворота
     sf::Vector2f _vision; //  квадрат обзора
     float _rotate_speed;
+    sf::Vector2f _player_location;
     std::queue<bot_actions> action_queue;
      
 };

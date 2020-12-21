@@ -90,6 +90,10 @@ void World::update(sf::Time d_time) {
         for (auto &bullet : _bullet) {
             bullet->collision(*player);
         }
+
+        for (auto &moveable : _moveable) {
+            moveable->trigger(*player);
+        }
     }
 
     for (auto &immoveable : _immoveable) {

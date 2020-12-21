@@ -21,9 +21,7 @@ GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, 
     auto blackhole = std::unique_ptr<engine::ImmoveAble>(new space::Massive(100, 125.0f));
     blackhole->set_position(sf::Vector2f(600, 700));
     _world.push_back(std::move(blackhole));
-    auto blackhole_2 = std::unique_ptr<engine::ImmoveAble>(new space::Massive(100, 125.0f));
-    blackhole_2->set_position(sf::Vector2f(1300, 1300));
-    _world.push_back(std::move(blackhole_2));
+  
 
     // ТУПОЙ БОТ
     auto bot = std::unique_ptr<engine::MoveAble>(new space::Enemy);
