@@ -90,8 +90,7 @@ void Render::set_status(const std::vector<std::vector<Status>> &status) {
             size_t lay = status[i][j].lay_id;
             size_t id = status[i][j].id;
             if (status[i][j].is_removed) {
-                // _status.erase(status.begin() + i);  // TODO(ANDY)
-                // _animation_layers[lay].erase(id);
+                _animation_layers[lay][id].set_playing(false);
                  continue;
             }
 

@@ -161,6 +161,10 @@ void Entity::rotate_orientation(float angle) {
     _orientation = _orientation.get_normal();  // Убираем накопившуюся погрешность
 }
 
+bool Entity::is_destroyed() const {
+    return _is_destroyed;
+}
+
 MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(90), _HP(100) {} // TODO(Tony) сеттер для seed_limit
 
 MoveAble::MoveAble(float thrust, float speed) : _engine_thrust(thrust), _speed_limit(speed) {} 

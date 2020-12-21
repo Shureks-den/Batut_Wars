@@ -3,11 +3,22 @@
 
 namespace space {
 
-Bullet::Bullet() : engine::MoveAble(0, 350) {
+Bullet::Bullet() : engine::MoveAble(0, 350), _lifetime(sf::seconds(10)) {
     _engine_speed = _orientation * 350;
+    _current = sf::Time::Zero;
 }
 
 void Bullet::update(sf::Time dt) {
+    if (_is_destroyed) {
+        return;
+    }
+
+    _current += dt;
+    _is_destroyed = (_current >= _lifetime);
+    if (_is_destroyed) {
+        return;
+    }
+
     _engine_speed += _engine_acceleration * dt.asSeconds();
     _dictated_speed += _dictated_acceleration * dt.asSeconds();
 
@@ -33,21 +44,22 @@ animation::Id Bullet::get_animation_id() const {
     return animation::Id::BULLET;
 } 
 
-float Bullet::getMaxSpeed() const {
-    return _maxSpeed;
-}
-
-int Bullet::getDamage() const {
+int Bullet::get_damage() const {
     return _dmg;
 }
 
 void Bullet::collision(engine::MoveAble &object) {
+    if (_is_destroyed) {
+        return;
+    }
+
     sf::Vector2f size = object.get_size();
     if (_position.x <= object.get_x() + size.x / 2 &&
         _position.x >= object.get_x() - size.x / 2 &&
         _position.y <= object.get_y() + size.y / 2 &&
         _position.y >= object.get_y() - size.y / 2 ) {
         std::cout << "BOOOOOM" << std::endl;
+        _is_destroyed = true;
     }
 }
 

@@ -71,6 +71,7 @@ class Entity {
     sf::Vector2f get_size() const;
     void set_size(sf::Vector2f size);
     Vector get_orientation();
+    bool is_destroyed() const;
 
     size_t get_id() const;
     void set_id(size_t id);

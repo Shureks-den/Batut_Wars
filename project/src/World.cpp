@@ -21,7 +21,7 @@ enum class StatusLay {
 static Status to_status(engine::Entity const &entity) {
     Status status;
     status.id = entity.get_id();
-    status.is_removed = false;  // TODO(ANDY) в зависимости от hp
+    status.is_removed = entity.is_destroyed();  // TODO(ANDY) в зависимости от hp
     status.animation_id = entity.get_animation_id();
     switch (status.animation_id) {  // TODO(ANDY) переписать на функцию
     case animation::Id::SHIP:

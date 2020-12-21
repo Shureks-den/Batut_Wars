@@ -20,6 +20,10 @@ void Massive::collision(engine::MoveAble &) {
 
 
 void Massive::trigger(engine::MoveAble &moveable) {
+    if (moveable.is_destroyed()) {
+        return;
+    }
+
     engine::Vector tmp(moveable.get_x() - this->get_x(), moveable.get_y() - this->get_y()); 
     float radius = tmp.get_abs();
     if (radius < this->get_zone()) {
