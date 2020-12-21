@@ -15,7 +15,7 @@
 
 const sf::Time Game::_time_per_frame = sf::seconds(1.0 / 60.0);
 
-Game::Game() : _window(sf::VideoMode(640, 480), "Batut Wars", sf::Style::Close),
+Game::Game() : _window(sf::VideoMode(1280, 960), "Batut Wars", sf::Style::Close),
                _player(),
                _textures(),
                _fonts(),
@@ -62,7 +62,6 @@ bool Game::update(sf::Time dt) {
 void Game::render() {
     _window.clear();
     _state_stack.draw();
-    // _window.setView(_window.getDefaultView());  // Вид устанавливается в _render.set_status
     _window.display();
 }
 

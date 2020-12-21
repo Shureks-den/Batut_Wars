@@ -7,6 +7,7 @@ enum class Id {
       SPACE,
       BLACKHOLE,
       BULLET,
+      PORTAL,
       PLANET,
       EXPLOSION,
       COUNT

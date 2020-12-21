@@ -1,6 +1,7 @@
 #include "Engine.h"
 
 #include <cmath>
+#include <iostream>
 
 #define _USE_MATH_DEFINES
 
@@ -110,13 +111,13 @@ Vector& Vector::operator=(const Vector& other) {
 }
 
 sf::Vector2f Vector::get_sf() const {
-    return sf::Vector2f(_x, _y);
+  return sf::Vector2f(_x, _y);
 }
 
-Entity::Entity() : _orientation(1.0f, 0.0f) {}  // TODO(Tony) сделать сеттер ориентации
+Entity::Entity() : _orientation(1.0f, 0.0f), _is_destroyed(false) {}  // TODO(Tony) сделать сеттер ориентации
 
 void Entity::set_id(size_t id) {
-    _id = id;
+  _id = id;
 }
 
 sf::Vector2f Entity::get_size() const {
@@ -128,7 +129,7 @@ void Entity::set_size(sf::Vector2f size) {
 }
 
 size_t Entity::get_id() const {
-    return _id;
+  return _id;
 }
 
 float Entity::get_x() const { return _position.x; }
@@ -139,18 +140,20 @@ void Entity::set_x(float x) { _position.x = x; }
 
 void Entity::set_y(float y) { _position.y = y; }
 
+void Entity::set_is_destroyed(bool value) { _is_destroyed = value; }
+
 float Entity::get_angle() const {  // [-pi, pi]
     return (_orientation.get_y() < 0) ? - acos(_orientation.get_x()) : acos(_orientation.get_x());
 }
 
 sf::Vector2f Entity::get_position() const {
-    return _position;
+  return _position;
 }
 
 void Entity::set_position(sf::Vector2f position) { _position = position; }
 
 std::vector<bool> Entity::get_state() const {
-    return _state;
+  return _state;
 }
 
 void Entity::rotate_orientation(float angle) {
@@ -158,20 +161,24 @@ void Entity::rotate_orientation(float angle) {
     _orientation = _orientation.get_normal();  // Убираем накопившуюся погрешность
 }
 
-MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(90) {} // TODO(Tony) сеттер для seed_limit
+bool Entity::is_destroyed() const {
+    return _is_destroyed;
+}
+
+MoveAble::MoveAble(float thrust) : _engine_thrust(thrust), _speed_limit(90), _HP(100) {} // TODO(Tony) сеттер для seed_limit
 
 MoveAble::MoveAble(float thrust, float speed) : _engine_thrust(thrust), _speed_limit(speed) {} 
 
 void MoveAble::give_acceleration(Vector acceleration) {
-    _acceleration += acceleration;
+  _dictated_acceleration += acceleration;
 }
 
 void MoveAble::give_acceleration(Direction direction) {
-    _acceleration = _orientation * ((direction == Direction::FORWARD) ? _engine_thrust : - _engine_thrust);
+  _engine_acceleration += _orientation * ((direction == Direction::FORWARD) ? _engine_thrust : - _engine_thrust);
 }
 
 void MoveAble::rotate(float angle) {
-    _speed.rotate(angle);
+    _engine_speed.rotate(angle);
     _orientation.rotate(angle);
     _orientation = _orientation.get_normal();  // Убираем накопившуюся погрешность
 }
@@ -179,5 +186,14 @@ void MoveAble::rotate(float angle) {
 Vector Entity::get_orientation() {
   return _orientation;
 }
+
+void MoveAble::set_hp(int value) {
+  _HP = value;
+  std::cout << _HP;
+}
+
+
+void MoveAble::collision(engine::MoveAble &) {}
+
 
 }  // namespace engine

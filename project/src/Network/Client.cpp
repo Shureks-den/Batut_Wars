@@ -32,12 +32,18 @@ bool Client::connect(std::pair<sf::IpAddress, uint16_t> const &adress) {
     }
     std::cout << "Connectd" << std::endl;
     sf::Packet input_packet;
-    _server.receive(input_packet);
+    if (_server.receive(input_packet) != sf::Socket::Done) {
+        std::cout << "CANT FIND MY ID" << std::endl;
+        _server.disconnect();
+        std::cout << "DISCONNECTED" << std::endl;
+        return false;
+    }
     int tmp;
     input_packet >> tmp;
     _id = static_cast<size_t>(tmp);
     _server.setBlocking(false);
     _is_connected = true;
+    std::cout << "MY ID IS: " << _id << " (" << tmp << ")" << std::endl;
     return true;
 }
 
@@ -50,8 +56,9 @@ void Client::disconnect() {
 std::vector<std::vector<Status>> Client::get_status() {
     sf::Packet input_packet;
     std::vector<std::vector<Status>> status;
-    _server.receive(input_packet);
-    input_packet >> status;
+    if (_server.receive(input_packet) == sf::Socket::Done) {
+        input_packet >> status;
+    }
     return status;
 }
 

@@ -20,7 +20,7 @@ class Server {
     World _world;
     sf::Time _time_per_update;
 
-    std::vector<sf::TcpSocket*> _clients;
+    std::vector<std::shared_ptr<sf::TcpSocket>> _clients;
     sf::SocketSelector _selector;
     sf::TcpListener _listener;
     sf::IpAddress _ip;

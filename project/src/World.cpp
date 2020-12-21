@@ -8,7 +8,7 @@
 #include "Layer.h"
 #include "Engine.h"
 
-static constexpr size_t MAP_SIZE = 4 * 450;  // Криво, но пока надо
+static constexpr size_t MAP_SIZE = 10 * 450;  // Криво, но пока надо
 
 enum class StatusLay {
     PLAYER = 0,
@@ -21,7 +21,7 @@ enum class StatusLay {
 static Status to_status(engine::Entity const &entity) {
     Status status;
     status.id = entity.get_id();
-    status.is_removed = false;  // TODO(ANDY) в зависимости от hp
+    status.is_removed = entity.is_destroyed();  // TODO(ANDY) в зависимости от hp
     status.animation_id = entity.get_animation_id();
     switch (status.animation_id) {  // TODO(ANDY) переписать на функцию
     case animation::Id::SHIP:
@@ -77,12 +77,14 @@ void World::update(sf::Time d_time) {
     }
 
     for (auto &player : _players) {
+        
         // for (auto &moveable : _moveable) {
         //     player->collision(*moveable);
-        //     moveable->collsison(*player);
+        //     moveable->collision(*player);
         // }
         for (auto &immoveable : _immoveable) {
-            immoveable->collision(*player);
+            // immoveable->collision(*player);
+            immoveable->trigger(*player);
         }
 
         for (auto &bullet : _bullet) {
@@ -92,10 +94,12 @@ void World::update(sf::Time d_time) {
 
     for (auto &immoveable : _immoveable) {
         for (auto &bullet : _bullet) {
-            immoveable->collision(*bullet);
+            // immoveable->collision(*bullet);
+            immoveable->trigger(*bullet);
         }
         for (auto &moveable : _moveable) {
-            immoveable->collision(*moveable);
+            // immoveable->collision(*moveable);
+            immoveable->trigger(*moveable);
         }
     }
 
@@ -250,3 +254,7 @@ std::queue<Player::Action>& World::get_actions() {
 void World::set_player_count(size_t player_count) {
     _player_count = player_count;
 }
+
+
+// R = 125
+// Ship =64*48
