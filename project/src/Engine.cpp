@@ -18,6 +18,10 @@ float as_degree(float radian){
 }
 
 
+float Vector::compute_angle(const Vector &other) {
+    return ((_x*other._x + _y*other._y)/(get_abs()*other.get_abs()));
+}
+
 Vector::Vector(float x, float y) {
   _x = x;
   _y = y;

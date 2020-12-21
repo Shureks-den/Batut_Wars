@@ -83,7 +83,7 @@ void World::update(sf::Time d_time) {
         //     moveable->collision(*player);
         // }
         for (auto &immoveable : _immoveable) {
-            // immoveable->collision(*player);
+            immoveable->collision(*player);
             immoveable->trigger(*player);
         }
 
@@ -98,7 +98,7 @@ void World::update(sf::Time d_time) {
             immoveable->trigger(*bullet);
         }
         for (auto &moveable : _moveable) {
-            // immoveable->collision(*moveable);
+            immoveable->collision(*moveable);
             immoveable->trigger(*moveable);
         }
     }

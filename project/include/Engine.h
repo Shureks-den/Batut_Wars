@@ -37,6 +37,7 @@ class Vector {
     void set_y(float y);
     float get_abs() const;
     void rotate(float angle);
+    float compute_angle(const Vector &other);
     Vector get_normal() const;
     Vector operator+(const Vector &other) const;
     Vector operator-(const Vector &other) const;

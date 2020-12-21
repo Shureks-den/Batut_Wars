@@ -38,6 +38,7 @@ SRCS = \
        project/src/States/GameStateBase.cpp \
        project/src/Network/Network.cpp \
        project/src/Massive.cpp \
+       project/src/IcePlanet.cpp \
        project/src/Animation/AnimationCreator.cpp \
        project/src/GUI/Textbox.cpp \
        project/src/States/OnlineMenuState.cpp \
