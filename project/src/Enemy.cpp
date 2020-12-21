@@ -16,7 +16,7 @@ Enemy::Enemy() : engine::MoveAble(35, 35),
 void Enemy::update(sf::Time dt) {
     if(!_is_player_spotted) {
         std::cout << "wtf" << std::endl;
-        _engine_speed = engine::Vector(20.f,20.f)
+        _engine_speed = engine::Vector(20.f,20.f);
     }
     
     _engine_speed += _engine_acceleration * dt.asSeconds();
