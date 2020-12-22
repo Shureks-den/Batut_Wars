@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-Player::Player() {
+Player::Player() : _current_status(MissionRunning) {
   _key_binding[sf::Keyboard::W] = Action::MOVE_FORWARD;
   _key_binding[sf::Keyboard::A] = Action::MOVE_LEFT;
   _key_binding[sf::Keyboard::S] = Action::MOVE_BACKWARD;
@@ -59,4 +59,12 @@ bool Player::is_realtime(Action action) {
     default:
       return false;
   }
+}
+
+void Player::set_mission_status(MissionStatus status) {
+  _current_status = status;
+}
+
+Player::MissionStatus Player::get_mission_status() const {
+  return _current_status;
 }

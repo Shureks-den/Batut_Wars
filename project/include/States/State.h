@@ -30,7 +30,8 @@ class State {
                 std::pair<sf::IpAddress, uint16_t> &network_info,
                 network::Client &client,
                 network::Server &server,
-                std::thread &thread,
+                std::thread &server_thread,
+                std::thread &client_thread,
                 MusicPlayer &music);
         
         sf::RenderWindow *window;
@@ -41,6 +42,7 @@ class State {
         network::Client *client;
         network::Server *server;
         std::thread *server_thread;
+        std::thread *client_thread;
         MusicPlayer *music;
     };
 

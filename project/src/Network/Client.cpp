@@ -1,7 +1,11 @@
 #include "Client.h"
 
-#include "Network.h"
 #include <iostream>
+#include <mutex>
+
+#include "Network.h"
+
+static std::mutex client_mutex;
 
 namespace network {
 
@@ -16,9 +20,32 @@ size_t Client::get_id() const {
 }
 
 void Client::send_actions() {
+    std::unique_lock<std::mutex> lock(client_mutex);
+    if (_actions.empty()) {
+        return;
+    }
+
     sf::Packet output_packet;
     output_packet << _actions;
     _server.send(output_packet);
+}
+
+void Client::receive_status() {
+    sf::Packet input_packet;
+    if (_selector.wait(sf::microseconds(10))) {
+        if (_selector.isReady(_server)) {
+            if (_server.receive(input_packet) == sf::Socket::Done) {
+                input_packet >> _status;
+            }
+        }
+    }
+}
+
+void Client::run() {
+    while (true) {
+        send_actions();
+        receive_status();
+    }
 }
 
 std::queue<Player::Action>& Client::get_actions() {
@@ -41,25 +68,24 @@ bool Client::connect(std::pair<sf::IpAddress, uint16_t> const &adress) {
     int tmp;
     input_packet >> tmp;
     _id = static_cast<size_t>(tmp);
+
     _server.setBlocking(false);
+    _selector.add(_server);
     _is_connected = true;
     std::cout << "MY ID IS: " << _id << " (" << tmp << ")" << std::endl;
     return true;
 }
 
 void Client::disconnect() {
+    _selector.remove(_server);
     _server.disconnect();
-    _server.setBlocking(true);  // TODO(ANDY) надо или нет?
+    // _server.setBlocking(true);  // TODO(ANDY) надо или нет?
     _is_connected = true;
 }
 
 std::vector<std::vector<Status>> Client::get_status() {
-    sf::Packet input_packet;
-    std::vector<std::vector<Status>> status;
-    if (_server.receive(input_packet) == sf::Socket::Done) {
-        input_packet >> status;
-    }
-    return status;
+    std::unique_lock<std::mutex> lock(client_mutex);
+    return _status;
 }
 
 bool Client::is_connected() const {

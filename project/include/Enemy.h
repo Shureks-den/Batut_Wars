@@ -1,16 +1,15 @@
 #pragma once
 
+#include <SFML/System/Time.hpp>
 #include <memory>
 #include <queue>
 
-#include <SFML/System/Time.hpp>
-
+#include "Bullet.h"
 #include "Engine.h"
 #include "Ship.h"
-#include "Bullet.h"
 
 namespace space {
-   
+
 class Enemy : public engine::MoveAble {
  public:
     enum bot_actions {
@@ -19,6 +18,7 @@ class Enemy : public engine::MoveAble {
        FIRE,
        COUNT
     };
+ 
  public:
     Enemy();
     ~Enemy() = default;
@@ -31,8 +31,6 @@ class Enemy : public engine::MoveAble {
     void turn_to_player();
 
     void trigger(engine::MoveAble &moveable);
-
-    void spot_player(Ship &player_ship);
 
  private:
     bool _is_player_spotted;

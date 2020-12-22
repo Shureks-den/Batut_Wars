@@ -1,22 +1,21 @@
 #pragma once
 
-#include <thread>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <thread>
 
-#include "Player.h"
 #include "Client.h"
+#include "Holder.h"
+#include "Player.h"
 #include "Server.h"
 #include "States/StateStack.h"
-#include "Holder.h"
 
 class Game : sf::NonCopyable {
  public:
-  Game();
-  ~Game() = default;
-  void run();
+    Game();
+    ~Game() = default;
+    void run();
 
  private:
     bool update(sf::Time dt);
@@ -36,10 +35,11 @@ class Game : sf::NonCopyable {
     network::Client _client;
     network::Server _server;
     std::thread _server_thread;
-    MusicPlayer _musicplayer;
+    std::thread _client_thread;
 
+    MusicPlayer _musicplayer;
 
     StateStack _state_stack;
 
-  static const sf::Time _time_per_frame;
+    static const sf::Time _time_per_frame;
 };

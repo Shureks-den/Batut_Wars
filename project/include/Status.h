@@ -1,8 +1,7 @@
 #pragma once
 
-#include <vector>
-
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 #include "Identificators.h"
 
@@ -17,7 +16,8 @@ class Status {
   bool is_removed;
   animation::Id animation_id;
 
-  std::vector<bool> states;
   float angle;
   sf::Vector2f position;
+
+  std::vector<bool> states;
 };

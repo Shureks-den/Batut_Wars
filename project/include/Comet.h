@@ -1,0 +1,23 @@
+#pragma once
+
+#include "Engine.h"
+
+namespace space {
+
+class Comet : public engine::MoveAble {
+ public:
+  Comet(engine::Vector speed);
+  ~Comet() = default;
+
+  void collision(engine::MoveAble &moveable);
+  void virtual trigger(engine::MoveAble &moveable) override;
+
+  void update(sf::Time dt) override;
+
+  animation::Id get_animation_id() const override;
+
+ private:
+  const int _dmg;
+};
+
+}  // namespace space
