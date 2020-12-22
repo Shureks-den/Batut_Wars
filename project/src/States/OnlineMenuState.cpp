@@ -86,6 +86,10 @@ void OnlineMenuState::start_client() {
     getContext().network_info->first = ip_textbox->get_text();  // TODO(ANDY) ловить исключения
     getContext().network_info->second = static_cast<uint16_t>(std::stoi(port_textbox->get_text()));
     if (getContext().client->connect(*getContext().network_info)) {
+        *getContext().client_thread = std::thread([this]() {
+            getContext().client->run();
+        });
+        getContext().client_thread->detach();
         requestStackPush(States::Id::ONLINE);
     } else {
         std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод
@@ -102,7 +106,12 @@ void OnlineMenuState::start_server() {
     std::cout << getContext().network_info->first << std::endl;
     std::cout << getContext().network_info->second << std::endl;
     sf::sleep(sf::seconds(1));
+
     if (getContext().client->connect(*getContext().network_info)) {
+        *getContext().client_thread = std::thread([this]() {
+            getContext().client->run();
+        });
+        getContext().client_thread->detach();
         requestStackPush(States::Id::ONLINE);
     } else {
         std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод

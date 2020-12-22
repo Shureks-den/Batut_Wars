@@ -54,7 +54,7 @@ std::pair<sf::IpAddress, uint16_t> Server::get_adress() const {
 
 void Server::accept_clients() {
     while (true) {  // Пока хост не запустил игру
-        if (_selector.wait()) {
+        if (_selector.wait(sf::microseconds(10))) {
             // if (_clients.size() != 0 && _selector.isReady(*_clients[_host])) {
             //     if (is_started()) {
             //         return;
@@ -73,12 +73,12 @@ void Server::accept_clients() {
 void Server::get_client_actions() {
     sf::Packet input_packet;
     for (auto &it : _clients) {
-        // if (!_selector.isReady(*it)) {
-        //     continue;
-        // }
-
-        if (it->receive(input_packet) == sf::Socket::Done) {
-            input_packet >> _world.get_actions();
+        if (_selector.wait(sf::microseconds(10))) {
+            if (_selector.isReady(*it)) {
+                if (it->receive(input_packet) == sf::Socket::Done) {
+                    input_packet >> _world.get_actions();
+                }
+            }
         }
     }
 }
@@ -88,16 +88,12 @@ void Server::send_update() {
     auto status = _world.get_status();
     output_packet << status;
     for (auto &it : _clients) {
-        // if (!_selector.isReady(*it)) {
-        //     continue;
-        // }
-
         it->send(output_packet);
     }
 }
 
 void Server::add_client() {
-    // if (_selector.isReady(_listener)) { // Почему-то ломается
+    if (_selector.isReady(_listener)) {
         std::cout << "ADD CLIENT 1" << std::endl;
         auto socket = std::shared_ptr<sf::TcpSocket>(new sf::TcpSocket);
         std::cout << "ADD CLIENT 2" << std::endl;
@@ -117,7 +113,7 @@ void Server::add_client() {
         } else {
             std::cout << "FAIL SENDING ID" << _clients.size() << std::endl;
         }
-    // }
+    }
 }
 
 bool Server::is_started() {

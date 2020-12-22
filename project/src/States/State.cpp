@@ -10,6 +10,7 @@ State::Context::Context(sf::RenderWindow &window,
                         network::Client &client,
                         network::Server &server,
                         std::thread &server_thread,
+                        std::thread &client_thread,
                         MusicPlayer &music)
 
                       : window(&window),
@@ -20,9 +21,8 @@ State::Context::Context(sf::RenderWindow &window,
                         client(&client),
                         server(&server),
                         server_thread(&server_thread),
-                        music(&music)
-                        {
-}
+                        client_thread(&client_thread),
+                        music(&music) {}
 
 State::State(StateStack& stack, Context context)
       : _stack(&stack),

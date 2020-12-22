@@ -3,6 +3,7 @@
 #include <cassert>
 #include <memory>
 #include <algorithm>
+#include <iostream>
 
 #include "Ship.h"
 #include "Layer.h"
@@ -163,7 +164,7 @@ bool World::is_over() {
     //     }
     // }
     // return false;
-    return true;  // TODO(ANDY) убрать заглушку
+    return false;  // TODO(ANDY) убрать заглушку
 }
 
 void World::push_player(std::unique_ptr<engine::MoveAble> player) {

@@ -36,6 +36,8 @@ class Game : sf::NonCopyable {
     network::Client _client;
     network::Server _server;
     std::thread _server_thread;
+    std::thread _client_thread;
+
     MusicPlayer _musicplayer;
 
 

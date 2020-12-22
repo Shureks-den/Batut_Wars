@@ -6,10 +6,8 @@ sf::Packet& operator<<(sf::Packet& packet, animation::Id& animashki) {
 
 sf::Packet& operator>>(sf::Packet& packet, animation::Id& animashki) {
     int tmp;
-    while (!packet.endOfPacket()) {
-       packet >> tmp;
-       animashki = static_cast<animation::Id>(tmp);
-    }
+    packet >> tmp;
+    animashki = static_cast<animation::Id>(tmp);
     return packet;
 }
 
@@ -31,17 +29,21 @@ sf::Packet& operator>>(sf::Packet& packet, std::queue<Player::Action>& actions) 
 }
 
 sf::Packet& operator<<(sf::Packet& packet, std::vector<bool>& bool_vector) {
-    for (size_t i; i < bool_vector.size(); i++) {
-        packet << bool_vector.at(i);
+    packet << static_cast<int>(bool_vector.size());
+    for (auto it : bool_vector) {
+        packet << it;
     }
     return packet;
 }
 
 sf::Packet& operator>>(sf::Packet& packet, std::vector<bool>& bool_vector) {
-    bool tmp;
-    while (!packet.endOfPacket()) {
-        packet >> tmp;
-        bool_vector.push_back(tmp);
+    int size;
+    packet >> size;
+    bool_vector.resize(size);
+    for (size_t i = 0; i < static_cast<size_t>(size); ++i) {
+        bool data;
+        packet >> data;
+        bool_vector[i] = data;
     }
     return packet;
 }
@@ -65,6 +67,7 @@ sf::Packet& operator>>(sf::Packet& packet, Status& status) {
 }
 
 sf::Packet& operator<<(sf::Packet& packet, std::vector<Status>& status) {
+    packet << static_cast<int>(status.size());
     for (auto &it : status) {
         packet << it;
     }
@@ -72,15 +75,19 @@ sf::Packet& operator<<(sf::Packet& packet, std::vector<Status>& status) {
 }
 
 sf::Packet& operator>>(sf::Packet& packet, std::vector<Status>& status) {
-    Status tmp;
-    while (!packet.endOfPacket()) {
+    int size;
+    packet >> size;
+    status.resize(size);
+    for (size_t i = 0; i < static_cast<size_t>(size); ++i) {
+        Status tmp;
         packet >> tmp;
-        status.push_back(tmp);
+        status[i] = tmp;
     }
     return packet;
 }
 
 sf::Packet& operator<<(sf::Packet& packet, std::vector<std::vector<Status>>& status) {
+    packet << static_cast<int>(status.size());
     for (auto &it : status) {
         packet << it;
     }
@@ -88,10 +95,13 @@ sf::Packet& operator<<(sf::Packet& packet, std::vector<std::vector<Status>>& sta
 }
 
 sf::Packet& operator>>(sf::Packet& packet, std::vector<std::vector<Status>>& status) {
-    std::vector<Status> tmp;
-    while (!packet.endOfPacket()) {
+    int size;
+    packet >> size;
+    status.resize(size);
+    for (size_t i = 0; i < static_cast<size_t>(size); ++i) {
+        std::vector<Status> tmp;
         packet >> tmp;
-        status.push_back(tmp);
+        status[i].assign(tmp.begin(), tmp.end());
     }
     return packet;
 }
