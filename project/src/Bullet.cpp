@@ -63,4 +63,6 @@ void Bullet::collision(engine::MoveAble &object) {
     }
 }
 
+void Bullet::trigger(MoveAble &) {}
+
 }  //namespace space

@@ -16,23 +16,22 @@ enum class StatusLay {
     MOVEABLE,
     IMMOVEABLE,
     BULLET,
+    ENEMIES,
     COUNT,
 };
 
 static Status to_status(engine::Entity const &entity) {
     Status status;
     status.id = entity.get_id();
-    status.is_removed = entity.is_destroyed();  // TODO(ANDY) в зависимости от hp
+    status.is_removed = entity.is_destroyed();
     status.animation_id = entity.get_animation_id();
     switch (status.animation_id) {  // TODO(ANDY) переписать на функцию
     case animation::Id::SHIP:
+    case animation::Id::BULLET:
         status.lay_id = static_cast<size_t>(animation::LayerNom::OBJECTS);
         break;
     case animation::Id::BLACKHOLE:
         status.lay_id = static_cast<size_t>(animation::LayerNom::PLANETS);
-        break;
-    case animation::Id::BULLET:
-        status.lay_id = static_cast<size_t>(animation::LayerNom::OBJECTS);
         break;
     default:
         break;
@@ -72,6 +71,10 @@ void World::update(sf::Time d_time) {
         it->update(d_time);
     }
 
+    for (auto &it : _enemies) {
+        it->update(d_time);
+    }
+
     for (auto &player : _players) {
         
         // for (auto &moveable : _moveable) {
@@ -86,6 +89,14 @@ void World::update(sf::Time d_time) {
         for (auto &bullet : _bullet) {
             bullet->collision(*player);
         }
+
+        for (auto &moveable : _moveable) {
+            moveable->trigger(*player);
+        }
+
+        for (auto &enemy : _enemies) {
+            enemy->trigger(*player);
+        }
     }
 
     for (auto &immoveable : _immoveable) {
@@ -97,11 +108,22 @@ void World::update(sf::Time d_time) {
             // immoveable->collision(*moveable);
             immoveable->trigger(*moveable);
         }
+        for (auto &enemy : _enemies) {
+            // immoveable->collision(*moveable);
+            immoveable->trigger(*enemy);
+        }
+    }
+
+    for (auto &it : _enemies) {
+        push_back(std::move(it->fire()));
     }
 
     for (auto &bullet : _bullet) {
         for (auto &moveable : _moveable) {
             bullet->collision(*moveable);
+        }
+        for (auto &enemy : _enemies) {
+             bullet->collision(*enemy);
         }
     }
 
@@ -143,6 +165,25 @@ void World::update(sf::Time d_time) {
         _status[static_cast<size_t>(StatusLay::BULLET)][i] = to_status(*_bullet[i]);
     }
 
+    for (size_t i = 0; i < _enemies.size(); ++i) {
+        sf::Vector2f position = _enemies[i]->get_position();  // TODO(ANDY) обновление status (после реализации angle в Entity)
+
+        if (position.x > MAP_SIZE) {
+            _enemies[i]->set_x(position.x - MAP_SIZE);
+        }
+        if (position.x < 0) {
+            _enemies[i]->set_x(position.x + MAP_SIZE);
+        }
+        if (position.y > MAP_SIZE) {
+            _enemies[i]->set_y(position.y - MAP_SIZE);
+        }
+        if (position.y < 0) {
+            _enemies[i]->set_y(position.y + MAP_SIZE);
+        }
+
+        _status[static_cast<size_t>(StatusLay::ENEMIES)][i] = to_status(*_enemies[i]);
+    }
+
     for (size_t i = 0; i < _moveable.size(); ++i) {
         _status[static_cast<size_t>(StatusLay::MOVEABLE)][i] = to_status(*_moveable[i]);
     }
@@ -150,6 +191,7 @@ void World::update(sf::Time d_time) {
     for (size_t i = 0; i < _immoveable.size(); ++i) {
         _status[static_cast<size_t>(StatusLay::IMMOVEABLE)][i] = to_status(*_immoveable[i]);
     }
+
 }
 
 bool World::is_over() {
@@ -206,6 +248,17 @@ void World::push_back(std::unique_ptr<space::Bullet> bullet) {
     _bullet.push_back(std::move(bullet));
 }
 
+void World::push_back(std::unique_ptr<space::Enemy> enemy) {
+    if (enemy == nullptr) {
+        return;
+    }
+
+    enemy->set_id(_player_count + _moveable_count++);
+    Status status = to_status(dynamic_cast<engine::Entity&>(*enemy));
+    _status[static_cast<size_t>(StatusLay::ENEMIES)].push_back(status);
+    _enemies.push_back(std::move(enemy));
+}
+
 void World::do_action(size_t id, Player::Action action, sf::Time d_time) {  // TODO(ANDY) переписать на таблицу Command
     if (_status[static_cast<size_t>(StatusLay::PLAYER)][id].is_removed) {
         return;
@@ -244,7 +297,3 @@ std::queue<std::pair<size_t, Player::Action>>& World::get_actions() {
 void World::set_player_count(size_t player_count) {
     _player_count = player_count;
 }
-
-
-// R = 125
-// Ship =64*48

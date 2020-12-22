@@ -47,7 +47,8 @@ SRCS = \
        project/src/Animation/A-Space.cpp \
        project/src/Animation/A-Blackhole.cpp \
        project/src/Animation/A-Bullet.cpp \
-       project/src/Animation/A-Portal.cpp
+       project/src/Animation/A-Portal.cpp \
+       project/src/Enemy.cpp
 
 .PHONY: all clean
 

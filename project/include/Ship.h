@@ -19,6 +19,7 @@ class Ship : public engine::MoveAble {
     void update(sf::Time dt) override;
     animation::Id get_animation_id() const override;
     std::unique_ptr<Bullet> fire();
+    void trigger(engine::MoveAble &moveable);
     void collision(engine::MoveAble &MoveAble) override;
 
  private:
