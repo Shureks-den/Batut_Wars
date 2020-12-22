@@ -50,7 +50,7 @@ bool Client::connect(std::pair<sf::IpAddress, uint16_t> const &adress) {
 void Client::disconnect() {
     _server.disconnect();
     _server.setBlocking(true);  // TODO(ANDY) надо или нет?
-    _is_connected = true;
+    _is_connected = false;
 }
 
 std::vector<std::vector<Status>> Client::get_status() {

@@ -17,6 +17,7 @@ class Manager {
 
     virtual void update(sf::Time d_time);
     void draw(sf::RenderWindow &window);
+
     void set_states(const std::vector<bool> &states);
     void set_position(const sf::Vector2f &position);
     void set_angle(const float angle);
@@ -24,10 +25,12 @@ class Manager {
     sf::Vector2f get_size() const;
     void set_size(sf::Vector2f size);
     void set_origin(sf::Vector2f center);
+    void set_size_s(sf::Vector2f size);
 
     void set_switch_time(sf::Time switch_time);
     void set_image_count(sf::Vector2u image_count);
     void set_playing(bool is_playing);
+    bool is_playing() const;
 
  protected:
     sf::Vector2u _image_count;

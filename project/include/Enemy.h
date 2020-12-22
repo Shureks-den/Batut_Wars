@@ -25,7 +25,7 @@ class Enemy : public engine::MoveAble {
   void collision(engine::MoveAble &MoveAble) override;
   void turn_to_player(Ship &player_ship);
 
-  void spot_player(Ship &player_ship);
+  void virtual trigger(engine::MoveAble &player_ship) override;
 
  private:
   bool _is_player_spotted;

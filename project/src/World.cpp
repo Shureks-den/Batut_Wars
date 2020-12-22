@@ -7,6 +7,7 @@
 #include "Engine.h"
 #include "Layer.h"
 #include "Ship.h"
+#include "IcePlanet.h"
 
 static constexpr size_t MAP_SIZE = 10 * 450;  // Криво, но пока надо
 
@@ -25,13 +26,13 @@ static Status to_status(engine::Entity const &entity) {
   status.animation_id = entity.get_animation_id();
   switch (status.animation_id) {  // TODO(ANDY) переписать на функцию
     case animation::Id::SHIP:
+    case animation::Id::BULLET:
+    case animation::Id::COMET:
       status.lay_id = static_cast<size_t>(animation::LayerNom::OBJECTS);
       break;
+    case animation::Id::ICE_PLANET:
     case animation::Id::BLACKHOLE:
       status.lay_id = static_cast<size_t>(animation::LayerNom::PLANETS);
-      break;
-    case animation::Id::BULLET:
-      status.lay_id = static_cast<size_t>(animation::LayerNom::OBJECTS);
       break;
     default:
       break;
@@ -75,10 +76,10 @@ void World::update(sf::Time d_time) {
   }
 
   for (auto &player : _players) {
-    // for (auto &moveable : _moveable) {
-    //     player->collision(*moveable);
-    //     moveable->collision(*player);
-    // }
+    for (auto &moveable : _moveable) {
+        player->collision(*moveable);
+        moveable->collision(*player);
+    }
     for (auto &immoveable : _immoveable) {
       immoveable->collision(*player);
       immoveable->trigger(*player);
@@ -91,7 +92,11 @@ void World::update(sf::Time d_time) {
 
   for (auto &immoveable : _immoveable) {
     for (auto &bullet : _bullet) {
-      // immoveable->collision(*bullet);
+      if (auto tmp = dynamic_cast<space::IcePlanet*>(immoveable.get())) {
+          tmp->collision(*bullet);
+      } else {
+          immoveable->collision(*bullet);
+      }
       immoveable->trigger(*bullet);
     }
     for (auto &moveable : _moveable) {
@@ -103,6 +108,7 @@ void World::update(sf::Time d_time) {
   for (auto &bullet : _bullet) {
     for (auto &moveable : _moveable) {
       bullet->collision(*moveable);
+      // moveable->collision(*bullet);
     }
   }
 
@@ -150,8 +156,24 @@ void World::update(sf::Time d_time) {
   }
 
   for (size_t i = 0; i < _moveable.size(); ++i) {
-    _status[static_cast<size_t>(StatusLay::MOVEABLE)][i] =
-        to_status(*_moveable[i]);
+    sf::Vector2f position =
+        _moveable[i]->get_position();  // TODO(ANDY) обновление status (после
+                                     // реализации angle в Entity)
+
+    if (position.x > MAP_SIZE) {
+      _moveable[i]->set_x(position.x - MAP_SIZE);
+    }
+    if (position.x < 0) {
+      _moveable[i]->set_x(position.x + MAP_SIZE);
+    }
+    if (position.y > MAP_SIZE) {
+      _moveable[i]->set_y(position.y - MAP_SIZE);
+    }
+    if (position.y < 0) {
+      _moveable[i]->set_y(position.y + MAP_SIZE);
+    }
+
+    _status[static_cast<size_t>(StatusLay::MOVEABLE)][i] = to_status(*_moveable[i]);
   }
 
   for (size_t i = 0; i < _immoveable.size(); ++i) {

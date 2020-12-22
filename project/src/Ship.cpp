@@ -8,7 +8,7 @@ Ship::Ship()
     : engine::MoveAble(35, 150),
       _recharge(sf::seconds(1.5f)),
       _countdown(_recharge) {
-  set_size(sf::Vector2f(50.0f, 64.0f));
+      set_size(sf::Vector2f(50.0f, 64.0f));
 }
 
 void Ship::update(sf::Time dt) {
@@ -55,5 +55,7 @@ std::unique_ptr<Bullet> Ship::fire() {
 animation::Id Ship::get_animation_id() const { return animation::Id::SHIP; }
 
 void Ship::collision(engine::MoveAble &) {}
+
+void Ship::trigger(engine::MoveAble &) {}
 
 }  // namespace space

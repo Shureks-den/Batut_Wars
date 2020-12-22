@@ -3,6 +3,7 @@
 #include <array>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 static constexpr size_t MAP_SIZE =
     10 * 450;  // Криво, но пока надо. 450 - размер текстурки космоса
@@ -95,7 +96,19 @@ void Render::set_status(const std::vector<std::vector<Status>> &status) {
       size_t lay = status[i][j].lay_id;
       size_t id = status[i][j].id;
       if (status[i][j].is_removed) {
+        if (!_animation_layers[lay][id].is_playing()){
+          continue;
+        }
+
         _animation_layers[lay][id].set_playing(false);
+        auto explosion = _creator.get_animation(animation::Id::EXPLOSION);
+        auto size = _animation_layers[lay][id].get_size();
+        float modul = sqrt(size.x * size.x + size.y * size.y);
+        size.x = size.y = modul;
+        explosion->set_size_s(size);
+        explosion->set_position(status[i][j].position + _extra_size);
+        explosion->set_angle(status[i][j].angle);
+        _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)].push_back(std::move(explosion));
         continue;
       }
 

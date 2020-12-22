@@ -14,6 +14,12 @@ Holder::Holder() {
   _resource_map.push_back(tmp);
   tmp.loadFromFile("project/media/portall.png");
   _resource_map.push_back(tmp);
+  tmp.loadFromFile("project/media/planet-14.png");
+  _resource_map.push_back(tmp);
+  tmp.loadFromFile("project/media/comet.png");
+  _resource_map.push_back(tmp);
+  tmp.loadFromFile("project/media/explosion-1.png");
+  _resource_map.push_back(tmp);
 }
 
 const sf::Texture* Holder::get(Id id) const {

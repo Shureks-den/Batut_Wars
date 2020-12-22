@@ -20,6 +20,8 @@ class Ship : public engine::MoveAble {
   std::unique_ptr<Bullet> fire();
   void collision(engine::MoveAble &MoveAble) override;
 
+  void virtual trigger(engine::MoveAble &moveable) override;
+
  private:
   const sf::Time _recharge;  // Перезарядка между выстрелами
   sf::Time _countdown;  // Текущий кд

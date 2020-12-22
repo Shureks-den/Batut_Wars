@@ -1,18 +1,16 @@
 #pragma once
 
-#include "Engine.h"
+#include "Planet.h"
 
 namespace space {
 
-class Massive : public engine::ImmoveAble {
+class Massive : public space::Planet {
  public:
   Massive(int mass, float range);
   ~Massive() = default;
-  void collision(engine::MoveAble &moveable) override;  // TODO(Tony)
-  void trigger(engine::MoveAble &moveable);
+  virtual void trigger(engine::MoveAble &moveable) override;
   float get_zone();
 
-  float get_range();
   engine::Vector gravitate(sf::Vector2f position);
 
   animation::Id get_animation_id() const override;
@@ -20,7 +18,6 @@ class Massive : public engine::ImmoveAble {
 
  protected:
   const int _mass;
-  const float _range;
 };
 
 }  // namespace space

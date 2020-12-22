@@ -55,9 +55,10 @@ void Bullet::collision(engine::MoveAble &object) {
       _position.x >= object.get_x() - size.x / 2 &&
       _position.y <= object.get_y() + size.y / 2 &&
       _position.y >= object.get_y() - size.y / 2) {
-    std::cout << "BOOOOOM" << std::endl;
-    _is_destroyed = true;
+      _is_destroyed = true;
   }
 }
+
+void Bullet::trigger(engine::MoveAble &) {}
 
 }  // namespace space

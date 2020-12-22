@@ -43,14 +43,18 @@ SRCS = \
        project/src/GUI/Textbox.cpp \
        project/src/States/OnlineMenuState.cpp \
        project/src/Bullet.cpp \
-       project/src/Commet.cpp \
+       project/src/Comet.cpp \
        project/src/Music.cpp \
        project/src/Animation/A-Ship.cpp \
        project/src/Animation/A-Space.cpp \
        project/src/Animation/A-Blackhole.cpp \
        project/src/Animation/A-Bullet.cpp \
        project/src/Animation/A-Portal.cpp \
-       project/src/Enemy.cpp
+       project/src/Animation/A-Comet.cpp \
+       project/src/Animation/A-IcePlanet.cpp \
+       project/src/Animation/A-Explosion.cpp \
+       project/src/Enemy.cpp \
+       project/src/Planet.cpp
 
 .PHONY: all clean
 

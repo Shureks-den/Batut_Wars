@@ -8,7 +8,8 @@ enum class Id {
   BLACKHOLE,
   BULLET,
   PORTAL,
-  PLANET,
+  ICE_PLANET,
+  COMET,
   EXPLOSION,
   COUNT
 };

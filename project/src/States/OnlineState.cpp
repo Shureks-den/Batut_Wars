@@ -8,6 +8,7 @@ OnlineState::OnlineState(StateStack& stack, Context context)
               _client(context.client) {
     std::cout << "ONLINE STATE CONSTRUCTOR" << std::endl;
     _render.set_player_id(_client->get_id());
+    _render.inicilize(_client->get_status());
 }
 
 bool OnlineState::update(sf::Time dt) {

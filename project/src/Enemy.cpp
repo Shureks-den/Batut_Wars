@@ -62,7 +62,7 @@ std::unique_ptr<Bullet> Enemy::fire() {
 
 animation::Id Enemy::get_animation_id() const { return animation::Id::SHIP; }
 
-void Enemy::spot_player(Ship &player_ship) {
+void Enemy::trigger(engine::MoveAble &player_ship) {
   if (player_ship.get_position().x >= this->get_position().x - _vision.x &&
       player_ship.get_position().x <= this->get_position().x + _vision.x &&
       player_ship.get_position().y >= this->get_position().y - _vision.y &&
