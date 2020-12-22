@@ -26,6 +26,7 @@ class World {
     void push_back(std::unique_ptr<engine::ImmoveAble> immoveable);
     void push_back(std::unique_ptr<engine::MoveAble> moveable);
     void push_back(std::unique_ptr<space::Bullet> bullet);
+    void push_back(std::unique_ptr<space::Enemy> enemy);
 
     void set_player_count(size_t player_count);
 
@@ -36,10 +37,10 @@ class World {
     std::queue<std::pair<size_t, Player::Action>> _actions_;
 
     std::vector<std::unique_ptr<engine::MoveAble>> _players;
-    std::vector<std::unique_ptr<space::Enemy>> _enemies;
     std::vector<std::unique_ptr<engine::MoveAble>> _moveable;
-    std::vector<std::unique_ptr<space::Bullet>> _bullet;
     std::vector<std::unique_ptr<engine::ImmoveAble>> _immoveable;
+    std::vector<std::unique_ptr<space::Bullet>> _bullet;
+    std::vector<std::unique_ptr<space::Enemy>> _enemies;
 
     std::vector<std::vector<Status>> _status;
 
