@@ -24,6 +24,9 @@ class Creator {
     std::unique_ptr<Manager> make_blackhole() const;
     std::unique_ptr<Manager> make_bullet() const;
     std::unique_ptr<Manager> make_portal() const;
+    std::unique_ptr<Manager> make_comet() const;
+    std::unique_ptr<Manager> make_iceplanet() const;
+    std::unique_ptr<Manager> make_explosion() const;
 };
 
 }  // namespace animation

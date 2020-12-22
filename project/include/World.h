@@ -1,14 +1,14 @@
 #pragma once
 
+#include <list>
+#include <memory>
 #include <queue>
 #include <vector>
-#include <memory>
-#include <list>
 
+#include "Bullet.h"
 #include "Engine.h"
 #include "Player.h"
 #include "Status.h"
-#include "Bullet.h"
 #include "Enemy.h"
 
 class World {
@@ -46,4 +46,5 @@ class World {
     size_t _immoveable_count;
 
     void do_action(size_t id, Player::Action action, sf::Time d_time);
+    void portal(engine::MoveAble &moveable);
 };

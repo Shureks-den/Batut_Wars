@@ -1,8 +1,7 @@
 #pragma once
 
-#include <vector>
-
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 #include "Identificators.h"
 

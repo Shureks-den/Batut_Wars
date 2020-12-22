@@ -5,7 +5,6 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "Utility.h"
-#include <iostream>
 
 namespace GUI {
 
@@ -57,7 +56,6 @@ void Textbox::deselect() {
 
 void Textbox::activate() {
     Component::activate();
-    std::cout << "ACTIVATE" << std::endl;
 
     if (_is_toggle) {
         _background.setTexture(_selected);
@@ -66,7 +64,7 @@ void Textbox::activate() {
 
 void Textbox::deactivate() {
     Component::deactivate();
-    std::cout << "DEACTIVATE" << std::endl;
+
     if (_is_toggle) {
         if (is_selected()) {
             _background.setTexture(_selected);

@@ -107,12 +107,27 @@ void Manager::set_size(sf::Vector2f size) {
     _body.setSize(size);
 }
 
+void Manager::set_size_s(sf::Vector2f size) {  // Безопасна для центра
+    auto coef = _body.getSize();
+    coef.x /= size.x;
+    coef.y /= size.y;
+    auto new_origin = _body.getOrigin();
+    new_origin.x /= coef.x;
+    new_origin.y /= coef.y;
+    _body.setSize(size);
+    _body.setOrigin(new_origin);
+}
+
 void Manager::set_origin(sf::Vector2f center) {
     _body.setOrigin(center.x, center.y);
 }
 
 void Manager::set_playing(bool is_playing) {
     _is_playing = is_playing;
+}
+
+bool Manager::is_playing() const {
+    return _is_playing;
 }
 
 }  // namespace animation
