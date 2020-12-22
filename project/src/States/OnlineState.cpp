@@ -12,19 +12,14 @@ OnlineState::OnlineState(StateStack& stack, Context context)
 }
 
 bool OnlineState::update(sf::Time dt) {
-    std::cout << "ONLINE UPDATE 1" << std::endl;
     _render.set_status(_client->get_status());
-    std::cout << "ONLINE UPDATE 2" << std::endl;
     _render.update(dt);
-    std::cout << "ONLINE UPDATE 3" << std::endl;
+
     update_statistic(dt);
 
     std::queue<Player::Action> &actions = _client->get_actions();
-    // std::cout << "ONLINE UPDATE 4" << std::endl;
     _player.handle_realtime_event(actions);
-    // std::cout << "ONLINE UPDATE 5" << std::endl;
-    // _client->send_actions();
-    // std::cout << "ONLINE UPDATE 6" << std::endl;
+
     return true;
 }
 

@@ -52,14 +52,9 @@ World::World() : _player_count(0),
 
 void World::update(sf::Time d_time) {
     while (!_actions.empty()) {
-        do_action(0, _actions.front(), d_time);
+        do_action(_actions.front().first, _actions.front().second, d_time);
         _actions.pop();
     }
-
-    // while (!_actions_.empty()) {
-    //     do_action(_actions_.front().first, _actions_.front().second, d_time);
-    //     _actions.pop();
-    // }
 
     for (auto &it : _players) {
         it->update(d_time);
@@ -211,12 +206,6 @@ void World::push_back(std::unique_ptr<space::Bullet> bullet) {
     _bullet.push_back(std::move(bullet));
 }
 
-// void World::push_back(std::unique_ptr<engine::Entity> object) {
-//     _objects.push_back(std::move(object));
-//     Status status = to_status(dynamic_cast<engine::Entity&>(*_objects.back()));
-//     _status.push_back(status);
-// }
-
 void World::do_action(size_t id, Player::Action action, sf::Time d_time) {  // TODO(ANDY) переписать на таблицу Command
     if (_status[static_cast<size_t>(StatusLay::PLAYER)][id].is_removed) {
         return;
@@ -248,8 +237,8 @@ std::vector<std::vector<Status>> World::get_status() {
     return _status;
 }
 
-std::queue<Player::Action>& World::get_actions() {
-    return _actions;
+std::queue<std::pair<size_t, Player::Action>>& World::get_actions() {
+     return _actions;
 }
 
 void World::set_player_count(size_t player_count) {

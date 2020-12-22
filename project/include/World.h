@@ -16,7 +16,7 @@ class World {
     ~World() = default;
 
     void update(sf::Time d_time);
-    std::queue<Player::Action>& get_actions();
+    std::queue<std::pair<size_t, Player::Action>>& get_actions();
     std::vector<std::vector<Status>> get_status();
     // size_t get_player_id();
     bool is_over();
@@ -29,10 +29,7 @@ class World {
     void set_player_count(size_t player_count);
 
  private:
-//    std::vector<std::unique_ptr<engine::Entity>> _objects;
-    std::queue<Player::Action> _actions;
-
-    std::queue<std::pair<size_t, Player::Action>> _actions_;
+    std::queue<std::pair<size_t, Player::Action>> _actions;
 
     std::vector<std::unique_ptr<engine::MoveAble>> _players;
     std::vector<std::unique_ptr<engine::MoveAble>> _moveable;
@@ -47,18 +44,3 @@ class World {
 
     void do_action(size_t id, Player::Action action, sf::Time d_time);
 };
-
-// struct ShipMover
-// {
-//    ShipMover(float vx, float vy)
-//    : velocity(vx, vy)
-//    {
-//    }
-
-//    void operator() (space::Ship& ship, sf::Time) const
-//    {
-//        ship.get_acceleration()
-//    }
-
-//    sf::Vector2f velocity;
-// };

@@ -27,6 +27,7 @@ class Server {
     const uint16_t _port;
     size_t _host;
 
+    void read_action(size_t client_id);
     void accept_clients();
     void get_client_actions();
     void send_update();

@@ -85,23 +85,6 @@ void Client::disconnect() {
 
 std::vector<std::vector<Status>> Client::get_status() {
     std::unique_lock<std::mutex> lock(client_mutex);
-    // client_mutex.lock();
-
-    // std::cout << "GET_STATUS" << std::endl;
-    // if (_status.empty()) {
-    //     std::cout << "EMPTY" << std::endl;
-    // }
-    // for (auto &it : _status) {
-    //     for (auto &it2 : it) {
-    //         std::cout << "ID: " << it2.id << std::endl << "ANIMAYION ID "
-    //                   << static_cast<size_t>(it2.animation_id) << std::endl;
-    //     }
-    // }
-
-    // std::vector<std::vector<Status>> status;
-    // status.assign(_status.begin(), _status.end());
-    // client_mutex.unlock();
-    // return status;
     return _status;
 }
 

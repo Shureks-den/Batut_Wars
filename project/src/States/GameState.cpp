@@ -39,14 +39,27 @@ bool GameState::update(sf::Time dt) {
     _render.update(dt);
     update_statistic(dt);
 
-    std::queue<Player::Action> &actions = _world.get_actions();
+    std::queue<Player::Action> actions;
     _player.handle_realtime_event(actions);
+
+    auto &world_actions = _world.get_actions();
+    while (!actions.empty()) {
+        world_actions.push(std::make_pair(0, actions.front()));
+        actions.pop();
+    }
+
     return !_world.is_over();
 }
 
 bool GameState::handle_event(const sf::Event& event) {
-    std::queue<Player::Action> &actions = _world.get_actions();
+    std::queue<Player::Action> actions;
     _player.handle_event(event, actions);
+
+    auto &world_actions = _world.get_actions();
+    while (!actions.empty()) {
+        world_actions.push(std::make_pair(0, actions.front()));
+        actions.pop();
+    }
 
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
         requestStackPush(States::PAUSE);

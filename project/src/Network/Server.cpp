@@ -71,14 +71,24 @@ void Server::accept_clients() {
 }
 
 void Server::get_client_actions() {
-    sf::Packet input_packet;
-    for (auto &it : _clients) {
+    for (size_t i = 0; i < _clients.size(); ++i) {
         if (_selector.wait(sf::microseconds(10))) {
-            if (_selector.isReady(*it)) {
-                if (it->receive(input_packet) == sf::Socket::Done) {
-                    input_packet >> _world.get_actions();
-                }
+            if (_selector.isReady(*_clients[i])) {
+                read_action(i);
             }
+        }
+    }
+}
+
+void Server::read_action(size_t client_id) {
+    sf::Packet input_packet;
+    if (_clients[client_id]->receive(input_packet) == sf::Socket::Done) {
+        std::queue<Player::Action> actions;
+        input_packet >> actions;
+        auto &world_action = _world.get_actions();
+        while (!actions.empty()) {
+            world_action.push(std::make_pair(client_id, actions.front()));
+            actions.pop();
         }
     }
 }
@@ -94,15 +104,10 @@ void Server::send_update() {
 
 void Server::add_client() {
     if (_selector.isReady(_listener)) {
-        std::cout << "ADD CLIENT 1" << std::endl;
         auto socket = std::shared_ptr<sf::TcpSocket>(new sf::TcpSocket);
-        std::cout << "ADD CLIENT 2" << std::endl;
         _listener.accept(*socket);
-        std::cout << "ADD CLIENT 3" << std::endl;
         sf::Packet output_packet;
-        std::cout << "ADD CLIENT 4" << std::endl;
         output_packet << static_cast<int>(_clients.size());
-        std::cout << "SERVER IS GOING TO SEND ID " << _clients.size() << std::endl;
 
         if (socket->send(output_packet) == sf::Socket::Done) {
             std::cout << "SERVER SELECTOR ADD SOCKET"<< std::endl;
@@ -111,13 +116,12 @@ void Server::add_client() {
             _clients.push_back(std::move(socket));
             std::cout << "CLIENTS: " << _clients.size() << std::endl;
         } else {
-            std::cout << "FAIL SENDING ID" << _clients.size() << std::endl;
+            _listener.close();
         }
     }
 }
 
 bool Server::is_started() {
-    std::cout << "IS STARTED?" << std::endl;
     if (_clients.size() == 1) {
         std::cout << "GAME START" << std::endl;
         return true;
