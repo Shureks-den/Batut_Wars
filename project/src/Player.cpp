@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-Player::Player() : _current_status(MissionRunning) {
+Player::Player() : _current_status(MissionAwaiting) {
   _key_binding[sf::Keyboard::W] = Action::MOVE_FORWARD;
   _key_binding[sf::Keyboard::A] = Action::MOVE_LEFT;
   _key_binding[sf::Keyboard::S] = Action::MOVE_BACKWARD;

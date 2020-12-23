@@ -171,7 +171,7 @@ bool World::is_over() {
   //     }
   // }
   // return false;
-  return true;  // TODO(ANDY) убрать заглушку
+  return false;  // TODO(ANDY) убрать заглушку
 }
 
 void World::push_player(std::unique_ptr<engine::MoveAble> player) {
@@ -291,7 +291,7 @@ void World::portal(engine::MoveAble &moveable) {
 ////////////// Пока хз как сделать эти проверки
 
 bool World::has_alive_player() {
-  return false;
+  return true;
 }
 
 bool World::finished_mission() {

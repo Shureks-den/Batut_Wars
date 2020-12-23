@@ -15,7 +15,8 @@ class Player {
     COUNT
   };
   enum MissionStatus {
-			MissionRunning = 0,
+      MissionAwaiting = 0,
+			MissionRunning,
 			MissionSuccess,
 			MissionFailure
 	};

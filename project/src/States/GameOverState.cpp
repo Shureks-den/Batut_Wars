@@ -1,4 +1,8 @@
 #include "States/GameOverState.h"
+
+#include <SFML/Graphics/RenderWindow.hpp>
+
+#include "Holder.h"
 #include "Utility.h"
 
 GameOverState::GameOverState(StateStack& stack, Context context)
@@ -45,6 +49,6 @@ bool GameOverState::update(sf::Time dt) {
 	return false;
 }
 
-bool GameOverState::handleEvent(const sf::Event&) {
-	return false;
+bool GameOverState::handle_event(const sf::Event&) {
+    return false;
 }

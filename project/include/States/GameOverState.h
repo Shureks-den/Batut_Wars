@@ -1,5 +1,8 @@
 #pragma once
 
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
+
 #include "State.h"
 #include "Container.h"
 
@@ -7,9 +10,9 @@ class GameOverState : public State {
  public:
 	GameOverState(StateStack& stack, Context context);
 
-	virtual void draw();
-	virtual bool update(sf::Time dt);
-	virtual bool handleEvent(const sf::Event& event);
+	void draw() override;
+    bool update(sf::Time dt) override;
+    bool handle_event(const sf::Event&) override;
 
  private:
     sf::RectangleShape _background;
