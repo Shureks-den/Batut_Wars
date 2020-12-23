@@ -33,3 +33,13 @@ enum class Id {
 };
 
 }  // namespace textures
+
+namespace sounds {
+
+   enum class Id {
+        EXPOLOSION = 0,
+        PLAYERFIRE,
+        ENEMYFIRE,
+        REFRACTION,
+    };
+}

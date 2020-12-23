@@ -63,3 +63,23 @@ const sf::Texture* Holder::get(Id id) const {
 }
 
 }  // namespace textures
+
+namespace sounds {
+
+  Holder::Holder() {
+  sf::SoundBuffer tmp;
+  tmp.loadFromFile("project/media/explosion.wav");
+  _resource_map.push_back(tmp);
+  tmp.loadFromFile("project/media/playershoot.wav");
+  _resource_map.push_back(tmp);
+  tmp.loadFromFile("project/media/enemyshoot.wav");
+  _resource_map.push_back(tmp);
+  tmp.loadFromFile("project/media/icerefraction.wav");
+  _resource_map.push_back(tmp);
+}
+
+const sf::SoundBuffer* Holder::get(Id id) const {
+  return &_resource_map[static_cast<size_t>(id)];
+}
+
+}  // namespace sound

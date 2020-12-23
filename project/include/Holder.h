@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <cassert>
 #include <memory>
 #include <stdexcept>
@@ -51,3 +52,17 @@ class Holder {
 };
 
 }  // namespace textures
+
+namespace sounds {
+
+class Holder {
+ public:
+  Holder();
+  ~Holder() = default;
+  const sf::SoundBuffer* get(Id id) const;
+
+ private:
+  std::vector<sf::SoundBuffer> _resource_map;
+};
+
+}
