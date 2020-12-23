@@ -6,6 +6,8 @@ enum Id {
     TITLE,
     MENU,
     ONLINE_MENU,
+    WAITING,
+    SERVER_WAITING,
     GAME,
     ONLINE,
     LOADING,

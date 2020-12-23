@@ -1,14 +1,11 @@
 #pragma once
 
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Text.hpp>
-
 #include "State.h"
 
-class TitleState : public State {
+class WaitingState : public State {
  public:
-    TitleState(StateStack &stack, Context context);
-    ~TitleState() = default;
+    WaitingState(StateStack& stack, Context context);
+    ~WaitingState() = default;
 
     void draw() override;
     bool update(sf::Time dt) override;
@@ -16,8 +13,9 @@ class TitleState : public State {
 
  private:
     sf::RectangleShape _background;
-    sf::IntRect _uv_rect;
+
     sf::Text _text;
+
     bool _is_showing;
     sf::Time _text_effect;
 };

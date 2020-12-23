@@ -6,7 +6,7 @@ HDRS = \
        project/include \
        project/include/GUI \
        project/include/Network \
-       project/include/GUI \
+       project/include/States \
        project/include/Animation
 
 SRCS = \
@@ -27,6 +27,8 @@ SRCS = \
        project/src/States/SettingState.cpp \
        project/src/States/PauseState.cpp \
        project/src/States/MenuState.cpp \
+       project/src/States/WaitingState.cpp \
+       project/src/States/ServerWaitingState.cpp \
        project/src/GUI/Label.cpp \
        project/src/States/GameState.cpp \
        project/src/Container.cpp \

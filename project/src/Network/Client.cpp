@@ -90,6 +90,7 @@ bool Client::connect(std::pair<sf::IpAddress, uint16_t> const &adress) {
 }
 
 void Client::disconnect() {
+    std::unique_lock<std::mutex> lock(client_mutex);
     _selector.remove(_server);
     _server.disconnect();
     // _server.setBlocking(true);  // TODO(ANDY) надо или нет?
@@ -106,6 +107,7 @@ bool Client::is_connected() const {
 }
 
 bool Client::is_game_started() const {
+    std::unique_lock<std::mutex> lock(client_mutex);
     return (_result != static_cast<int>(GameStatus::WAITING));
 }
 

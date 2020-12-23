@@ -15,6 +15,8 @@ class Server {
     ~Server();
     void run();
     std::pair<sf::IpAddress, uint16_t> get_adress() const;
+    size_t get_players() const;
+    void start_game();
 
  private:
     World _world;
@@ -31,8 +33,11 @@ class Server {
     void accept_clients();
     void get_client_actions();
     void send_update();
+    void send_waiting();
     void add_client();
     bool is_started();
+
+    bool _is_started;
 };
 
 }  // namespace network

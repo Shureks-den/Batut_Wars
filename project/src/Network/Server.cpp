@@ -2,9 +2,12 @@
 
 #include <utility>
 #include <iostream>
+#include <mutex>
 
 #include "Network.h"
 #include "Ship.h"
+
+static std::mutex server_mutex;
 
 namespace network {
 
@@ -12,7 +15,8 @@ Server::Server() : _time_per_update(sf::seconds(1.0 / 120.0)),
                    _ip(sf::IpAddress::getLocalAddress()),
                    //_port(sf::Socket::AnyPort),
                    _port(2000),
-                   _host(0) {}
+                   _host(0),
+                   _is_started(false) {}
 
 Server::~Server() {}
 
@@ -61,11 +65,6 @@ void Server::accept_clients() {
         total_time += current_time;
 
         if (_selector.wait(sf::microseconds(10))) {
-            // if (_clients.size() != 0 && _selector.isReady(*_clients[_host])) {
-            //     if (is_started()) {
-            //         return;
-            //     }
-            // }
             add_client();
         }
         if (_clients.size() != 0) {
@@ -76,7 +75,7 @@ void Server::accept_clients() {
         
         while (total_time > _time_per_update) {
             total_time -= _time_per_update;
-            send_update();
+            send_waiting();
         }
     }
 }
@@ -106,15 +105,26 @@ void Server::read_action(size_t client_id) {
 
 void Server::send_update() {
     sf::Packet output_packet;
-    int result = (is_started()) ? 1 : 0;  // КОСТЫЛЬ-ЗАГЛУШКА
+    int result = 1;  // КОСТЫЛЬ-ЗАГЛУШКА
     output_packet << result;
     auto status = _world.get_status();
     output_packet << status;
-    for (size_t i = 0; i < _clients.size(); ++i) {
-        if (_clients[i]->send(output_packet) == sf::Socket::Disconnected) {
-            _selector.remove(*_clients[i]);
-            _clients[i]->disconnect();
-            _clients.erase(_clients.begin() + i);
+    for (auto &it : _clients) {
+        if (it->send(output_packet) == sf::Socket::Disconnected) {
+            _selector.remove(*it);
+            it->disconnect();
+        }
+    }
+}
+
+void Server::send_waiting() {
+    sf::Packet output_packet;
+    int result = 0;
+    output_packet << result;
+    for (auto &it : _clients) {
+        if (it->send(output_packet) == sf::Socket::Disconnected) {
+            _selector.remove(*it);
+            it->disconnect();
         }
     }
 }
@@ -139,20 +149,17 @@ void Server::add_client() {
 }
 
 bool Server::is_started() {
-    if (_clients.size() == 2) {
-        return true;
-    } else {
-        return false;
-    }
+    return _is_started;
+}
 
-    sf::Packet input_packet;
-    if (_clients[_host]->receive(input_packet) != sf::Socket::Done) {
-        return false;
-    }
+void Server::start_game() {
+    std::unique_lock<std::mutex> lock(server_mutex);
+    _is_started = true;
+}
 
-    int code;
-    input_packet >> code;
-    return (code == network::START);
+size_t Server::get_players() const {
+    std::unique_lock<std::mutex> lock(server_mutex);
+    return _clients.size();
 }
 
 }  // namespace network

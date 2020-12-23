@@ -6,6 +6,8 @@
 #include "States/GameState.h"
 #include "States/MenuState.h"
 #include "States/OnlineMenuState.h"
+#include "States/WaitingState.h"
+#include "States/ServerWaitingState.h"
 #include "States/OnlineState.h"
 #include "States/PauseState.h"
 #include "States/SettingState.h"
@@ -80,6 +82,8 @@ void Game::registrates() {
   _state_stack.registrate<TitleState>(States::TITLE);
   _state_stack.registrate<MenuState>(States::MENU);
   _state_stack.registrate<OnlineMenuState>(States::ONLINE_MENU);
+  _state_stack.registrate<WaitingState>(States::WAITING);
+  _state_stack.registrate<ServerWaitingState>(States::SERVER_WAITING);
   _state_stack.registrate<GameState>(States::GAME);
   _state_stack.registrate<OnlineState>(States::ONLINE);
   _state_stack.registrate<PauseState>(States::PAUSE);

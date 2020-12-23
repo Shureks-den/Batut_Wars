@@ -1,16 +1,12 @@
-#include "States/TitleState.h"
+#include "WaitingState.h"
 
-#include <SFML/Graphics/RenderWindow.hpp>
-
+#include <memory>
+#include "Button.h"
 #include "Utility.h"
 #include "Holder.h"
 
-
-TitleState::TitleState(StateStack& stack, Context context)
-           : State(stack, context),
-            _text(),
-            _is_showing(true),
-            _text_effect(sf::Time::Zero) {
+WaitingState::WaitingState(StateStack& stack, Context context)
+            : State(stack, context) {
     const sf::Texture* texture = context.textures->get(textures::Id::MENU_BACKGROUND);
     _background.setTexture(texture);
     sf::Vector2u size = context.window->getSize();
@@ -19,23 +15,21 @@ TitleState::TitleState(StateStack& stack, Context context)
     menu_size.y = size.y * 1.f;
     _background.setSize(menu_size);
     _background.setPosition(0, 0);
+
     const sf::Font* font = context.fonts->get(fonts::Id::MAIN);
     _text.setFont(*font);
-    _text.setString("Press any key to continue");
+    _text.setString("Waiting start...");
     centerOrigin(_text);
     _text.setPosition(context.window->getView().getSize() / 2.f);
+    _text_effect = sf::Time::Zero;
 }
 
-void TitleState::draw() {
-    sf::RenderWindow& window = *getContext().window;
-    window.draw(_background);
-
-    if (_is_showing) {
-        window.draw(_text);
+bool WaitingState::update(sf::Time dt) {
+    if (getContext().client->is_game_started()) {
+        requestStackPop();
+        requestStackPush(States::Id::ONLINE);
     }
-}
 
-bool TitleState::update(sf::Time dt) {
     _text_effect += dt;
 
     if (_text_effect >= sf::seconds(0.5f)) {
@@ -46,11 +40,16 @@ bool TitleState::update(sf::Time dt) {
     return true;
 }
 
-bool TitleState::handle_event(const sf::Event &event) {
-    if (event.type == sf::Event::KeyReleased) {
-        requestStackPop();
-        requestStackPush(States::MENU);
-    }
+void WaitingState::draw() {
+    sf::RenderWindow& window = *getContext().window;
 
-    return true;
+    window.draw(_background);
+
+    if (_is_showing) {
+        window.draw(_text);
+    }
+}
+
+bool WaitingState::handle_event(const sf::Event&) {
+    return false;
 }

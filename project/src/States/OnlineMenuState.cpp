@@ -7,6 +7,9 @@
 #include "Button.h"
 #include "Server.h"
 
+static constexpr int FAIL = 1;
+static constexpr int SUCCESS = 1;
+
 OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
             : State(stack, context),
               _container() {
@@ -34,19 +37,19 @@ OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
     server_button->set_text("Create server");
     server_button->set_callback([this] () {
         start_server();
-        draw();
         sf::sleep(sf::seconds(1));
-        start_client();
-        //requestStackPush(States::Id::CLIENT_WAITING);
+        if (start_client() == SUCCESS) {
+            requestStackPush(States::Id::SERVER_WAITING);
+        }
     });
-    // Скорее всего, отдельный стейт на ожидние подключений
 
     auto connect_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     connect_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f + 25);
     connect_button->set_text("Connect");
     connect_button->set_callback([this] () {
-        start_client();
-        //requestStackPush(States::Id::CLIENT_WAITING);
+        if (start_client() == SUCCESS) {
+            requestStackPush(States::Id::WAITING);
+        }
     });
 
     auto back_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
@@ -79,21 +82,19 @@ bool OnlineMenuState::handle_event(const sf::Event& event) {
     return false;
 }
 
-void OnlineMenuState::start_client() {
+int OnlineMenuState::start_client() {
     getContext().network_info->first = ip_textbox->get_text();  // TODO(ANDY) ловить исключения
     getContext().network_info->second = static_cast<uint16_t>(std::stoi(port_textbox->get_text()));
-    if (getContext().client->connect(*getContext().network_info)) {
-        *getContext().client_thread = std::thread([this]() {
-            getContext().client->run();
-        });
-        getContext().client_thread->detach();
-
-        while (!getContext().client->is_game_started()) {}
-
-        requestStackPush(States::Id::ONLINE);
-    } else {
-        std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод
+    if (!getContext().client->connect(*getContext().network_info)) {
+        return FAIL;
     }
+
+    *getContext().client_thread = std::thread([this]() {
+        getContext().client->run();
+    });
+    getContext().client_thread->detach();
+
+    return SUCCESS;
 }
 
 void OnlineMenuState::start_server() {

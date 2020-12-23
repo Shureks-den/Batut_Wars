@@ -20,6 +20,6 @@ class OnlineMenuState : public State {
     std::shared_ptr<GUI::Textbox> ip_textbox;
     std::shared_ptr<GUI::Textbox> port_textbox;
 
-    void start_client();
+    int start_client();
     void start_server();
 };
