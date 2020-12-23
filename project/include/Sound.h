@@ -13,8 +13,8 @@ namespace sounds {
 class SoundPlayer : private sf::NonCopyable {
  public:
     SoundPlayer();
-    void play(SoundEffect::ID effect);
-    void play(SoundEffect::ID effect, sf::Vector2f position);
+    void play(Id effect);
+    void play(Id effect, sf::Vector2f position);
     
     void remove_stopped_sounds();
     void set_listener_position(sf::Vector2f position);
@@ -23,6 +23,6 @@ class SoundPlayer : private sf::NonCopyable {
  private:
  sounds::Holder _sound_buffer;
  std::list<sf::Sound> _sounds;
-}
+};
 
 }  // namespace sounds

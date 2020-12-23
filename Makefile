@@ -57,7 +57,8 @@ SRCS = \
        project/src/Animation/A-Explosion.cpp \
        project/src/Enemy.cpp \
        project/src/Planet.cpp \
-       project/src/States/GameOverState.cpp
+       project/src/States/GameOverState.cpp \
+       project/src/Sound.cpp
 
 .PHONY: all clean
 
