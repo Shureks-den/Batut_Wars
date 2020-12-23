@@ -78,7 +78,7 @@ void World::update(sf::Time d_time) {
 
     for (auto &player : _players) {
         for (auto &moveable : _moveable) {
-            player->collision(*moveable);
+            //player->collision(*moveable); just wrong
             moveable->collision(*player);
             moveable->trigger(*player);
         }
@@ -94,30 +94,26 @@ void World::update(sf::Time d_time) {
 
         for (auto &enemy : _enemies) {
             player->collision(*enemy);  //
-            enemy->collision(*player);  //
+            //enemy->collision(*player);
             enemy->trigger(*player);
         }
     }
 
-    // for (size_t i = 0; i < _enemies.size(); ++i)
-    // {
-    //   for (size_t j = i; i < _enemies.size(); ++i)
-    //   {
-    //     /* code */
-    //   }
-    // }
+    for (size_t i = 0; i < _enemies.size(); ++i)
+    {
+      for (size_t j = i; i < _enemies.size(); ++i)
+      {
+        _enemies[i]->collision((engine::MoveAble&)_enemies[j]);
+      }
+    }
 
-    // for (size_t i = 0; i < _players.size(); ++i)
-    // {
-    //   for (size_t j = i; j < _players.size(); j++)
-    //   {
-    //     /* code */
-    //   }
-    // }
-    
-
-
-    
+    for (size_t i = 0; i < _players.size(); ++i)
+    {
+      for (size_t j = i; j < _players.size(); ++j)
+      {
+        _players[i]->collision((engine::MoveAble&)_players[j]);
+      }
+    }
 
     for (auto &immoveable : _immoveable) {
         for (auto &bullet : _bullet) {

@@ -160,7 +160,7 @@ MoveAble::MoveAble(float thrust)
       _HP(100) {}  // TODO(Tony) сеттер для seed_limit
 
 MoveAble::MoveAble(float thrust, float speed)
-    : _engine_thrust(thrust), _speed_limit(speed) {}
+    : _engine_thrust(thrust), _speed_limit(speed), _HP(100) {}
 
 void MoveAble::give_acceleration(Vector acceleration) {
   _dictated_acceleration += acceleration;
@@ -187,5 +187,12 @@ void MoveAble::set_hp(int value) {
 int MoveAble::get_hp() { return _HP; }
 
 void MoveAble::collision(engine::MoveAble&) {}
+
+void MoveAble::set_engine_speed(Vector other_speed) {
+  this->_engine_speed = other_speed;
+}
+Vector MoveAble::get_engine_speed() {
+  return this->_engine_speed;
+}
 
 }  // namespace engine

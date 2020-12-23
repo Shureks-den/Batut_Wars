@@ -9,7 +9,7 @@ class Comet : public engine::MoveAble {
   Comet(engine::Vector speed);
   ~Comet() = default;
 
-  void collision(engine::MoveAble &moveable);
+  void collision(engine::MoveAble &moveable) override;
   void virtual trigger(engine::MoveAble &moveable) override;
 
   void update(sf::Time dt) override;

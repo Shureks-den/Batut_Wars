@@ -113,6 +113,8 @@ class MoveAble : public Entity {
   void rotate(float angle);
   void give_acceleration(Vector acceleration);
   void give_acceleration(Direction direction);
+  void set_engine_speed(Vector other_speed);
+  Vector get_engine_speed();
 
   int get_hp();
   void set_hp(int value);

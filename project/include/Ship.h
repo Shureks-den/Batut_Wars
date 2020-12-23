@@ -19,7 +19,7 @@ class Ship : public engine::MoveAble {
 
     virtual void trigger(engine::MoveAble &moveable) = 0;
     
-    void collision(engine::MoveAble &MoveAble) override;
+    void collision(engine::MoveAble &other) override;
 
  protected:
     const sf::Time _recharge;  // Перезарядка между выстрелами
