@@ -12,17 +12,16 @@ namespace space {
 
 class Ship : public engine::MoveAble {
  public:
-    Ship();
+    Ship(const sf::Time, sf::Time);
     ~Ship() = default;
 
-    void update(sf::Time dt) override;
-    animation::Id get_animation_id() const override;
-    std::unique_ptr<Bullet> fire();
+    virtual std::unique_ptr<Bullet> fire() = 0;
 
+    void virtual trigger(engine::MoveAble &moveable) = 0;
+    
     void collision(engine::MoveAble &MoveAble) override;
-    void virtual trigger(engine::MoveAble &moveable) override;
 
- private:
+ protected:
     const sf::Time _recharge;  // Перезарядка между выстрелами
     sf::Time _countdown;  // Текущий кд
 };

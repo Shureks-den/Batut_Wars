@@ -2,10 +2,8 @@
 
 namespace space {
 
-Enemy::Enemy() : engine::MoveAble(60, 70),
+Enemy::Enemy() : space::Ship(_recharge, sf::seconds(3.0f)),
                _is_player_spotted(false),
-               _recharge(sf::seconds(3.0f)),
-               _countdown(_recharge),
                _rotate_time(sf::seconds(2)),
                _vision(500,500),
                _rotate_speed(0.05f),
@@ -116,7 +114,5 @@ void Enemy::turn_to_player() {  // проверить работоспособн
         _aimed = true;   // буп-бип цель захвачена, пли
     }
 }
-
-void Enemy::collision(engine::MoveAble &) {}
 
 }  // namespace space

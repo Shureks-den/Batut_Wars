@@ -93,11 +93,31 @@ void World::update(sf::Time d_time) {
         }
 
         for (auto &enemy : _enemies) {
-            player->collision(*enemy);
-            enemy->collision(*player);
+            player->collision(*enemy);  //
+            enemy->collision(*player);  //
             enemy->trigger(*player);
         }
     }
+
+    for (size_t i = 0; i < _enemies.size(); ++i)
+    {
+      for (size_t j = i; i < _enemies.size(); ++i)
+      {
+        /* code */
+      }
+    }
+
+    for (size_t i = 0; i < _players.size(); ++i)
+    {
+      for (size_t j = i; j < _players.size(); j++)
+      {
+        /* code */
+      }
+    }
+    
+
+
+    
 
     for (auto &immoveable : _immoveable) {
         for (auto &bullet : _bullet) {
@@ -164,7 +184,7 @@ bool World::is_over() {
   //     }
   // }
   // return false;
-  return true;  // TODO(ANDY) убрать заглушку
+  return false;  // TODO(ANDY) убрать заглушку
 }
 
 void World::push_player(std::unique_ptr<engine::MoveAble> player) {
