@@ -1,6 +1,8 @@
 #include "States/GameOverState.h"
 
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/View.hpp>
 
 #include "Holder.h"
 #include "Utility.h"
@@ -10,14 +12,6 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 , _gameovertext()
 , _ElapsedTime(sf::Time::Zero) {
 
-	const sf::Texture* texture = context.textures->get(textures::Id::MENU_BACKGROUND);
-    _background.setTexture(texture);
-    sf::Vector2u size = context.window->getSize();
-    sf::Vector2f menu_size;
-    menu_size.x = size.x * 1.f;
-    menu_size.y = size.y * 1.f;
-    _background.setSize(menu_size);
-    _background.setPosition(0, 0);
     const sf::Font* font = context.fonts->get(fonts::Id::MAIN);
     _gameovertext.setFont(*font);
 
@@ -36,15 +30,21 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 
 void GameOverState::draw() {
 	sf::RenderWindow& window = *getContext().window;
-    window.draw(_background);
+    window.setView(window.getDefaultView());
+
+    sf::RectangleShape backgroundShape;
+    backgroundShape.setFillColor(sf::Color(0, 0, 0, 150));
+    backgroundShape.setSize(window.getView().getSize());
+
+    window.draw(backgroundShape);
     window.draw(_gameovertext);
 }
 
 bool GameOverState::update(sf::Time dt) {
     _ElapsedTime += dt;
-	if (_ElapsedTime > sf::seconds(5)) {
-		requestStateClear();
-		requestStackPush(States::MENU);
+	if (_ElapsedTime > sf::seconds(3)) {
+        requestStateClear();
+        requestStackPush(States::MENU);
 	}
 	return false;
 }
