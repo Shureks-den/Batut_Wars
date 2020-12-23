@@ -13,6 +13,7 @@ enum Id {
     LOADING,
     PAUSE,
     SETTINGS,
+    ENDGAME,
     COUNT,
     NONE
 };

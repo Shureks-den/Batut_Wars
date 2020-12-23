@@ -9,7 +9,7 @@ Comet::Comet(engine::Vector speed) : engine::MoveAble(0), _dmg(55) {  // TODO(an
 
 void Comet::collision(engine::MoveAble& moveable) {
   if(!is_destroyed()) {
-    float critical_radius = 20;
+    float critical_radius = 20 + sqrt((pow(moveable.get_size().x,2) + pow(moveable.get_size().y,2))/2);
     engine::Vector tmp(moveable.get_x() - this->get_x(),
                       moveable.get_y() - this->get_y());
 

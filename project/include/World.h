@@ -21,6 +21,8 @@ class World {
     std::vector<std::vector<Status>> get_status();
     // size_t get_player_id();
     bool is_over();
+    bool has_alive_player();
+    bool finished_mission();
 
     void push_player(std::unique_ptr<engine::MoveAble> player);
     void push_back(std::unique_ptr<engine::ImmoveAble> immoveable);

@@ -11,6 +11,7 @@
 #include "States/OnlineState.h"
 #include "States/PauseState.h"
 #include "States/SettingState.h"
+#include "States/GameOverState.h"
 #include "States/StateIdentifiers.h"
 #include "States/TitleState.h"
 
@@ -88,4 +89,5 @@ void Game::registrates() {
   _state_stack.registrate<OnlineState>(States::ONLINE);
   _state_stack.registrate<PauseState>(States::PAUSE);
   _state_stack.registrate<SettingsState>(States::SETTINGS);
+  _state_stack.registrate<GameOverState>(States::ENDGAME);
 }

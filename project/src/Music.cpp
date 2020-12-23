@@ -3,9 +3,9 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Audio/Music.hpp>
 
-MusicPlayer::MusicPlayer() : _music(), _filenames(), _volume(100.f) {
-  _filenames[Music::MenuTheme] = "project/media/Chill.ogg";
-  _filenames[Music::MissionTheme] = "project/media/Battle.ogg";
+MusicPlayer::MusicPlayer():_music(), _filenames(), _volume(0.f) {  // music off
+    _filenames[Music::MenuTheme] = "project/media/Chill.ogg";
+    _filenames[Music::MissionTheme] = "project/media/Battle.ogg";
 }
 
 void MusicPlayer::play(Music::ID theme) {

@@ -14,6 +14,9 @@ Enemy::Enemy() : engine::MoveAble(60, 70),
 }
 
 void Enemy::update(sf::Time dt) {
+     if (_is_destroyed) {
+        return;
+    }
     if(!_is_player_spotted) {    // афк действия, если игрока нет рядом, просто двигается, крутится
         _aimed = false;
         if (_rotate_time > sf::seconds(1) && _rotate_time < sf::seconds(7)) {   // простое перемещение запустите прочекайте
@@ -63,7 +66,7 @@ void Enemy::update(sf::Time dt) {
 }
 
 std::unique_ptr<Bullet> Enemy::fire() {
-    if (_countdown != sf::Time::Zero || _aimed == false) {
+    if (_countdown != sf::Time::Zero || _aimed == false || _is_destroyed) {
         return nullptr;
     }
 
@@ -80,6 +83,9 @@ animation::Id Enemy::get_animation_id() const {
 }
 
 void Enemy::trigger(engine::MoveAble &moveable) {
+    if (_is_destroyed) {
+        return;
+    }
     if (moveable.is_destroyed()) {
         _is_player_spotted = false;
         return;

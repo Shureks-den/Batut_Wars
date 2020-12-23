@@ -98,6 +98,13 @@ void World::update(sf::Time d_time) {
             enemy->trigger(*player);
         }
     }
+    
+    for (auto &moveable : _moveable) {
+        for (auto &enemy : _enemies) {
+            moveable->collision(*enemy);
+            enemy->collision(*moveable);
+        }
+    }
 
     for (auto &immoveable : _immoveable) {
         for (auto &bullet : _bullet) {
@@ -278,3 +285,17 @@ void World::portal(engine::MoveAble &moveable) {
       moveable.set_y(position.y + MAP_SIZE);
     }
 }
+
+
+
+////////////// Пока хз как сделать эти проверки
+
+bool World::has_alive_player() {
+  return true;
+}
+
+bool World::finished_mission() {
+  return false;
+}
+
+
