@@ -17,20 +17,22 @@ SettingsState::SettingsState(StateStack& stack, Context context)
     _background.setSize(menu_size);
     _background.setPosition(0, 0);
 
-    add_button_label(Player::MOVE_LEFT, 150.f, "Rotate Left", context);  // TODO(ANDY) позиция
-    add_button_label(Player::MOVE_RIGHT, 200.f, "Rotate Right   ", context);  // TODO(SOMEONE) пофиксить шрифты
-    add_button_label(Player::MOVE_FORWARD, 250.f, "Move Up", context);
-    add_button_label(Player::MOVE_BACKWARD, 300.f, "Move Down", context);
-    add_button_label(Player::FIRE, 350.f, "Fire", context);
+    float y_start = (menu_size.y - 50 * 6) / 2;
 
-    update_labels();
+    add_button_label(Player::MOVE_LEFT, y_start, "Rotate Left", context);  // TODO(ANDY) позиция
+    add_button_label(Player::MOVE_RIGHT, y_start + 50, "Rotate Right   ", context);  // TODO(SOMEONE) пофиксить шрифты
+    add_button_label(Player::MOVE_FORWARD, y_start + 100, "Move Up", context);
+    add_button_label(Player::MOVE_BACKWARD, y_start + 150, "Move Down", context);
+    add_button_label(Player::FIRE, y_start + 200.f, "Fire", context);
 
     auto back_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    back_button->setPosition(context.window->getSize().x * 0.5f - 100.f, 100.f);
+    back_button->setPosition(context.window->getSize().x * 0.5f - 100.f, y_start + 300);
     back_button->set_text("Back");
     back_button->set_callback(std::bind(&SettingsState::requestStackPop, this));
 
     _container.pack(back_button);
+
+    update_labels();
 }
 
 void SettingsState::draw() {

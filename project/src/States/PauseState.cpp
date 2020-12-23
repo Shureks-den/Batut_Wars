@@ -22,23 +22,23 @@ PauseState::PauseState(StateStack& stack, Context context)
     centerOrigin(_paused_text);
     _paused_text.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 
-    auto returnButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    returnButton->setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 125);
-    returnButton->set_text("Back to the menu");
-    returnButton->set_callback([this] () {
+    auto to_game = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+    to_game->setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 125);
+    to_game->set_text("Back to the game");
+    to_game->set_callback([this] () {
         requestStackPop();
     });
 
-    auto backToMenuButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    backToMenuButton->setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 75);
-    backToMenuButton->set_text("Return");
-    backToMenuButton->set_callback([this] () {
+    auto to_menu = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+    to_menu->setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 75);
+    to_menu->set_text("Back to the menu");
+    to_menu->set_callback([this] () {
         requestStateClear();
         requestStackPush(States::MENU);
     });
 
-    _container.pack(returnButton);
-    _container.pack(backToMenuButton);
+    _container.pack(to_menu);
+    _container.pack(to_game);
 }
 
 void PauseState::draw() {
