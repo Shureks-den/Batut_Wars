@@ -6,7 +6,7 @@
 class OnlineState : public GameStateBase {
  public:
     OnlineState(StateStack& stack, Context context);
-    ~OnlineState() = default;
+    ~OnlineState();
 
     bool update(sf::Time dt) override;
     bool handle_event(const sf::Event& event) override;

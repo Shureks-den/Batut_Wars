@@ -34,12 +34,11 @@ OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
     server_button->set_text("Create server");
     server_button->set_callback([this] () {
         start_server();
+        draw();
+        sf::sleep(sf::seconds(1));
+        start_client();
         //requestStackPush(States::Id::CLIENT_WAITING);
     });
-    // TODO(ANDY) по нажанию - запуск сервера в отдельном потоке, вывод ip и port в текстбоксы,
-    // запись ip и port в context.network_info (мб бесполезное поле - убрать)
-    // запуск server в context.server_thread
-    // context.client->connetc(ip, port)
     // Скорее всего, отдельный стейт на ожидние подключений
 
     auto connect_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
@@ -49,8 +48,6 @@ OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
         start_client();
         //requestStackPush(States::Id::CLIENT_WAITING);
     });
-    // TODO(ANDY) по нажанию - считать ip и port, client->connect(ip, port)
-    // Запустить стейт ожидания онлайн игры
 
     auto back_button = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
     back_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f + 75);
@@ -90,6 +87,9 @@ void OnlineMenuState::start_client() {
             getContext().client->run();
         });
         getContext().client_thread->detach();
+
+        while (!getContext().client->is_game_started()) {}
+
         requestStackPush(States::Id::ONLINE);
     } else {
         std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод
@@ -102,18 +102,9 @@ void OnlineMenuState::start_server() {
     });
     getContext().server_thread->detach();
     *getContext().network_info = getContext().server->get_adress();
+    ip_textbox->set_string(getContext().network_info->first.toString());
+    port_textbox->set_string(std::to_string(getContext().network_info->second));
     std::cout << "START SERVER" << std::endl;
     std::cout << getContext().network_info->first << std::endl;
     std::cout << getContext().network_info->second << std::endl;
-    sf::sleep(sf::seconds(1));
-
-    if (getContext().client->connect(*getContext().network_info)) {
-        *getContext().client_thread = std::thread([this]() {
-            getContext().client->run();
-        });
-        getContext().client_thread->detach();
-        requestStackPush(States::Id::ONLINE);
-    } else {
-        std::cout << "ACCESS DENIED" << std::endl;  // TODO(ANDY) визуальный вывод
-    }
 }

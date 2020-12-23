@@ -20,7 +20,9 @@ class Client {
     std::vector<std::vector<Status>> get_status();
     bool connect(std::pair<sf::IpAddress, uint16_t> const &adress);
     void disconnect();
+
     bool is_connected() const;
+    bool is_game_started() const;
 
  private:
     sf::TcpSocket _server;
@@ -34,6 +36,7 @@ class Client {
     std::vector<std::vector<Status>> _status;
 
     bool _is_connected;
+    int _result;
 
     void send_actions();
     void receive_status();

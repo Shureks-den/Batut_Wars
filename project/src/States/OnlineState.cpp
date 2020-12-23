@@ -11,6 +11,11 @@ OnlineState::OnlineState(StateStack& stack, Context context)
     _render.inicilize(_client->get_status());
 }
 
+OnlineState::~OnlineState() {
+    _client->disconnect();
+    getContext().client_thread->join();
+}
+
 bool OnlineState::update(sf::Time dt) {
     _render.set_status(_client->get_status());
     _render.update(dt);

@@ -7,6 +7,13 @@
 
 static std::mutex client_mutex;
 
+enum class GameStatus {
+    WAITING = 0,
+    GO,
+    WIN,
+    LOSE
+};
+
 namespace network {
 
 Client::Client() : _is_connected(false) {}
@@ -31,10 +38,11 @@ void Client::send_actions() {
 }
 
 void Client::receive_status() {
-    sf::Packet input_packet;
     if (_selector.wait(sf::microseconds(10))) {
         if (_selector.isReady(_server)) {
+            sf::Packet input_packet;
             if (_server.receive(input_packet) == sf::Socket::Done) {
+                input_packet >> _result;
                 input_packet >> _status;
             }
         }
@@ -42,7 +50,12 @@ void Client::receive_status() {
 }
 
 void Client::run() {
-    while (true) {
+    _result = static_cast<int>(GameStatus::WAITING);
+    while (_result == static_cast<int>(GameStatus::WAITING)) {
+        receive_status();
+    }
+
+    while (_result == static_cast<int>(GameStatus::GO)) {
         send_actions();
         receive_status();
     }
@@ -90,6 +103,10 @@ std::vector<std::vector<Status>> Client::get_status() {
 
 bool Client::is_connected() const {
     return _is_connected;
+}
+
+bool Client::is_game_started() const {
+    return (_result != static_cast<int>(GameStatus::WAITING));
 }
 
 }  // namespace network

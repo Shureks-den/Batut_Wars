@@ -33,7 +33,7 @@ void Server::run() {
     sf::Clock clock;
     sf::Time total_time = sf::Time::Zero;
 
-    while (!_world.is_over()) {
+    while (!_world.is_over()) {  // DANGER!
         sf::Time current_time = clock.restart();
         total_time += current_time;
 
@@ -53,7 +53,13 @@ std::pair<sf::IpAddress, uint16_t> Server::get_adress() const {
 }
 
 void Server::accept_clients() {
+    sf::Clock clock;
+    sf::Time total_time = sf::Time::Zero;
+
     while (true) {  // Пока хост не запустил игру
+        sf::Time current_time = clock.restart();
+        total_time += current_time;
+
         if (_selector.wait(sf::microseconds(10))) {
             // if (_clients.size() != 0 && _selector.isReady(*_clients[_host])) {
             //     if (is_started()) {
@@ -66,6 +72,11 @@ void Server::accept_clients() {
             if (is_started()) {
                 return;
             }
+        }
+        
+        while (total_time > _time_per_update) {
+            total_time -= _time_per_update;
+            send_update();
         }
     }
 }
@@ -95,10 +106,16 @@ void Server::read_action(size_t client_id) {
 
 void Server::send_update() {
     sf::Packet output_packet;
+    int result = (is_started()) ? 1 : 0;  // КОСТЫЛЬ-ЗАГЛУШКА
+    output_packet << result;
     auto status = _world.get_status();
     output_packet << status;
-    for (auto &it : _clients) {
-        it->send(output_packet);
+    for (size_t i = 0; i < _clients.size(); ++i) {
+        if (_clients[i]->send(output_packet) == sf::Socket::Disconnected) {
+            _selector.remove(*_clients[i]);
+            _clients[i]->disconnect();
+            _clients.erase(_clients.begin() + i);
+        }
     }
 }
 
@@ -122,8 +139,7 @@ void Server::add_client() {
 }
 
 bool Server::is_started() {
-    if (_clients.size() == 1) {
-        std::cout << "GAME START" << std::endl;
+    if (_clients.size() == 2) {
         return true;
     } else {
         return false;

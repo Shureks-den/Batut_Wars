@@ -21,32 +21,32 @@ Render::Render(sf::RenderWindow &window) : _window(window) {
   size_t x_count = ((MAP_SIZE + _extra_size.x) / width + 1) * 2;
   size_t y_count = ((MAP_SIZE + _extra_size.y) / height + 1) * 2;
 
-  for (size_t i = 0; i <= 4 * 10; ++i) {  // TODO(ANDY) размерность карты
+  for (size_t i = 0; i <= 4 * 10; ++i) {
     auto portal = _creator.get_animation(animation::Id::PORTAL);
     portal->set_position(sf::Vector2f(i * width / 4, 0) + _extra_size);
     _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)]
         .push_back(std::move(portal));
   }
-  for (size_t i = 0; i <= 4 * 10; ++i) {  // TODO(ANDY) размерность карты
+  for (size_t i = 0; i <= 4 * 10; ++i) {
     auto portal = _creator.get_animation(animation::Id::PORTAL);
     portal->set_position(sf::Vector2f(i * width / 4, 10 * 450) + _extra_size);
     _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)]
         .push_back(std::move(portal));
   }
-  for (size_t i = 0; i <= 4 * 10; ++i) {  // TODO(ANDY) размерность карты
+  for (size_t i = 0; i <= 4 * 10; ++i) {
     auto portal = _creator.get_animation(animation::Id::PORTAL);
     portal->set_position(sf::Vector2f(0, i * height / 4) + _extra_size);
     _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)]
         .push_back(std::move(portal));
   }
-  for (size_t i = 0; i <= 4 * 10; ++i) {  // TODO(ANDY) размерность карты
+  for (size_t i = 0; i <= 4 * 10; ++i) {
     auto portal = _creator.get_animation(animation::Id::PORTAL);
     portal->set_position(sf::Vector2f(10 * 450, i * height / 4) + _extra_size);
     _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)]
         .push_back(std::move(portal));
   }
 
-  for (size_t i = 0; i <= x_count; ++i) {  // TODO(ANDY) размерность карты
+  for (size_t i = 0; i <= x_count; ++i) {
     for (size_t j = 0; j <= y_count; ++j) {
       auto space = _creator.get_animation(animation::Id::SPACE);
       space->set_position(sf::Vector2f(i * width, j * height));
@@ -63,7 +63,7 @@ void Render::draw() {
 }
 
 void Render::update(sf::Time dt) {
-  _view.setCenter(_status[0][_player_id].position);  // TODO(ANDY) PLAYER = 0
+  _view.setCenter(_status[0][_player_id].position);
   _window.setView(_view);
   for (auto &it : _animation_layers) {
     it.update(dt);
