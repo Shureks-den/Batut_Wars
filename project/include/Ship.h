@@ -17,7 +17,7 @@ class Ship : public engine::MoveAble {
 
     virtual std::unique_ptr<Bullet> fire() = 0;
 
-    void virtual trigger(engine::MoveAble &moveable) = 0;
+    virtual void trigger(engine::MoveAble &moveable) = 0;
     
     void collision(engine::MoveAble &MoveAble) override;
 

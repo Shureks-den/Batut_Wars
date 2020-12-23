@@ -32,7 +32,7 @@ void Ally::update(sf::Time dt) {
   }
 }
 
-std::unique_ptr<Bullet> Ship::fire() {
+std::unique_ptr<Bullet> Ally::fire() {
   if (_countdown != sf::Time::Zero) {
     return nullptr;
   }
@@ -44,6 +44,8 @@ std::unique_ptr<Bullet> Ship::fire() {
   bullet->rotate(get_angle());
   return bullet;
 }
+
+void Ally::trigger(engine::MoveAble &) {}
 
 // problems with id?
 animation::Id Ally::get_animation_id() const { return animation::Id::SHIP; }
