@@ -4,7 +4,7 @@
 #include <memory>
 #include <algorithm>
 
-#include "Ship.h"
+#include "Ally.h"
 #include "Engine.h"
 
 static constexpr size_t MAP_SIZE = 4 * 450;  // Криво, но пока надо
@@ -173,7 +173,7 @@ void World::do_action(size_t id, Player::Action action, sf::Time d_time) {  // T
     if (_status[static_cast<size_t>(StatusLay::PLAYER)][id].is_removed) {
         return;
     }
-    auto &ship = dynamic_cast<space::Ship&>(*_players[id]);
+    auto &ship = dynamic_cast<space::Ally&>(*_players[id]);
 
     switch (action) {
     case Player::Action::MOVE_FORWARD:

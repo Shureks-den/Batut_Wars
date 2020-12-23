@@ -2,9 +2,9 @@
 
 namespace space {
 
-Ship::Ship(const sf::Time recharge, sf::Time countdown)
+Ship::Ship(const sf::Time recharge)
     : engine::MoveAble(35, 150),
-      _recharge(sf::seconds(1.5f)),
+      _recharge(recharge),
       _countdown(_recharge) {
       set_size(sf::Vector2f(50.0f, 64.0f));
 }

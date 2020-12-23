@@ -6,7 +6,7 @@
 
 #include "Engine.h"
 #include "Layer.h"
-#include "Ship.h"
+#include "Ally.h"
 #include "IcePlanet.h"
 
 static constexpr size_t MAP_SIZE = 10 * 450;  // Криво, но пока надо
@@ -99,21 +99,21 @@ void World::update(sf::Time d_time) {
         }
     }
 
-    for (size_t i = 0; i < _enemies.size(); ++i)
-    {
-      for (size_t j = i; i < _enemies.size(); ++i)
-      {
-        /* code */
-      }
-    }
+    // for (size_t i = 0; i < _enemies.size(); ++i)
+    // {
+    //   for (size_t j = i; i < _enemies.size(); ++i)
+    //   {
+    //     /* code */
+    //   }
+    // }
 
-    for (size_t i = 0; i < _players.size(); ++i)
-    {
-      for (size_t j = i; j < _players.size(); j++)
-      {
-        /* code */
-      }
-    }
+    // for (size_t i = 0; i < _players.size(); ++i)
+    // {
+    //   for (size_t j = i; j < _players.size(); j++)
+    //   {
+    //     /* code */
+    //   }
+    // }
     
 
 
@@ -248,7 +248,7 @@ void World::do_action(
   if (_status[static_cast<size_t>(StatusLay::PLAYER)][id].is_removed) {
     return;
   }
-  auto &ship = dynamic_cast<space::Ship &>(*_players[id]);
+  auto &ship = dynamic_cast<space::Ally &>(*_players[id]);
 
   switch (action) {
     case Player::Action::MOVE_FORWARD:

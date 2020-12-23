@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Ship.h"
+#include "Ally.h"
 
 GameStateBase::GameStateBase(StateStack& stack, Context context)
           : State(stack, context),

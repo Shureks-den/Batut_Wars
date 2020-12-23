@@ -2,7 +2,7 @@
 
 namespace space {
 
-Ally::Ally() : space::Ship(sf::seconds(1.5f), _recharge) {}
+Ally::Ally() : space::Ship(sf::seconds(1.5f)) {}
 
 void Ally::update(sf::Time dt) {
   _engine_speed += _engine_acceleration * dt.asSeconds();

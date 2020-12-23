@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "Network.h"
-#include "Ship.h"
+#include "Ally.h"
 
 namespace network {
 
@@ -23,7 +23,7 @@ void Server::run() {
     accept_clients();
 
     for (size_t i = 0; i < _clients.size(); ++i) {
-        auto player = std::unique_ptr<space::Ship>(new space::Ship());
+        auto player = std::unique_ptr<space::Ally>(new space::Ally());
         player->set_id(i);
         player->set_position(sf::Vector2f(200 + 200 * i, 400));
         _world.push_player(std::move(player));

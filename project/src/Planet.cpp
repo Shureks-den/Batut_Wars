@@ -1,6 +1,6 @@
 #include "Planet.h"
 
-#include "Ship.h"
+#include "Ally.h"
 
 namespace space {
 

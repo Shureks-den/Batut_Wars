@@ -29,12 +29,12 @@ class Enemy : public space::Ship {
     void turn_to_player();
 
  private:
-    float _rotate_speed;
     bool _is_player_spotted;
     sf::Time _rotate_time;  // Время до поворота
     sf::Vector2f _vision; //  квадрат обзора
     sf::Vector2f _player_location;
     std::queue<bot_actions> action_queue;
+    float _rotate_speed;
     bool _aimed;
 };
 

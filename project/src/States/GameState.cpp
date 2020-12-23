@@ -1,6 +1,6 @@
 #include "States/GameState.h"
 
-#include "Ship.h"
+#include "Ally.h"
 #include "Enemy.h"
 #include "Massive.h"
 #include "Bullet.h"
@@ -13,7 +13,7 @@ GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, 
                                                            _world() {
     // ИГРОК
     context.music->play(Music::MissionTheme);
-    auto main_ship = std::unique_ptr<engine::MoveAble>(new space::Ship);  // TODO(ANDY) инициализация карты
+    auto main_ship = std::unique_ptr<engine::MoveAble>(new space::Ally);  // TODO(ANDY) инициализация карты
     main_ship->set_position(sf::Vector2f(1000, 1000));
     main_ship->rotate(engine::as_radian(- 90));
     _world.push_player(std::move(main_ship));
