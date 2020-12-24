@@ -11,7 +11,7 @@ Enemy::Enemy()
       _recharge(sf::seconds(3.0f)),
       _countdown(_recharge),
       _rotate_time(sf::seconds(2)),
-      _vision(200,200),
+      _vision(500,500),
       _rotate_speed(0.05f) {
   set_size(sf::Vector2f(32.0f, 46.0f));
   _engine_thrust = 50;
