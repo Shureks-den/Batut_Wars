@@ -1,7 +1,7 @@
 #pragma once
 
-#include <SFML/System/Time.hpp>
 #include <SFML/Network.hpp>
+#include <SFML/System/Time.hpp>
 
 #include "World.h"
 

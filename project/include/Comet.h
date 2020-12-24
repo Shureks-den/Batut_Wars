@@ -9,7 +9,7 @@ class Comet : public engine::MoveAble {
   Comet(engine::Vector speed);
   ~Comet() = default;
 
-  void collision(engine::MoveAble &moveable);
+  void collision(engine::MoveAble &moveable) override;
   void virtual trigger(engine::MoveAble &moveable) override;
 
   void update(sf::Time dt) override;
@@ -17,7 +17,6 @@ class Comet : public engine::MoveAble {
   animation::Id get_animation_id() const override;
 
  private:
-  const int _dmg;
 };
 
 }  // namespace space

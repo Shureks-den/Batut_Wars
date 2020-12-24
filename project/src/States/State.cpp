@@ -1,11 +1,9 @@
 #include "States/State.h"
+
 #include "States/StateStack.h"
 
-
-State::Context::Context(sf::RenderWindow &window,
-                        textures::Holder &textures,
-                        fonts::Holder &fonts,
-                        Player &player, 
+State::Context::Context(sf::RenderWindow &window, textures::Holder &textures,
+                        fonts::Holder &fonts, Player &player,
                         std::pair<sf::IpAddress, uint16_t> &network_info,
                         network::Client &client,
                         network::Server &server,

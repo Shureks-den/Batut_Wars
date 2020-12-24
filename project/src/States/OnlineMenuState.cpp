@@ -1,11 +1,11 @@
 #include "States/OnlineMenuState.h"
 
-#include <memory>
 #include <iostream>
+#include <memory>
 
-#include "Textbox.h"
 #include "Button.h"
 #include "Server.h"
+#include "Textbox.h"
 
 static constexpr int FAIL = 0;
 static constexpr int SUCCESS = 1;
@@ -66,21 +66,19 @@ OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
     _container.pack(back_button);
 }
 
-bool OnlineMenuState::update(sf::Time) {
-    return true;
-}
+bool OnlineMenuState::update(sf::Time) { return true; }
 
 void OnlineMenuState::draw() {
     sf::RenderWindow& window = *getContext().window;
     // window.setView(window.getDefaultView());
 
-    window.draw(_background);
-    window.draw(_container);
+  window.draw(_background);
+  window.draw(_container);
 }
 
 bool OnlineMenuState::handle_event(const sf::Event& event) {
-    _container.handle_event(event);
-    return false;
+  _container.handle_event(event);
+  return false;
 }
 
 int OnlineMenuState::start_client() {

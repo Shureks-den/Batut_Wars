@@ -1,9 +1,9 @@
 #include "Server.h"
 
-#include <utility>
 #include <iostream>
 #include <mutex>
 
+#include "Ally.h"
 #include "Network.h"
 #include "Ship.h"
 #include "Enemy.h"
@@ -20,15 +20,16 @@ Server::Server() : _time_per_update(sf::seconds(1.0 / 60.0)),
                    _host(0),
                    _is_started(false) {}
 
+
 void Server::run() {
     ++_port;
     _listener.listen(_port);
     _selector.add(_listener);
 
-    accept_clients();
+  accept_clients();
 
     for (size_t i = 0; i < _clients.size(); ++i) {
-        auto player = std::unique_ptr<space::Ship>(new space::Ship());
+        auto player = std::unique_ptr<space::Ally>(new space::Ally());
         player->set_position(sf::Vector2f(200 + 200 * i, 1600));
         _world.push_player(std::move(player));
     }
@@ -42,22 +43,22 @@ void Server::run() {
     _world.push_back(std::move(ice_planet_1));
     std::cout << "LET'S START GAME" << std::endl;
 
-    sf::Clock clock;
-    sf::Time total_time = sf::Time::Zero;
+  sf::Clock clock;
+  sf::Time total_time = sf::Time::Zero;
 
-    while (!_world.is_over()) {
-        sf::Time current_time = clock.restart();
-        total_time += current_time;
+  while (!_world.is_over()) {
+    sf::Time current_time = clock.restart();
+    total_time += current_time;
 
-        get_client_actions();
+    get_client_actions();
 
-        while (total_time > _time_per_update) {
-            total_time -= _time_per_update;
+    while (total_time > _time_per_update) {
+      total_time -= _time_per_update;
 
-            _world.update(_time_per_update);
-            send_update();
-        }
+      _world.update(_time_per_update);
+      send_update();
     }
+  }
     std::cout << "GAME END" << std::endl;
 
     sf::Time end_time = sf::Time::Zero;
@@ -75,6 +76,7 @@ void Server::run() {
             send_update();
         }
     }
+
     std::cout << "SERVER END" << std::endl;
 
     _world.free();
@@ -92,7 +94,7 @@ void Server::run() {
 }
 
 std::pair<sf::IpAddress, uint16_t> Server::get_adress() const {
-    return std::make_pair(_ip, _port);
+  return std::make_pair(_ip, _port);
 }
 
 void Server::accept_clients() {
@@ -106,10 +108,9 @@ void Server::accept_clients() {
         if (_selector.wait(sf::microseconds(10))) {
             add_client();
         }
-        if (_clients.size() != 0) {
-            if (is_started()) {
-                return;
-            }
+
+        if (is_started()) {
+            return;
         }
 
         while (total_time > _time_per_update) {
@@ -120,26 +121,26 @@ void Server::accept_clients() {
 }
 
 void Server::get_client_actions() {
-    for (size_t i = 0; i < _clients.size(); ++i) {
-        if (_selector.wait(sf::microseconds(10))) {
-            if (_selector.isReady(*_clients[i])) {
-                read_action(i);
-            }
-        }
+  for (size_t i = 0; i < _clients.size(); ++i) {
+    if (_selector.wait(sf::microseconds(10))) {
+      if (_selector.isReady(*_clients[i])) {
+        read_action(i);
+      }
     }
+  }
 }
 
 void Server::read_action(size_t client_id) {
-    sf::Packet input_packet;
-    if (_clients[client_id]->receive(input_packet) == sf::Socket::Done) {
-        std::queue<Player::Action> actions;
-        input_packet >> actions;
-        auto &world_action = _world.get_actions();
-        while (!actions.empty()) {
-            world_action.push(std::make_pair(client_id, actions.front()));
-            actions.pop();
-        }
+  sf::Packet input_packet;
+  if (_clients[client_id]->receive(input_packet) == sf::Socket::Done) {
+    std::queue<Player::Action> actions;
+    input_packet >> actions;
+    auto &world_action = _world.get_actions();
+    while (!actions.empty()) {
+      world_action.push(std::make_pair(client_id, actions.front()));
+      actions.pop();
     }
+  }
 }
 
 void Server::send_update() {

@@ -1,11 +1,12 @@
+#include "States/PauseState.h"
+
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
 
-#include "States/PauseState.h"
 #include "Button.h"
-#include "Utility.h"
 #include "Holder.h"
+#include "Utility.h"
 
 PauseState::PauseState(StateStack& stack, Context context)
         : State(stack, context)
@@ -58,15 +59,11 @@ void PauseState::draw() {
     window.draw(_container);
 }
 
-bool PauseState::update(sf::Time) {
-    return false;
-}
+bool PauseState::update(sf::Time) { return false; }
 
 bool PauseState::handle_event(const sf::Event& event) {
-    _container.handle_event(event);
-    return false;
+  _container.handle_event(event);
+  return false;
 }
 
-PauseState::~PauseState() {
-   getContext().music->setPaused(false);
-}
+PauseState::~PauseState() { getContext().music->setPaused(false); }

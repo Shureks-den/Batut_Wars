@@ -1,11 +1,13 @@
 #include "States/GameState.h"
 
-#include "Ship.h"
-#include "Enemy.h"
-#include "Massive.h"
+#include <memory>
+
+#include "Ally.h"
 #include "Bullet.h"
 #include "Comet.h"
+#include "Enemy.h"
 #include "IcePlanet.h"
+#include "Massive.h"
 
 #include <memory>
 
@@ -15,7 +17,7 @@ GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, 
 
     *context.mission_status = Mission::RUN;
     // ИГРОК
-    auto main_ship = std::unique_ptr<engine::MoveAble>(new space::Ship);  // TODO(ANDY) инициализация карты
+    auto main_ship = std::unique_ptr<engine::MoveAble>(new space::Ally);  // TODO(ANDY) инициализация карты
     main_ship->set_position(sf::Vector2f(1000, 1000));
     main_ship->rotate(engine::as_radian(- 90));
     _world.push_player(std::move(main_ship));
@@ -105,18 +107,19 @@ bool GameState::update(sf::Time dt) {
 }
 
 bool GameState::handle_event(const sf::Event& event) {
-    std::queue<Player::Action> actions;
-    _player.handle_event(event, actions);
+  std::queue<Player::Action> actions;
+  _player.handle_event(event, actions);
 
-    auto &world_actions = _world.get_actions();
-    while (!actions.empty()) {
-        world_actions.push(std::make_pair(0, actions.front()));
-        actions.pop();
-    }
+  auto& world_actions = _world.get_actions();
+  while (!actions.empty()) {
+    world_actions.push(std::make_pair(0, actions.front()));
+    actions.pop();
+  }
 
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
-        requestStackPush(States::PAUSE);
-    }
+  if (event.type == sf::Event::KeyPressed &&
+      event.key.code == sf::Keyboard::Escape) {
+    requestStackPush(States::PAUSE);
+  }
 
-    return true;
+  return true;
 }

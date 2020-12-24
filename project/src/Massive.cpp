@@ -1,8 +1,6 @@
 #include "Massive.h"
 
-#include <iostream>
-
-#include "Ship.h"
+#include "Ally.h"
 
 namespace space {
 

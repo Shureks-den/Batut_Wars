@@ -1,6 +1,8 @@
 #include "Planet.h"
 
-#include "Ship.h"
+#ifndef NO_CONSOLE_INFO_OF_DMG
+#include <iostream>
+#endif  // NO_CONSOLE_INFO_OF_DMG
 
 namespace space {
 
@@ -14,8 +16,12 @@ void Planet::collision(engine::MoveAble &moveable) {
                      moveable.get_y() - this->get_y());
   float radius = tmp.get_abs();
   if (radius <= critical_radius) {
-    moveable.set_hp(0);
-    moveable.set_is_destroyed(true);
+    moveable.take_damage(moveable.get_hp());
+
+#ifndef NO_CONSOLE_INFO_OF_DMG
+// std::cout << moveable.get_hp() << " - Planet - " << std::endl; // уж очень
+// часто выводит, почти бесполезно
+#endif  // NO_CONSOLE_INFO_OF_DMG
   }
 }
 

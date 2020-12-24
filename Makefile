@@ -13,6 +13,7 @@ SRCS = \
        project/src/main.cpp \
        project/src/Engine.cpp \
        project/src/Ship.cpp \
+       project/src/Ally.cpp \
        project/src/Animation/Animation.cpp \
        project/src/World.cpp \
        project/src/Game.cpp \

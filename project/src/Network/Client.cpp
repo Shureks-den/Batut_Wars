@@ -72,9 +72,7 @@ void Client::run() {
     std::cout << "CLIENT END" << std::endl;
 }
 
-std::queue<Player::Action>& Client::get_actions() {
-    return _actions;
-}
+std::queue<Player::Action> &Client::get_actions() { return _actions; }
 
 bool Client::connect(std::pair<sf::IpAddress, uint16_t> const &adress) {
     std::cout << "Client is trying to connect" << std::endl;

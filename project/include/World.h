@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Bullet.h"
+#include "Enemy.h"
 #include "Engine.h"
 #include "Player.h"
 #include "Status.h"
@@ -14,8 +15,8 @@
 
 class World {
  public:
-    World();
-    ~World() = default;
+  World();
+  ~World() = default;
 
     void update(sf::Time d_time);
     std::queue<std::pair<size_t, Player::Action>>& get_actions();
@@ -51,5 +52,18 @@ class World {
     size_t _immoveable_count;
 
     void do_action(size_t id, Player::Action action, sf::Time d_time);
-    void portal(engine::MoveAble &moveable);
+    void portal(engine::MoveAble& moveable);
+    void update_all(sf::Time d_time);
+
+    void player_moveable();
+    void player_enemy();
+    void player_player();
+
+    void enemy_enemy();
+    void enemy_moveable();
+
+    void immoveable_all();
+    void bullet_all();
+
+    void portal_all();
 };

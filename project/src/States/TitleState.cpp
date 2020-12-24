@@ -2,9 +2,8 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "Utility.h"
 #include "Holder.h"
-
+#include "Utility.h"
 
 TitleState::TitleState(StateStack& stack, Context context)
            : State(stack, context),
@@ -46,14 +45,14 @@ bool TitleState::update(sf::Time dt) {
         _text_effect = sf::Time::Zero;
     }
 
-    return true;
+  return true;
 }
 
-bool TitleState::handle_event(const sf::Event &event) {
-    if (event.type == sf::Event::KeyReleased) {
-        requestStackPop();
-        requestStackPush(States::MENU);
-    }
+bool TitleState::handle_event(const sf::Event& event) {
+  if (event.type == sf::Event::KeyReleased) {
+    requestStackPop();
+    requestStackPush(States::MENU);
+  }
 
-    return true;
+  return true;
 }

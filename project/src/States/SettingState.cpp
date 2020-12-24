@@ -1,9 +1,9 @@
 #include "States/SettingState.h"
-#include "Holder.h"
-#include "Utility.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "Holder.h"
+#include "Utility.h"
 
 SettingsState::SettingsState(StateStack& stack, Context context)
               : State(stack, context),
@@ -43,52 +43,55 @@ void SettingsState::draw() {
     window.draw(_container);
 }
 
-bool SettingsState::update(sf::Time) {
-    return true;
-}
+bool SettingsState::update(sf::Time) { return true; }
 
 bool SettingsState::handle_event(const sf::Event& event) {
-    bool isKeyBinding = false;
+  bool isKeyBinding = false;
 
-    for (size_t action = 0; action < Player::COUNT; ++action) {
-        if (_binding_buttons[action]->is_active()) {
-            isKeyBinding = true;
-            if (event.type == sf::Event::KeyReleased) {
-                getContext().player->assign_key(static_cast<Player::Action>(action), event.key.code);
-                _binding_buttons[action]->deactivate();
-            }
-            break;
-        }
+  for (size_t action = 0; action < Player::COUNT; ++action) {
+    if (_binding_buttons[action]->is_active()) {
+      isKeyBinding = true;
+      if (event.type == sf::Event::KeyReleased) {
+        getContext().player->assign_key(static_cast<Player::Action>(action),
+                                        event.key.code);
+        _binding_buttons[action]->deactivate();
+      }
+      break;
     }
+  }
 
-    if (isKeyBinding) {
-        update_labels();
-    } else {
-        _container.handle_event(event);
-    }
+  if (isKeyBinding) {
+    update_labels();
+  } else {
+    _container.handle_event(event);
+  }
 
-    return false;
+  return false;
 }
 
 void SettingsState::update_labels() {
-    Player &player = *getContext().player;
+  Player& player = *getContext().player;
 
-    for (size_t i = 0; i < Player::COUNT; ++i) {
-        sf::Keyboard::Key key = player.get_key(static_cast<Player::Action>(i));
-        _binding_labels[i]->set_text(toString(key));
-    }
+  for (size_t i = 0; i < Player::COUNT; ++i) {
+    sf::Keyboard::Key key = player.get_key(static_cast<Player::Action>(i));
+    _binding_labels[i]->set_text(toString(key));
+  }
 }
 
-void SettingsState::add_button_label(Player::Action action, float y, const std::string& text, Context context) {
-    _binding_buttons[action] = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-    _binding_buttons[action]->setPosition(context.window->getSize().x * 0.5f - 100.f, y);  // TODO(ANDY) позиция
-    _binding_buttons[action]->set_text(text);
-    _binding_buttons[action]->set_toggle(true);
+void SettingsState::add_button_label(Player::Action action, float y,
+                                     const std::string& text, Context context) {
+  _binding_buttons[action] =
+      std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+  _binding_buttons[action]->setPosition(
+      context.window->getSize().x * 0.5f - 100.f, y);  // TODO(ANDY) позиция
+  _binding_buttons[action]->set_text(text);
+  _binding_buttons[action]->set_toggle(true);
 
-    _binding_labels[action] = std::make_shared<GUI::Label>("", *context.fonts);
-    _binding_labels[action]->setPosition(context.window->getSize().x * 0.5f + 50.f, y + 15.f);  // TODO(ANDY) позиция
+  _binding_labels[action] = std::make_shared<GUI::Label>("", *context.fonts);
+  _binding_labels[action]->setPosition(
+      context.window->getSize().x * 0.5f + 50.f,
+      y + 15.f);  // TODO(ANDY) позиция
 
-    _container.pack(_binding_buttons[action]);
-    _container.pack(_binding_labels[action]);
+  _container.pack(_binding_buttons[action]);
+  _container.pack(_binding_labels[action]);
 }
-

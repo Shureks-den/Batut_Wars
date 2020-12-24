@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Ship.h"
+#include "Ally.h"
 
 GameStateBase::GameStateBase(StateStack& stack, Context context)
           : State(stack, context),
@@ -17,25 +17,25 @@ GameStateBase::GameStateBase(StateStack& stack, Context context)
 }
 
 void GameStateBase::draw() {
-    _render.draw();
+  _render.draw();
 
-    sf::Vector2f fps = _render.get_view().getCenter();
-    fps.x -= _render.get_view().getSize().x / 2 - 5;
-    fps.y -= _render.get_view().getSize().y / 2 - 5;
-    _statistic_text.setPosition(fps);
-    getContext().window->draw(_statistic_text);
+  sf::Vector2f fps = _render.get_view().getCenter();
+  fps.x -= _render.get_view().getSize().x / 2 - 5;
+  fps.y -= _render.get_view().getSize().y / 2 - 5;
+  _statistic_text.setPosition(fps);
+  getContext().window->draw(_statistic_text);
 }
 
 void GameStateBase::update_statistic(sf::Time time) {
-    _update_time += time;
-    _frames += 1;
+  _update_time += time;
+  _frames += 1;
 
-    if (_update_time >= sf::seconds(1.0f)) {
-        _statistic_text.setString(
-            "FPS = " + std::to_string(_frames) + "\n" +
-            "mSPU = " + std::to_string(_update_time.asMicroseconds() / _frames));
+  if (_update_time >= sf::seconds(1.0f)) {
+    _statistic_text.setString(
+        "FPS = " + std::to_string(_frames) + "\n" +
+        "mSPU = " + std::to_string(_update_time.asMicroseconds() / _frames));
 
-        _update_time -= sf::seconds(1.0f);
-        _frames = 0;
-    }
+    _update_time -= sf::seconds(1.0f);
+    _frames = 0;
+  }
 }
