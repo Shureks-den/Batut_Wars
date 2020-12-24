@@ -115,6 +115,8 @@ class MoveAble : public Entity {
   void give_acceleration(Direction direction);
   void set_engine_speed(Vector other_speed);
   Vector get_engine_speed();
+  Vector get_dictated_speed();
+  void set_dictated_speed(Vector other);
 
   int get_hp();
   void set_hp(int value);

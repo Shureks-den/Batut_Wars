@@ -162,6 +162,14 @@ MoveAble::MoveAble(float thrust)
 MoveAble::MoveAble(float thrust, float speed)
     : _engine_thrust(thrust), _speed_limit(speed), _HP(100) {}
 
+void MoveAble::set_dictated_speed(engine::Vector other_dictated_speed) {
+  this->_dictated_speed = other_dictated_speed;
+}
+
+Vector MoveAble::get_dictated_speed() {
+  return this->_dictated_speed;
+}
+
 void MoveAble::give_acceleration(Vector acceleration) {
   _dictated_acceleration += acceleration;
 }

@@ -24,8 +24,8 @@ void Ship::collision(engine::MoveAble &other) {
   std::cout << "HP: " << this->get_hp() << std::endl;
 
   // Just some physics
-  engine::Vector V10 = this->get_engine_speed();
-  engine::Vector V20 = other.get_engine_speed();
+  engine::Vector V10 = (this->get_engine_speed() + this->get_dictated_speed());
+  engine::Vector V20 = (other.get_engine_speed() + other.get_dictated_speed());
 
   float a = V10.get_x() + V20.get_x();
   float b = V10.get_y() + V20.get_y();
@@ -36,35 +36,35 @@ void Ship::collision(engine::MoveAble &other) {
     std::cout << 2 * c - a * a << "\t" << 2 * d - b * b << std::endl;
   }
 
-  float V1x, V2x, V1y, V2y;
-  if (2 * c - a * a >= 0 && 2 * d - b * b >= 0) {
-    V1x = (a + sqrt(2 * c - a * a)) / 2;
-    V2x = (a - sqrt(2 * c - a * a)) / 2;
-    V1y = (b + sqrt(2 * d - b * b)) / 2;
-    V2y = (b - sqrt(2 * d - b * b)) / 2;
-  }
-  if (2 * c - a * a < 0 && 2 * d - b * b >= 0) {
-    V1x = V2x = 0;
-    V1y = (b + sqrt(2 * d - b * b)) / 2;
-    V2y = (b - sqrt(2 * d - b * b)) / 2;
-  }
-  if (2 * c - a * a >= 0 && 2 * d - b * b < 0) {
-    V1y = V2y = 0;
-    V1x = (a + sqrt(2 * c - a * a)) / 2;
-    V2x = (a - sqrt(2 * c - a * a)) / 2;
-  }
-  if (2 * c - a * a < 0 && 2 * d - b * b < 0) {
-    V1y = V2y = V1x = V2x = 0;
-  }
+  // float V1x = 0, V2x = 0, V1y = 0, V2y = 0;
+  // if (2 * c - a * a >= 0) {
+  //   V1x = (a + sqrt(2 * c - a * a)) / 2;
+  //   V2x = (a - sqrt(2 * c - a * a)) / 2;
+  // }
+  // if (2 * d - b * b >= 0) {
+  //   V1y = (b + sqrt(2 * d - b * b)) / 2;
+  //   V2y = (b - sqrt(2 * d - b * b)) / 2;
+  // }
+
+    float V1y = (b + sqrt(fabs(2 * d - b * b))) / 2;
+    float V2y = (b - sqrt(fabs(2 * d - b * b))) / 2;
+    float V1x = (a + sqrt(fabs(2 * c - a * a))) / 2;
+    float V2x = (a - sqrt(fabs(2 * c - a * a))) / 2;
 
   std::cout << V10.get_x() << "\t" << V10.get_y() << "\t//\t" << V20.get_x()
             << "\t" << V20.get_y() << std::endl;
   std::cout << V1x << "\t" << V1y << "\t//\t" << V2x << "\t" << V2y << std::endl
             << std::endl;
 
-  this->set_engine_speed(engine::Vector(V2x, V2y));
+  // this->set_engine_speed(engine::Vector(V1x, V1y));
 
-  other.set_engine_speed(engine::Vector(V1x, V1y));
+  // other.set_engine_speed(engine::Vector(V2x, V2y));
+
+  this->set_engine_speed(engine::Vector(0, 0));
+  other.set_engine_speed(engine::Vector(0, 0));
+
+  this->set_dictated_speed(this->get_dictated_speed() + engine::Vector(V2x, V2y));
+  other.set_dictated_speed(other.get_dictated_speed() - engine::Vector(V1x, V1y));
 }
 
 void Ship::trigger(MoveAble &) {}
