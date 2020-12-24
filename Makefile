@@ -59,7 +59,8 @@ SRCS = \
        project/src/Enemy.cpp \
        project/src/Planet.cpp \
        project/src/States/GameOverState.cpp \
-       project/src/Sound.cpp
+       project/src/Sound.cpp \
+       project/src/Vietnam.cpp
 
 .PHONY: all clean
 
