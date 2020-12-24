@@ -5,9 +5,8 @@
 
 #include "Ally.h"
 #include "Network.h"
-#include "Ship.h"
-#include "Enemy.h"
-#include "IcePlanet.h"
+
+#include "Vietnam.h"
 
 static std::mutex server_mutex;
 
@@ -26,7 +25,7 @@ void Server::run() {
     _listener.listen(_port);
     _selector.add(_listener);
 
-  accept_clients();
+    accept_clients();
 
     for (size_t i = 0; i < _clients.size(); ++i) {
         auto player = std::unique_ptr<space::Ally>(new space::Ally());
@@ -34,31 +33,25 @@ void Server::run() {
         _world.push_player(std::move(player));
     }
 
-    auto bot1 = std::unique_ptr<space::Enemy>(new space::Enemy);
-    bot1->set_position(sf::Vector2f(1500, 1600));
-    _world.push_back(std::move(bot1));
+    welcome_to_vietnam(_world);
 
-    auto ice_planet_1 = std::unique_ptr<space::IcePlanet>(new space::IcePlanet(125.0f));
-    ice_planet_1->set_position(sf::Vector2f(800, 1600));
-    _world.push_back(std::move(ice_planet_1));
-    std::cout << "LET'S START GAME" << std::endl;
+    sf::Clock clock;
+    sf::Time total_time = sf::Time::Zero;
 
-  sf::Clock clock;
-  sf::Time total_time = sf::Time::Zero;
+    while (!_world.is_over()) {
+        sf::Time current_time = clock.restart();
+        total_time += current_time;
 
-  while (!_world.is_over()) {
-    sf::Time current_time = clock.restart();
-    total_time += current_time;
+        get_client_actions();
 
-    get_client_actions();
+        while (total_time > _time_per_update) {
+            total_time -= _time_per_update;
 
-    while (total_time > _time_per_update) {
-      total_time -= _time_per_update;
-
-      _world.update(_time_per_update);
-      send_update();
+            _world.update(_time_per_update);
+            send_update();
+        }
     }
-  }
+
     std::cout << "GAME END" << std::endl;
 
     sf::Time end_time = sf::Time::Zero;

@@ -2,7 +2,11 @@
 
 namespace space {
 
-Ally::Ally() : space::Ship(sf::seconds(1.5f), 15) {}
+Ally::Ally() : space::Ship(sf::seconds(1.0f), 20) {
+    _HP = 100;
+    _engine_thrust = 40;
+    _speed_limit = 175;
+}
 
 void Ally::update(sf::Time dt) {
   if (_is_destroyed) {

@@ -136,7 +136,7 @@ class MoveAble : public Entity {
   Vector _engine_acceleration;  // Компонента ускорения от двигателя
   Vector _dictated_speed;  // Компонента скорости от внешних объектов
   Vector _dictated_acceleration;  // Компонента ускорения от внешних объектов
-  const float _engine_thrust;  // Модуль компоненты ускорения от двигателя
+  float _engine_thrust;  // Модуль компоненты ускорения от двигателя
   float _speed_limit;  // Предел модуля скорости
   int _HP;
   int _dmg;

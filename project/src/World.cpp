@@ -328,6 +328,7 @@ void World::immoveable_all() {
         for (auto &enemy : _enemies) {
             immoveable->collision(*enemy);
             immoveable->trigger(*enemy);
+            enemy->trigger(*immoveable);
         }
 
         for (auto &player : _players) {

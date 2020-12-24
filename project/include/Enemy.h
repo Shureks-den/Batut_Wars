@@ -11,26 +11,34 @@ class Enemy : public space::Ship {
   enum bot_actions { ROTATE_LEFT, ROTATE_RIGHT, FIRE, COUNT };
 
  public:
-  Enemy();
-  ~Enemy() = default;
+    Enemy();
+    ~Enemy() = default;
 
-  void update(sf::Time dt) override;
-  animation::Id get_animation_id() const override;
+    void update(sf::Time dt) override;
+    animation::Id get_animation_id() const override;
 
-  std::unique_ptr<Bullet> fire() override;
+    std::unique_ptr<Bullet> fire() override;
 
-  void virtual trigger(engine::MoveAble &moveable) override;
+    void virtual trigger(engine::MoveAble &moveable) override;
+    void trigger(engine::ImmoveAble &immoveable);
 
-  void turn_to_player();
+    void turn_to_player();
+    void turn_from_planet();
 
  private:
-  bool _is_player_spotted;
-  sf::Time _rotate_time;  // Время до поворота
-  sf::Vector2f _vision;   //  квадрат обзора
-  sf::Vector2f _player_location;
-  std::queue<bot_actions> action_queue;
-  float _rotate_speed;
-  bool _aimed;
+    bool _is_going_to_planet;
+    bool _is_player_spotted;
+    bool _aimed;
+    // это ИИ детка //
+
+    const sf::Time _recharge;  // Перезарядка между выстрелами
+    sf::Time _countdown;   
+    sf::Time _rotate_time;  // Время до поворота
+
+    sf::Vector2f _vision; //  квадрат обзора
+    float _rotate_speed;
+    sf::Vector2f _player_location;
+    sf::Vector2f _planet_location;
 };
 
 }  // end namespace space
