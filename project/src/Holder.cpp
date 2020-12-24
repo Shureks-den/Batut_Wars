@@ -20,6 +20,8 @@ Holder::Holder() {
   _resource_map.push_back(tmp);
   tmp.loadFromFile("project/media/explosion-1.png");
   _resource_map.push_back(tmp);
+  tmp.loadFromFile("project/media/Maul.png");
+  _resource_map.push_back(tmp);
 }
 
 const sf::Texture* Holder::get(Id id) const {

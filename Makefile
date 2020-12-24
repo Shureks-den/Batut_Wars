@@ -56,6 +56,7 @@ SRCS = \
        project/src/Animation/A-Comet.cpp \
        project/src/Animation/A-IcePlanet.cpp \
        project/src/Animation/A-Explosion.cpp \
+       project/src/Animation/A-Maul.cpp \
        project/src/Enemy.cpp \
        project/src/Planet.cpp \
        project/src/States/GameOverState.cpp \

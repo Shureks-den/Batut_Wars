@@ -61,7 +61,7 @@ void Ally::trigger(engine::MoveAble &) {}
 
 // problems with id?
 animation::Id Ally::get_animation_id() const {
-    return animation::Id::SHIP;
+    return animation::Id::MF;
 }
 
 }  // namespace space

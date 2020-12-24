@@ -10,6 +10,7 @@
 #include "A-Portal.h"
 #include "A-Ship.h"
 #include "A-Space.h"
+#include "A-Maul.h"
 
 namespace animation {
 
@@ -31,6 +32,8 @@ Creator::Creator() {
   _method_map.push_back(ptr);
   ptr = &Creator::make_explosion;
   _method_map.push_back(ptr);
+  ptr = &Creator::make_maul;
+  _method_map.push_back(ptr);
 }
 
 std::unique_ptr<Manager> Creator::get_animation(Id id) const {
@@ -39,7 +42,7 @@ std::unique_ptr<Manager> Creator::get_animation(Id id) const {
 
 std::unique_ptr<Manager> Creator::make_ship() const {
   // Исходный размер: 480 128
-  auto ship = std::make_unique<Ship>(_holder.get(Id::SHIP));
+  auto ship = std::make_unique<Ship>(_holder.get(Id::MF));
   return ship;
 }
 
@@ -83,6 +86,12 @@ std::unique_ptr<Manager> Creator::make_explosion() const {
   // Исходный размер 3072 512
   auto comet = std::make_unique<Explosion>(_holder.get(Id::EXPLOSION));
   return comet;
+}
+
+std::unique_ptr<Manager> Creator::make_maul() const {
+  // Исходный размер 353 499
+  auto maul = std::make_unique<Maul>(_holder.get(Id::MAUL));
+  return maul;
 }
 
 }  // namespace animation

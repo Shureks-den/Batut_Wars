@@ -26,9 +26,10 @@ static Status to_status(engine::Entity const &entity) {
   status.is_removed = entity.is_destroyed();
   status.animation_id = entity.get_animation_id();
   switch (status.animation_id) {  // TODO(ANDY) переписать на функцию
-    case animation::Id::SHIP:
+    case animation::Id::MF:
     case animation::Id::BULLET:
     case animation::Id::COMET:
+    case animation::Id::MAUL:
       status.lay_id = static_cast<size_t>(animation::LayerNom::OBJECTS);
       break;
     case animation::Id::ICE_PLANET:

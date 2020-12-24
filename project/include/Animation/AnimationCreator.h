@@ -28,6 +28,7 @@ class Creator {
   std::unique_ptr<Manager> make_comet() const;
   std::unique_ptr<Manager> make_iceplanet() const;
   std::unique_ptr<Manager> make_explosion() const;
+  std::unique_ptr<Manager> make_maul() const;
 };
 
 }  // namespace animation

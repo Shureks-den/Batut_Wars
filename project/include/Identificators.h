@@ -3,7 +3,7 @@
 namespace animation {
 
 enum class Id {
-  SHIP = 0,
+  MF = 0,
   SPACE,
   BLACKHOLE,
   BULLET,
@@ -11,6 +11,7 @@ enum class Id {
   ICE_PLANET,
   COMET,
   EXPLOSION,
+  MAUL,
   COUNT
 };
 
