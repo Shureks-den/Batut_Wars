@@ -6,7 +6,6 @@ HDRS = \
        project/include \
        project/include/GUI \
        project/include/Network \
-       project/include/GUI \
        project/include/Animation
 
 SRCS = \

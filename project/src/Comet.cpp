@@ -1,33 +1,38 @@
 #include "Comet.h"
+#ifndef NO_CONSOLE_INFO_OF_DMG
 #include <iostream>
+#endif  // NO_CONSOLE_INFO_OF_DMG
 
 namespace space {
 
-Comet::Comet(engine::Vector speed) : engine::MoveAble(0.f, 40) {  // TODO(anyone) переписать конструктор на
-  _engine_speed = speed;                                              // модуль скорости + угол (с осью ОХ)
+Comet::Comet(engine::Vector speed)
+    : engine::MoveAble(0.f, 40) {  // TODO(anyone) переписать конструктор на
+  _engine_speed = speed;  // модуль скорости + угол (с осью ОХ)
   _orientation = _engine_speed.get_normal();
 }
 
 void Comet::collision(engine::MoveAble& moveable) {
-  if(!is_destroyed()) {
+  if (!is_destroyed()) {
     float critical_radius = 20;
     engine::Vector tmp(moveable.get_x() - this->get_x(),
-                      moveable.get_y() - this->get_y());
+                       moveable.get_y() - this->get_y());
 
     float radius = tmp.get_abs();
     if (radius <= critical_radius) {
       moveable.take_damage(this->_dmg);
       this->take_damage(this->_HP);
-      std::cout << moveable.get_hp() << " - Comet - " << this->get_hp()<< std::endl;
+
+#ifndef NO_CONSOLE_INFO_OF_DMG
+      std::cout << moveable.get_hp() << " - Comet - " << this->get_hp()
+                << std::endl;
+#endif  // NO_CONSOLE_INFO_OF_DMG
     }
   }
 }
 
-animation::Id Comet::get_animation_id() const {
-  return animation::Id::COMET;
-}
+animation::Id Comet::get_animation_id() const { return animation::Id::COMET; }
 
-void Comet::trigger(engine::MoveAble &) {}
+void Comet::trigger(engine::MoveAble&) {}
 
 void Comet::update(sf::Time dt) {
   _dictated_speed += _dictated_acceleration * dt.asSeconds();

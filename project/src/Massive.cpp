@@ -1,7 +1,5 @@
 #include "Massive.h"
 
-#include <iostream>
-
 #include "Ally.h"
 
 namespace space {

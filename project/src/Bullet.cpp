@@ -53,7 +53,7 @@ void Bullet::collision(engine::MoveAble &object) {
   }
 
   if (object.is_destroyed()) {
-     return;
+    return;
   }
 
   sf::Vector2f size = object.get_size();
@@ -61,13 +61,13 @@ void Bullet::collision(engine::MoveAble &object) {
       _position.x >= object.get_x() - size.x / 2 &&
       _position.y <= object.get_y() + size.y / 2 &&
       _position.y >= object.get_y() - size.y / 2) {
-      this->take_damage(this->_HP);
-      object.take_damage(this->_dmg);
+    this->take_damage(this->_HP);
+    object.take_damage(this->_dmg);
 
 #ifndef NO_CONSOLE_INFO_OF_DMG
-std::cout << object.get_hp() << " - Bullet - " << this->get_hp()<< std::endl;
+    std::cout << object.get_hp() << " - Bullet - " << this->get_hp()
+              << std::endl;
 #endif  // NO_CONSOLE_INFO_OF_DMG
-
   }
 }
 

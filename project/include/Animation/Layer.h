@@ -1,20 +1,13 @@
 #pragma once
 
-#include <vector>
-
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 #include "Animation.h"
 
 namespace animation {
 
-enum class LayerNom {
-    BACKGROUND = 0,
-    OBJECTS,
-    PLANETS,
-    EFFECTS,
-    COUNT
-};
+enum class LayerNom { BACKGROUND = 0, OBJECTS, PLANETS, EFFECTS, COUNT };
 
 class Layer {
  public:

@@ -16,22 +16,18 @@ void Layer::draw(sf::RenderWindow &window) {
 
 size_t Layer::push_back(std::unique_ptr<Manager> manager) {
   if (manager == nullptr) {
-        return 0;
+    return 0;
   }
   _manager.push_back(std::move(manager));
   return _manager.size() - 1;
 }
 
-Manager &Layer::operator[](const int index) { 
-  return *_manager[index];
-}
+Manager &Layer::operator[](const int index) { return *_manager[index]; }
 
-size_t Layer::get_size() const {
-  return _manager.size();
-}
+size_t Layer::get_size() const { return _manager.size(); }
 
 void Layer::erase(size_t) {
- // TODO(ANDY) реализовать после замены на список
+  // TODO(ANDY) реализовать после замены на список
 }
 
 }  // namespace animation

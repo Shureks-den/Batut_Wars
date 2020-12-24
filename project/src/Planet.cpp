@@ -19,7 +19,8 @@ void Planet::collision(engine::MoveAble &moveable) {
     moveable.take_damage(moveable.get_hp());
 
 #ifndef NO_CONSOLE_INFO_OF_DMG
-// std::cout << moveable.get_hp() << " - Planet - " << std::endl; // уж очень часто выводит, почти бесполезно
+// std::cout << moveable.get_hp() << " - Planet - " << std::endl; // уж очень
+// часто выводит, почти бесполезно
 #endif  // NO_CONSOLE_INFO_OF_DMG
   }
 }

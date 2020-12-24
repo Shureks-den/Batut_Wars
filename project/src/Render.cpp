@@ -1,9 +1,8 @@
 #include "Render.h"
 
 #include <array>
-#include <iostream>
-#include <vector>
 #include <cmath>
+#include <vector>
 
 static constexpr size_t MAP_SIZE =
     10 * 450;  // Криво, но пока надо. 450 - размер текстурки космоса
@@ -96,7 +95,7 @@ void Render::set_status(const std::vector<std::vector<Status>> &status) {
       size_t lay = status[i][j].lay_id;
       size_t id = status[i][j].id;
       if (status[i][j].is_removed) {
-        if (!_animation_layers[lay][id].is_playing()){
+        if (!_animation_layers[lay][id].is_playing()) {
           continue;
         }
 
@@ -108,7 +107,8 @@ void Render::set_status(const std::vector<std::vector<Status>> &status) {
         explosion->set_size_s(size);
         explosion->set_position(status[i][j].position + _extra_size);
         explosion->set_angle(status[i][j].angle);
-        _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)].push_back(std::move(explosion));
+        _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)]
+            .push_back(std::move(explosion));
         continue;
       }
 

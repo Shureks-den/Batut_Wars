@@ -40,7 +40,7 @@ void Ship::collision(engine::MoveAble &other) {
                                   (V10.get_abs() + V20.get_abs())))));
 
 #ifndef NO_CONSOLE_INFO_OF_DMG
-std::cout << other.get_hp() << " - Ship - " << this->get_hp()<< std::endl;
+  std::cout << other.get_hp() << " - Ship - " << this->get_hp() << std::endl;
 #endif  // NO_CONSOLE_INFO_OF_DMG
 
   // if (2 * c - a * a < 0 || 2 * d - b * b < 0) {
@@ -64,7 +64,8 @@ std::cout << other.get_hp() << " - Ship - " << this->get_hp()<< std::endl;
 
   // std::cout << V10.get_x() << "\t" << V10.get_y() << "\t//\t" << V20.get_x()
   //           << "\t" << V20.get_y() << std::endl;
-  // std::cout << V1x << "\t" << V1y << "\t//\t" << V2x << "\t" << V2y << std::endl
+  // std::cout << V1x << "\t" << V1y << "\t//\t" << V2x << "\t" << V2y <<
+  // std::endl
   //           << std::endl;
 
   // this->set_engine_speed(engine::Vector(V1x, V1y));

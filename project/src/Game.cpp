@@ -14,20 +14,23 @@
 
 const sf::Time Game::_time_per_frame = sf::seconds(1.0 / 60.0);
 
-Game::Game() : _window(sf::VideoMode(1280, 960), "Batut Wars", sf::Style::Close),
-               _player(),
-               _textures(),
-               _fonts(),
-               _network_info(),
-               _client(),
-               _server(),
-               _server_thread(),
-               _client_thread(),
-               _state_stack(State::Context(_window, _textures, _fonts, _player, _network_info, _client, _server, _server_thread, _client_thread, _musicplayer)) {
-    _window.setKeyRepeatEnabled(false);
-    _window.setVerticalSyncEnabled(true);
-    registrates();
-    _state_stack.push(States::Id::TITLE);
+Game::Game()
+    : _window(sf::VideoMode(1280, 960), "Batut Wars", sf::Style::Close),
+      _player(),
+      _textures(),
+      _fonts(),
+      _network_info(),
+      _client(),
+      _server(),
+      _server_thread(),
+      _client_thread(),
+      _state_stack(State::Context(
+          _window, _textures, _fonts, _player, _network_info, _client, _server,
+          _server_thread, _client_thread, _musicplayer)) {
+  _window.setKeyRepeatEnabled(false);
+  _window.setVerticalSyncEnabled(true);
+  registrates();
+  _state_stack.push(States::Id::TITLE);
 }
 
 void Game::run() {
