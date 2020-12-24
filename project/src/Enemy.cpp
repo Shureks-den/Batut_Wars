@@ -12,7 +12,7 @@ Enemy::Enemy()
       _rotate_time(sf::seconds(2)),
       _vision(500,500),
       _rotate_speed(0.05f) {
-  set_size(sf::Vector2f(50.0f, 64.0f));
+  set_size(sf::Vector2f(32.0f, 46.0f));
   _engine_thrust = 50;
   _speed_limit = 100;
   _HP = 50;
@@ -98,7 +98,7 @@ std::unique_ptr<Bullet> Enemy::fire() {
   return bullet;
 }
 
-animation::Id Enemy::get_animation_id() const { return animation::Id::SHIP; }
+animation::Id Enemy::get_animation_id() const { return animation::Id::MAUL; }
 
 void Enemy::trigger(engine::MoveAble &moveable) {
     if (_is_destroyed) {
