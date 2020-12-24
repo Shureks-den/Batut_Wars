@@ -9,10 +9,15 @@
 
 #include <memory>
 
+static constexpr float ENDING_TIME = 5.f;  // В секундах
+
 GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, context),
-                                                           _world() {
-    // ИГРОК
+                                                           _world(),
+                                                           _game_over(sf::Time::Zero) {
     context.music->play(Music::MissionTheme);
+
+    *context.mission_status = Mission::RUN;
+    // ИГРОК
     auto main_ship = std::unique_ptr<engine::MoveAble>(new space::Ship);  // TODO(ANDY) инициализация карты
     main_ship->set_position(sf::Vector2f(1000, 1000));
     main_ship->rotate(engine::as_radian(- 90));
@@ -55,7 +60,7 @@ GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, 
     comet_6->set_position(sf::Vector2f(200, 1040));
     _world.push_back(std::move(comet_6));
 
-    // ТУПОЙ БОТ
+    // НЕ ОЧЕНЬ ТУПОЙ БОТ
     auto bot1 = std::unique_ptr<space::Enemy>(new space::Enemy);
     bot1->set_position(sf::Vector2f(1500, 1000));
     _world.push_back(std::move(bot1));
@@ -80,14 +85,7 @@ bool GameState::update(sf::Time dt) {
     _render.set_status(_world.get_status());  // Обмен данными между _render и _world
     _render.update(dt);
     update_statistic(dt);
-    
-    if (!_world.has_alive_player()) {
-        _player.set_mission_status(Player::MissionStatus::MissionFailure);
-        requestStackPush(States::ENDGAME);
-    } else if (_world.finished_mission()) {
-        _player.set_mission_status(Player::MissionStatus::MissionSuccess);
-        requestStackPush(States::ENDGAME);
-    }
+
     std::queue<Player::Action> actions;
     _player.handle_realtime_event(actions);
 
@@ -97,7 +95,16 @@ bool GameState::update(sf::Time dt) {
         actions.pop();
     }
 
-    return !_world.is_over();
+    if (_world.is_over()) {
+        _game_over += dt;
+        _mission_status = _world.get_mission()[0];
+    }
+
+    if (_game_over.asSeconds() >= ENDING_TIME) {
+        requestStackPush(States::Id::ENDGAME);
+    }
+
+    return (_game_over.asSeconds() >= ENDING_TIME);
 }
 
 bool GameState::handle_event(const sf::Event& event) {

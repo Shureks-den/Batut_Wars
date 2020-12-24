@@ -14,6 +14,7 @@
 #include "Client.h"
 #include "Server.h"
 #include "Music.h"
+#include "MissionStatus.h"
 
 class StateStack;
 
@@ -32,7 +33,8 @@ class State {
                 network::Server &server,
                 std::thread &server_thread,
                 std::thread &client_thread,
-                MusicPlayer &music);
+                MusicPlayer &music,
+                Mission &mission_status);
         
         sf::RenderWindow *window;
         textures::Holder *textures;
@@ -44,6 +46,7 @@ class State {
         std::thread *server_thread;
         std::thread *client_thread;
         MusicPlayer *music;
+        Mission *mission_status;
     };
 
  public:

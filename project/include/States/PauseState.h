@@ -16,7 +16,7 @@ class PauseState : public State {
     bool handle_event(const sf::Event& event) override;
 
  private:
-    sf::Sprite _background;
+    sf::RectangleShape _background;
     sf::Text _paused_text;
     GUI::Container _container;
 };

@@ -23,6 +23,7 @@ class GameStateBase : public State {
 
     Render _render;
     Player &_player;
+    Mission &_mission_status;
 
     sf::Time _update_time;
     size_t _frames;

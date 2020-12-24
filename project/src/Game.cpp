@@ -10,8 +10,8 @@
 #include "States/ServerWaitingState.h"
 #include "States/OnlineState.h"
 #include "States/PauseState.h"
-#include "States/SettingState.h"
 #include "States/GameOverState.h"
+#include "States/SettingState.h"
 #include "States/StateIdentifiers.h"
 #include "States/TitleState.h"
 
@@ -26,7 +26,10 @@ Game::Game() : _window(sf::VideoMode(1280, 960), "Batut Wars", sf::Style::Close)
                _server(),
                _server_thread(),
                _client_thread(),
-               _state_stack(State::Context(_window, _textures, _fonts, _player, _network_info, _client, _server, _server_thread, _client_thread, _musicplayer)) {
+               _musicplayer(),
+               _mission_status(Mission::AWAITING),
+               _state_stack(State::Context(_window, _textures, _fonts, _player, _network_info, _client, _server,
+                                          _server_thread, _client_thread, _musicplayer, _mission_status)) {
     _window.setKeyRepeatEnabled(false);
     _window.setVerticalSyncEnabled(true);
     registrates();
@@ -88,6 +91,6 @@ void Game::registrates() {
   _state_stack.registrate<GameState>(States::GAME);
   _state_stack.registrate<OnlineState>(States::ONLINE);
   _state_stack.registrate<PauseState>(States::PAUSE);
-  _state_stack.registrate<SettingsState>(States::SETTINGS);
   _state_stack.registrate<GameOverState>(States::ENDGAME);
+  _state_stack.registrate<SettingsState>(States::SETTINGS);
 }

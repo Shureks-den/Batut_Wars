@@ -42,6 +42,7 @@ bool WaitingState::update(sf::Time dt) {
 
 void WaitingState::draw() {
     sf::RenderWindow& window = *getContext().window;
+    window.setView(window.getDefaultView());
 
     window.draw(_background);
 

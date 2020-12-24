@@ -19,6 +19,7 @@ TitleState::TitleState(StateStack& stack, Context context)
     menu_size.y = size.y * 1.f;
     _background.setSize(menu_size);
     _background.setPosition(0, 0);
+
     const sf::Font* font = context.fonts->get(fonts::Id::MAIN);
     _text.setFont(*font);
     _text.setString("Press any key to continue");
@@ -28,6 +29,8 @@ TitleState::TitleState(StateStack& stack, Context context)
 
 void TitleState::draw() {
     sf::RenderWindow& window = *getContext().window;
+    window.setView(window.getDefaultView());
+
     window.draw(_background);
 
     if (_is_showing) {

@@ -37,6 +37,8 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 
 void SettingsState::draw() {
     sf::RenderWindow& window = *getContext().window;
+    window.setView(window.getDefaultView());
+
     window.draw(_background);
     window.draw(_container);
 }

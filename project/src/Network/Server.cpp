@@ -11,8 +11,8 @@ static std::mutex server_mutex;
 
 namespace network {
 
-Server::Server() : _time_per_update(sf::seconds(1.0 / 120.0)),
-                   _ip(sf::IpAddress::getPublicAddress()),
+Server::Server() : _time_per_update(sf::seconds(1.0 / 60.0)),
+                   _ip(sf::IpAddress::getLocalAddress()),
                    //_port(sf::Socket::AnyPort),
                    _port(2000),
                    _host(0),
@@ -137,11 +137,8 @@ void Server::add_client() {
         output_packet << static_cast<int>(_clients.size());
 
         if (socket->send(output_packet) == sf::Socket::Done) {
-            std::cout << "SERVER SELECTOR ADD SOCKET"<< std::endl;
             _selector.add(*socket);
-            std::cout << "SERVER PUSH_BACK" << std::endl;
             _clients.push_back(std::move(socket));
-            std::cout << "CLIENTS: " << _clients.size() << std::endl;
         } else {
             _listener.close();
         }

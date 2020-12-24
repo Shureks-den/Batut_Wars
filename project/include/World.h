@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Status.h"
 #include "Enemy.h"
+#include "MissionStatus.h"
 
 class World {
  public:
@@ -19,10 +20,9 @@ class World {
     void update(sf::Time d_time);
     std::queue<std::pair<size_t, Player::Action>>& get_actions();
     std::vector<std::vector<Status>> get_status();
-    // size_t get_player_id();
+
     bool is_over();
-    bool has_alive_player();
-    bool finished_mission();
+    std::vector<Mission> get_mission() const;
 
     void push_player(std::unique_ptr<engine::MoveAble> player);
     void push_back(std::unique_ptr<engine::ImmoveAble> immoveable);
@@ -30,7 +30,6 @@ class World {
     void push_back(std::unique_ptr<space::Bullet> bullet);
     void push_back(std::unique_ptr<space::Enemy> enemy);
 
-    void set_player_count(size_t player_count);
 
  private:
     std::queue<std::pair<size_t, Player::Action>> _actions;
@@ -42,6 +41,8 @@ class World {
     std::vector<std::unique_ptr<space::Enemy>> _enemies;
 
     std::vector<std::vector<Status>> _status;
+
+    std::vector<Mission> _mission_status;
 
     size_t _player_count;
     size_t _moveable_count;

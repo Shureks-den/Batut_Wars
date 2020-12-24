@@ -11,7 +11,8 @@ State::Context::Context(sf::RenderWindow &window,
                         network::Server &server,
                         std::thread &server_thread,
                         std::thread &client_thread,
-                        MusicPlayer &music)
+                        MusicPlayer &music,
+                        Mission &mission_status)
 
                       : window(&window),
                         textures(&textures),
@@ -22,7 +23,8 @@ State::Context::Context(sf::RenderWindow &window,
                         server(&server),
                         server_thread(&server_thread),
                         client_thread(&client_thread),
-                        music(&music) {}
+                        music(&music),
+                        mission_status(&mission_status) {}
 
 State::State(StateStack& stack, Context context)
       : _stack(&stack),

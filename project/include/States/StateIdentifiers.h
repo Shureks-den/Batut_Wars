@@ -10,10 +10,9 @@ enum Id {
     SERVER_WAITING,
     GAME,
     ONLINE,
-    LOADING,
     PAUSE,
-    SETTINGS,
     ENDGAME,
+    SETTINGS,
     COUNT,
     NONE
 };

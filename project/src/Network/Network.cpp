@@ -12,6 +12,7 @@ sf::Packet& operator>>(sf::Packet& packet, animation::Id& animashki) {
 }
 
 sf::Packet& operator<<(sf::Packet& packet, std::queue<Player::Action>& actions) {
+    packet << static_cast<int>(actions.size());
     while (!actions.empty()) {
         packet << static_cast<int>(actions.front());
         actions.pop();
@@ -21,7 +22,9 @@ sf::Packet& operator<<(sf::Packet& packet, std::queue<Player::Action>& actions) 
 
 sf::Packet& operator>>(sf::Packet& packet, std::queue<Player::Action>& actions) {
     int tmp;
-    while (!packet.endOfPacket()) {
+    int size;
+    packet >> size;
+    for (int i = 0; i < size; ++i) {
         packet >> tmp;
         actions.push(static_cast<Player::Action>(tmp));
     }

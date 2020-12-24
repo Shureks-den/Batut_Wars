@@ -8,6 +8,7 @@ GameStateBase::GameStateBase(StateStack& stack, Context context)
           : State(stack, context),
           _render(*context.window),
           _player(*context.player),
+          _mission_status(*context.mission_status),
           _frames(0) {
     _statistic_text.setFont(*context.fonts->get(fonts::Id::FPS));
     _statistic_text.setPosition(5.f, 5.f);

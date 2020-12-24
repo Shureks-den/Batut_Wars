@@ -8,14 +8,14 @@
 
 class GameOverState : public State {
  public:
-	GameOverState(StateStack& stack, Context context);
+    GameOverState(StateStack& stack, Context context);
 
-	void draw() override;
+    void draw() override;
     bool update(sf::Time dt) override;
     bool handle_event(const sf::Event&) override;
 
  private:
     sf::RectangleShape _background;
-	sf::Text _gameovertext;
-	sf::Time _ElapsedTime;
+    sf::Text _mission;
+    sf::Text _info;
 };

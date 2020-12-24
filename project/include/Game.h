@@ -9,6 +9,7 @@
 #include "Holder.h"
 #include "Player.h"
 #include "Server.h"
+#include "MissionStatus.h"
 #include "States/StateStack.h"
 
 class Game : sf::NonCopyable {
@@ -38,6 +39,8 @@ class Game : sf::NonCopyable {
     std::thread _client_thread;
 
     MusicPlayer _musicplayer;
+
+    Mission _mission_status;
 
     StateStack _state_stack;
 

@@ -46,7 +46,6 @@ static Status to_status(engine::Entity const &entity) {
 }
 
 World::World() : _player_count(0), _moveable_count(0), _immoveable_count(0) {
-    // TODO(SHUREK) чтение карты из файла
     _status.resize(static_cast<size_t>(StatusLay::COUNT));
 }
 
@@ -165,12 +164,35 @@ void World::update(sf::Time d_time) {
 }
 
 bool World::is_over() {
-  // for (auto &it : _players) {
-  //     if (it->get_hp() > 0) {
-  //         return true;
-  //     }
-  // }
-  // return false;
+    int alive_players = 0;
+    int win_id = 0;
+    bool alive_enemies = false;
+
+    for (size_t i = 0; i < _players.size(); ++i) {
+        if (_players[i]->is_destroyed()) {
+            _mission_status[i] = Mission::FAIL;
+        } else {
+            ++alive_players;
+            win_id = i;
+        }
+    }
+
+    if (alive_players == 0) {
+        return true;
+    }
+
+    for (auto &it : _enemies) {
+        if (!it->is_destroyed()) {
+            alive_enemies = true;
+            break;
+        }
+    }
+
+    if (!alive_enemies && alive_players == 1) {
+        _mission_status[win_id] = Mission::SUCCESS;
+        return true;
+    }
+
   return false;  // TODO(ANDY) убрать заглушку
 }
 
@@ -183,6 +205,7 @@ void World::push_player(std::unique_ptr<engine::MoveAble> player) {
   Status status = to_status(dynamic_cast<engine::Entity &>(*player));
   _status[static_cast<size_t>(StatusLay::PLAYER)].push_back(status);
   _players.push_back(std::move(player));
+  _mission_status.push_back(Mission::AWAITING);
 }
 
 void World::push_back(std::unique_ptr<engine::MoveAble> moveable) {
@@ -264,10 +287,6 @@ std::queue<std::pair<size_t, Player::Action>>& World::get_actions() {
      return _actions;
 }
 
-void World::set_player_count(size_t player_count) {
-  _player_count = player_count;
-}
-
 void World::portal(engine::MoveAble &moveable) {
     sf::Vector2f position = moveable.get_position();  // TODO(ANDY) обновление status (после
                                                       // реализации angle в Entity)
@@ -286,16 +305,6 @@ void World::portal(engine::MoveAble &moveable) {
     }
 }
 
-
-
-////////////// Пока хз как сделать эти проверки
-
-bool World::has_alive_player() {
-  return true;
+std::vector<Mission> World::get_mission() const {
+    return _mission_status;
 }
-
-bool World::finished_mission() {
-  return false;
-}
-
-
