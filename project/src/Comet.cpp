@@ -20,7 +20,7 @@ void Comet::collision(engine::MoveAble& moveable) {
     return;
   }
 
-    float critical_radius = 20;
+    float critical_radius = fabs(this->get_size().y) + fabs(moveable.get_size().y / 1.3);
     engine::Vector tmp(moveable.get_x() - this->get_x(),
                        moveable.get_y() - this->get_y());
 
