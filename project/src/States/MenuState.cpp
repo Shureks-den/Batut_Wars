@@ -33,6 +33,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     client_button->setPosition(size.x * 0.5f - 100.f, size.y * 0.5f - 50);
     client_button->set_text("Online game");
     client_button->set_callback([this] () {
+        requestStackPop();
         requestStackPush(States::ONLINE_MENU);
     });
 

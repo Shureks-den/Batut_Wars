@@ -1,13 +1,13 @@
 #include  "Network.h"
 
-sf::Packet& operator<<(sf::Packet& packet, animation::Id& animashki) {
-    return packet << static_cast<int>(animashki);
+sf::Packet& operator<<(sf::Packet& packet, animation::Id& id) {
+    return packet << static_cast<int>(id);
 }
 
-sf::Packet& operator>>(sf::Packet& packet, animation::Id& animashki) {
+sf::Packet& operator>>(sf::Packet& packet, animation::Id& id) {
     int tmp;
     packet >> tmp;
-    animashki = static_cast<animation::Id>(tmp);
+    id = static_cast<animation::Id>(tmp);
     return packet;
 }
 
@@ -47,6 +47,37 @@ sf::Packet& operator>>(sf::Packet& packet, std::vector<bool>& bool_vector) {
         bool data;
         packet >> data;
         bool_vector[i] = data;
+    }
+    return packet;
+}
+
+sf::Packet& operator<<(sf::Packet& packet, Mission &mission) {
+    return packet << static_cast<int>(mission);
+}
+
+sf::Packet& operator>>(sf::Packet& packet, Mission &mission) {
+    int data;
+    packet >> data;
+    mission = static_cast<Mission>(data);
+    return packet;
+}
+
+sf::Packet& operator<<(sf::Packet& packet, std::vector<Mission> &mission) {
+    packet << static_cast<int>(mission.size());
+    for (auto &it : mission) {
+        packet << it;
+    }
+    return packet;
+}
+
+sf::Packet& operator>>(sf::Packet& packet, std::vector<Mission> &mission) {
+    int size;
+    packet >> size;
+    mission.resize(size);
+    for (size_t i = 0; i < static_cast<size_t>(size); ++i) {
+        Mission data;
+        packet >> data;
+        mission[i] = data;
     }
     return packet;
 }

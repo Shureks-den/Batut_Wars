@@ -12,7 +12,7 @@ constexpr int START = 1;
 class Server {
  public:
     Server();
-    ~Server();
+    ~Server() = default;
     void run();
     std::pair<sf::IpAddress, uint16_t> get_adress() const;
     size_t get_players() const;
@@ -26,7 +26,7 @@ class Server {
     sf::SocketSelector _selector;
     sf::TcpListener _listener;
     sf::IpAddress _ip;
-    const uint16_t _port;
+    /*const*/ uint16_t _port;
     size_t _host;
 
     void read_action(size_t client_id);

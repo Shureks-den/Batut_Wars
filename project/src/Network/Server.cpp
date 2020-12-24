@@ -6,6 +6,8 @@
 
 #include "Network.h"
 #include "Ship.h"
+#include "Enemy.h"
+#include "IcePlanet.h"
 
 static std::mutex server_mutex;
 
@@ -18,9 +20,8 @@ Server::Server() : _time_per_update(sf::seconds(1.0 / 60.0)),
                    _host(0),
                    _is_started(false) {}
 
-Server::~Server() {}
-
 void Server::run() {
+    ++_port;
     _listener.listen(_port);
     _selector.add(_listener);
 
@@ -28,16 +29,23 @@ void Server::run() {
 
     for (size_t i = 0; i < _clients.size(); ++i) {
         auto player = std::unique_ptr<space::Ship>(new space::Ship());
-        player->set_id(i);
-        player->set_position(sf::Vector2f(200 + 200 * i, 400));
+        player->set_position(sf::Vector2f(200 + 200 * i, 1600));
         _world.push_player(std::move(player));
     }
+
+    auto bot1 = std::unique_ptr<space::Enemy>(new space::Enemy);
+    bot1->set_position(sf::Vector2f(1500, 1600));
+    _world.push_back(std::move(bot1));
+
+    auto ice_planet_1 = std::unique_ptr<space::IcePlanet>(new space::IcePlanet(125.0f));
+    ice_planet_1->set_position(sf::Vector2f(800, 1600));
+    _world.push_back(std::move(ice_planet_1));
     std::cout << "LET'S START GAME" << std::endl;
 
     sf::Clock clock;
     sf::Time total_time = sf::Time::Zero;
 
-    while (!_world.is_over()) {  // DANGER!
+    while (!_world.is_over()) {
         sf::Time current_time = clock.restart();
         total_time += current_time;
 
@@ -50,6 +58,37 @@ void Server::run() {
             send_update();
         }
     }
+    std::cout << "GAME END" << std::endl;
+
+    sf::Time end_time = sf::Time::Zero;
+    while (end_time.asSeconds() < 5) {  // TODO(ANDY)
+        sf::Time current_time = clock.restart();
+        total_time += current_time;
+        end_time += current_time;
+
+        get_client_actions();
+
+        while (total_time > _time_per_update) {
+            total_time -= _time_per_update;
+
+            _world.update(_time_per_update);
+            send_update();
+        }
+    }
+    std::cout << "SERVER END" << std::endl;
+
+    _world.free();
+
+    _selector.clear();
+    std::cout << "SELECTOR CLEAR" << std::endl;
+    for (auto &it : _clients) {
+        it->disconnect();
+    }
+    _clients.clear();
+    std::cout << "CLIENTS CLEAR" << std::endl;
+    _listener.close();
+    std::cout << "LISTENER CLOSE" << std::endl;
+    _is_started = false;
 }
 
 std::pair<sf::IpAddress, uint16_t> Server::get_adress() const {
@@ -72,10 +111,10 @@ void Server::accept_clients() {
                 return;
             }
         }
-        
+
         while (total_time > _time_per_update) {
             total_time -= _time_per_update;
-            send_waiting();
+            send_update();
         }
     }
 }
@@ -105,10 +144,10 @@ void Server::read_action(size_t client_id) {
 
 void Server::send_update() {
     sf::Packet output_packet;
-    int result = 1;  // КОСТЫЛЬ-ЗАГЛУШКА
-    output_packet << result;
+    auto mission_status = _world.get_mission();
+    output_packet << mission_status;
     auto status = _world.get_status();
-    output_packet << status;
+    output_packet << status;;
     for (auto &it : _clients) {
         if (it->send(output_packet) == sf::Socket::Disconnected) {
             _selector.remove(*it);
@@ -119,8 +158,8 @@ void Server::send_update() {
 
 void Server::send_waiting() {
     sf::Packet output_packet;
-    int result = 0;
-    output_packet << result;
+    auto mission_status = _world.get_mission();
+    output_packet << mission_status;
     for (auto &it : _clients) {
         if (it->send(output_packet) == sf::Socket::Disconnected) {
             _selector.remove(*it);

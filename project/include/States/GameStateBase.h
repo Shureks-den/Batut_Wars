@@ -8,6 +8,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+constexpr float ENDING_TIME = 5.f;  // В секундах
 
 class GameStateBase : public State {
  public:
@@ -24,6 +25,8 @@ class GameStateBase : public State {
     Render _render;
     Player &_player;
     Mission &_mission_status;
+
+    sf::Time _game_over;
 
     sf::Time _update_time;
     size_t _frames;

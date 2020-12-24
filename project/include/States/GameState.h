@@ -13,6 +13,4 @@ class GameState : public GameStateBase {
 
  private:
     World _world;
-
-    sf::Time _game_over;
 };

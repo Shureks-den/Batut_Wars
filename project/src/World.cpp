@@ -205,7 +205,7 @@ void World::push_player(std::unique_ptr<engine::MoveAble> player) {
   Status status = to_status(dynamic_cast<engine::Entity &>(*player));
   _status[static_cast<size_t>(StatusLay::PLAYER)].push_back(status);
   _players.push_back(std::move(player));
-  _mission_status.push_back(Mission::AWAITING);
+  _mission_status.push_back(Mission::RUN);
 }
 
 void World::push_back(std::unique_ptr<engine::MoveAble> moveable) {
@@ -307,4 +307,26 @@ void World::portal(engine::MoveAble &moveable) {
 
 std::vector<Mission> World::get_mission() const {
     return _mission_status;
+}
+
+void World::free() {
+    _player_count = 0;
+    _moveable_count = 0;
+    _immoveable_count = 0;
+    
+    _players.clear();
+    _enemies.clear();
+    _immoveable.clear();
+    _moveable.clear();
+    _bullet.clear();
+
+    while(!_actions.empty()) {
+      _actions.pop();
+    }
+
+    for (auto &it : _status) {
+        it.clear();
+    }
+
+    _mission_status.clear();
 }

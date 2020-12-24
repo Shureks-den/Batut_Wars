@@ -1,9 +1,11 @@
 #pragma once
 
+#include <memory>
 #include <SFML/Network.hpp>
 
 #include "Player.h"
 #include "Status.h"
+#include "MissionStatus.h"
 
 namespace network {
 
@@ -16,8 +18,11 @@ class Client {
     void run();
 
     size_t get_id() const;
+    std::vector<std::vector<Status>> get_status() const;
+    Mission get_mission() const;
+
     std::queue<Player::Action>& get_actions();
-    std::vector<std::vector<Status>> get_status();
+
     bool connect(std::pair<sf::IpAddress, uint16_t> const &adress);
     void disconnect();
 
@@ -26,6 +31,7 @@ class Client {
 
  private:
     sf::TcpSocket _server;
+    std::unique_ptr<sf::TcpSocket> _ser;
     sf::IpAddress _server_ip;
     uint16_t _server_port;
     sf::SocketSelector _selector;
@@ -36,7 +42,7 @@ class Client {
     std::vector<std::vector<Status>> _status;
 
     bool _is_connected;
-    int _result;
+    Mission _mission_status;
 
     void send_actions();
     void receive_status();

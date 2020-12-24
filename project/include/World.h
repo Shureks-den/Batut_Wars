@@ -30,6 +30,8 @@ class World {
     void push_back(std::unique_ptr<space::Bullet> bullet);
     void push_back(std::unique_ptr<space::Enemy> enemy);
 
+    void free();
+
 
  private:
     std::queue<std::pair<size_t, Player::Action>> _actions;

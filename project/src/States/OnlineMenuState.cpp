@@ -7,7 +7,7 @@
 #include "Button.h"
 #include "Server.h"
 
-static constexpr int FAIL = 1;
+static constexpr int FAIL = 0;
 static constexpr int SUCCESS = 1;
 
 OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
@@ -37,7 +37,6 @@ OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
     server_button->set_text("Create server");
     server_button->set_callback([this] () {
         start_server();
-        sf::sleep(sf::seconds(1));
         if (start_client() == SUCCESS) {
             requestStackPush(States::Id::SERVER_WAITING);
         }
@@ -57,6 +56,7 @@ OnlineMenuState::OnlineMenuState(StateStack& stack, Context context)
     back_button->set_text("Back");
     back_button->set_callback([this] () {
         requestStackPop();
+        requestStackPush(States::Id::MENU);
     });
 
     _container.pack(ip_textbox);
@@ -72,7 +72,7 @@ bool OnlineMenuState::update(sf::Time) {
 
 void OnlineMenuState::draw() {
     sf::RenderWindow& window = *getContext().window;
-    window.setView(window.getDefaultView());
+    // window.setView(window.getDefaultView());
 
     window.draw(_background);
     window.draw(_container);
@@ -86,7 +86,9 @@ bool OnlineMenuState::handle_event(const sf::Event& event) {
 int OnlineMenuState::start_client() {
     getContext().network_info->first = ip_textbox->get_text();  // TODO(ANDY) ловить исключения
     getContext().network_info->second = static_cast<uint16_t>(std::stoi(port_textbox->get_text()));
-    if (!getContext().client->connect(*getContext().network_info)) {
+
+    bool is_connected = getContext().client->connect(*getContext().network_info);
+    if (!is_connected) {
         return FAIL;
     }
 
@@ -103,6 +105,7 @@ void OnlineMenuState::start_server() {
         getContext().server->run();
     });
     getContext().server_thread->detach();
+    sf::sleep(sf::seconds(1));
     *getContext().network_info = getContext().server->get_adress();
     ip_textbox->set_string(getContext().network_info->first.toString());
     port_textbox->set_string(std::to_string(getContext().network_info->second));

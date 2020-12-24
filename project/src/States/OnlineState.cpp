@@ -12,18 +12,31 @@ OnlineState::OnlineState(StateStack& stack, Context context)
 }
 
 OnlineState::~OnlineState() {
-    _client->disconnect();
-    getContext().client_thread->join();
+    if (getContext().client_thread->joinable()) {
+        getContext().client_thread->join();
+    }
+    if (getContext().server_thread->joinable()) {
+        getContext().server_thread->join();
+    }
 }
 
 bool OnlineState::update(sf::Time dt) {
     _render.set_status(_client->get_status());
+    _mission_status = _client->get_mission();
     _render.update(dt);
 
     update_statistic(dt);
 
     std::queue<Player::Action> &actions = _client->get_actions();
     _player.handle_realtime_event(actions);
+
+    if (_mission_status == Mission::FAIL || _mission_status == Mission::SUCCESS) {
+        _game_over += dt;
+    }
+
+    if (_game_over.asSeconds() >= ENDING_TIME) {
+        requestStackPush(States::Id::ENDGAME);
+    }
 
     return true;
 }

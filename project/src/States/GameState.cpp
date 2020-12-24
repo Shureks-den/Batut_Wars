@@ -9,11 +9,8 @@
 
 #include <memory>
 
-static constexpr float ENDING_TIME = 5.f;  // В секундах
-
 GameState::GameState(StateStack& stack, Context context) : GameStateBase(stack, context),
-                                                           _world(),
-                                                           _game_over(sf::Time::Zero) {
+                                                           _world() {
     context.music->play(Music::MissionTheme);
 
     *context.mission_status = Mission::RUN;
