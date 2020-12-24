@@ -1,11 +1,15 @@
 #include "Ship.h"
 
+#ifndef NO_CONSOLE_INFO_OF_DMG
 #include <iostream>
+#endif  // NO_CONSOLE_INFO_OF_DMG
 
 namespace space {
 
-Ship::Ship(const sf::Time recharge)
-    : engine::MoveAble(35, 150), _recharge(recharge), _countdown(_recharge) {
+Ship::Ship(const sf::Time recharge, int dmg)
+    : engine::MoveAble(35, 150, dmg),
+      _recharge(recharge),
+      _countdown(_recharge) {
   set_size(sf::Vector2f(50.0f, 64.0f));
 }
 
@@ -19,10 +23,6 @@ void Ship::collision(engine::MoveAble &other) {
     return;
   }
 
-  this->set_hp(this->get_hp() - 20);
-  other.set_hp(other.get_hp() - 20);
-  std::cout << "HP: " << this->get_hp() << std::endl;
-
   // Just some physics
   engine::Vector V10 = (this->get_engine_speed() + this->get_dictated_speed());
   engine::Vector V20 = (other.get_engine_speed() + other.get_dictated_speed());
@@ -32,9 +32,20 @@ void Ship::collision(engine::MoveAble &other) {
   float c = V10.get_x() * V10.get_x() + V20.get_x() * V20.get_x();
   float d = V10.get_y() * V10.get_y() + V20.get_y() * V20.get_y();
 
-  if (2 * c - a * a < 0 || 2 * d - b * b < 0) {
-    std::cout << 2 * c - a * a << "\t" << 2 * d - b * b << std::endl;
-  }
+  this->take_damage(other.get_damage() *
+                    (1 + fabs(sin((V10.get_abs() * V20.get_abs()) /
+                                  (V10.get_abs() + V20.get_abs())))));
+  other.take_damage(this->get_damage() *
+                    (1 + fabs(sin((V10.get_abs() * V20.get_abs()) /
+                                  (V10.get_abs() + V20.get_abs())))));
+
+#ifndef NO_CONSOLE_INFO_OF_DMG
+std::cout << other.get_hp() << " - Ship - " << this->get_hp()<< std::endl;
+#endif  // NO_CONSOLE_INFO_OF_DMG
+
+  // if (2 * c - a * a < 0 || 2 * d - b * b < 0) {
+  //   std::cout << 2 * c - a * a << "\t" << 2 * d - b * b << std::endl;
+  // }
 
   // float V1x = 0, V2x = 0, V1y = 0, V2y = 0;
   // if (2 * c - a * a >= 0) {
@@ -46,15 +57,15 @@ void Ship::collision(engine::MoveAble &other) {
   //   V2y = (b - sqrt(2 * d - b * b)) / 2;
   // }
 
-    float V1y = (b + sqrt(fabs(2 * d - b * b))) / 2;
-    float V2y = (b - sqrt(fabs(2 * d - b * b))) / 2;
-    float V1x = (a + sqrt(fabs(2 * c - a * a))) / 2;
-    float V2x = (a - sqrt(fabs(2 * c - a * a))) / 2;
+  float V1y = (b + sqrt(fabs(2 * d - b * b))) / 2;
+  float V2y = (b - sqrt(fabs(2 * d - b * b))) / 2;
+  float V1x = (a + sqrt(fabs(2 * c - a * a))) / 2;
+  float V2x = (a - sqrt(fabs(2 * c - a * a))) / 2;
 
-  std::cout << V10.get_x() << "\t" << V10.get_y() << "\t//\t" << V20.get_x()
-            << "\t" << V20.get_y() << std::endl;
-  std::cout << V1x << "\t" << V1y << "\t//\t" << V2x << "\t" << V2y << std::endl
-            << std::endl;
+  // std::cout << V10.get_x() << "\t" << V10.get_y() << "\t//\t" << V20.get_x()
+  //           << "\t" << V20.get_y() << std::endl;
+  // std::cout << V1x << "\t" << V1y << "\t//\t" << V2x << "\t" << V2y << std::endl
+  //           << std::endl;
 
   // this->set_engine_speed(engine::Vector(V1x, V1y));
 
@@ -63,8 +74,10 @@ void Ship::collision(engine::MoveAble &other) {
   this->set_engine_speed(engine::Vector(0, 0));
   other.set_engine_speed(engine::Vector(0, 0));
 
-  this->set_dictated_speed(this->get_dictated_speed() + engine::Vector(V2x, V2y));
-  other.set_dictated_speed(other.get_dictated_speed() - engine::Vector(V1x, V1y));
+  this->set_dictated_speed(this->get_dictated_speed() +
+                           engine::Vector(V2x, V2y));
+  other.set_dictated_speed(other.get_dictated_speed() -
+                           engine::Vector(V1x, V1y));
 }
 
 void Ship::trigger(MoveAble &) {}

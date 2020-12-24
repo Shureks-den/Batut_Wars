@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <iostream>
 
 #include <cmath>
 
@@ -154,21 +155,20 @@ void Entity::rotate_orientation(float angle) {
 
 bool Entity::is_destroyed() const { return _is_destroyed; }
 
-MoveAble::MoveAble(float thrust)
+MoveAble::MoveAble(float thrust, int dmg)
     : _engine_thrust(thrust),
       _speed_limit(90),
-      _HP(100) {}  // TODO(Tony) сеттер для seed_limit
+      _HP(100),
+      _dmg(dmg) {}  // TODO(Tony) сеттер для seed_limit
 
-MoveAble::MoveAble(float thrust, float speed)
-    : _engine_thrust(thrust), _speed_limit(speed), _HP(100) {}
+MoveAble::MoveAble(float thrust, float speed, int dmg)
+    : _engine_thrust(thrust), _speed_limit(speed), _HP(100), _dmg(dmg) {}
 
 void MoveAble::set_dictated_speed(engine::Vector other_dictated_speed) {
   this->_dictated_speed = other_dictated_speed;
 }
 
-Vector MoveAble::get_dictated_speed() {
-  return this->_dictated_speed;
-}
+Vector MoveAble::get_dictated_speed() { return this->_dictated_speed; }
 
 void MoveAble::give_acceleration(Vector acceleration) {
   _dictated_acceleration += acceleration;
@@ -188,9 +188,7 @@ void MoveAble::rotate(float angle) {
 
 Vector Entity::get_orientation() { return _orientation; }
 
-void MoveAble::set_hp(int value) {
-  _HP = value;
-}
+void MoveAble::set_hp(int value) { _HP = value; }
 
 int MoveAble::get_hp() { return _HP; }
 
@@ -199,8 +197,17 @@ void MoveAble::collision(engine::MoveAble&) {}
 void MoveAble::set_engine_speed(Vector other_speed) {
   this->_engine_speed = other_speed;
 }
-Vector MoveAble::get_engine_speed() {
-  return this->_engine_speed;
+Vector MoveAble::get_engine_speed() { return this->_engine_speed; }
+
+void MoveAble::take_damage(int dmg) {
+  _HP -= dmg;
+  // std::cout << "> " << _HP << "\t" << this->get_id() << std::endl;
+  if (_HP <= 0) {
+    _HP = 0;
+    _is_destroyed = true;
+  }
 }
+
+int MoveAble::get_damage() { return _dmg; }
 
 }  // namespace engine

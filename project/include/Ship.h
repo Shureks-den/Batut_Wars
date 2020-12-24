@@ -12,7 +12,7 @@ namespace space {
 
 class Ship : public engine::MoveAble {
  public:
-    Ship(const sf::Time);
+    Ship(const sf::Time, int dmg);
     ~Ship() = default;
 
     virtual std::unique_ptr<Bullet> fire() = 0;

@@ -2,7 +2,7 @@
 
 namespace space {
 
-Enemy::Enemy() : space::Ship(sf::seconds(3.0f)),
+Enemy::Enemy() : space::Ship(sf::seconds(3.0f), 15),
                _is_player_spotted(false),
                _rotate_time(sf::seconds(2)),
                _vision(500,500),

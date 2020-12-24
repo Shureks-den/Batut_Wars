@@ -20,7 +20,6 @@ class Bullet : public engine::MoveAble {
 
  private:
   sf::Vector2f _bounds;
-  int _dmg;
 
   const sf::Time _lifetime;
   sf::Time _current;

@@ -1,8 +1,12 @@
 #include "Bullet.h"
 
+#ifndef NO_CONSOLE_INFO_OF_DMG
+#include <iostream>
+#endif  // NO_CONSOLE_INFO_OF_DMG
+
 namespace space {
 
-Bullet::Bullet() : engine::MoveAble(0, 350), _lifetime(sf::seconds(10)) {
+Bullet::Bullet() : engine::MoveAble(0, 350, 15), _lifetime(sf::seconds(10)) {
   _engine_speed = _orientation * 350;
   _current = sf::Time::Zero;
 }
@@ -57,10 +61,17 @@ void Bullet::collision(engine::MoveAble &object) {
       _position.x >= object.get_x() - size.x / 2 &&
       _position.y <= object.get_y() + size.y / 2 &&
       _position.y >= object.get_y() - size.y / 2) {
-      _is_destroyed = true;
+      this->take_damage(this->_HP);
+      object.take_damage(this->_dmg);
+
+#ifndef NO_CONSOLE_INFO_OF_DMG
+std::cout << object.get_hp() << " - Bullet - " << this->get_hp()<< std::endl;
+#endif  // NO_CONSOLE_INFO_OF_DMG
+
   }
 }
 
 void Bullet::trigger(MoveAble &) {}
 
 }  // namespace space
+// TODO(Tony): перераспределить инициализацию хп.

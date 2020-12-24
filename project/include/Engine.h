@@ -6,10 +6,12 @@
 
 #include "Status.h"
 
+#define NO_CONSOLE_INFO_OF_DMG  // to get info about fighting
+
 #define _USE_MATH_DEFINES
 
 constexpr double PI = M_PI;
-constexpr double G = 66;  // система СИ
+constexpr double G = 66;
 
 constexpr float SPEED_LIMIT = 130.0;
 constexpr float ACCELERETION_LIMIT = 10.0;
@@ -65,7 +67,7 @@ class Entity {
   void set_is_destroyed(bool value);
   float get_angle() const;  // [рад] Угол между orientation и Ох. Увеличение
                             // угла по часовой стрелке.
-  void rotate_orientation(float angle);  // Изменение направляющего вектора
+  void rotate_orientation(float angle);  // Поворот направляющего вектора
 
   sf::Vector2f get_position() const;
   void set_position(sf::Vector2f position);
@@ -107,8 +109,8 @@ class ImmoveAble : public Entity {
 class MoveAble : public Entity {
  public:
   MoveAble() = default;  // TODO(Tony) прописать конструктор по умолчанию
-  explicit MoveAble(float thrust);
-  MoveAble(float thrust, float speed);
+  explicit MoveAble(float thrust, int dmg);
+  MoveAble(float thrust, float speed, int dmg);
   virtual ~MoveAble() = default;
   void rotate(float angle);
   void give_acceleration(Vector acceleration);
@@ -117,6 +119,8 @@ class MoveAble : public Entity {
   Vector get_engine_speed();
   Vector get_dictated_speed();
   void set_dictated_speed(Vector other);
+  void take_damage(int dmg);
+  int get_damage();
 
   int get_hp();
   void set_hp(int value);
@@ -128,14 +132,14 @@ class MoveAble : public Entity {
   virtual void update(sf::Time dt) = 0;
 
  protected:
-  Vector _engine_speed;  // Вектор скорости движения
-  Vector _engine_acceleration;  // Вектор суммарного ускорения
-  Vector _dictated_speed;
-  Vector _dictated_acceleration;
-  const float _engine_thrust;  // Модуль ускорения, предаваемого двигателем
-  float _speed_limit;          // Предел модуля скорости
+  Vector _engine_speed;  // Компонента скорости от двигателя
+  Vector _engine_acceleration;  // Компонента ускорения от двигателя
+  Vector _dictated_speed;  // Компонента скорости от внешних объектов
+  Vector _dictated_acceleration;  // Компонента ускорения от внешних объектов
+  const float _engine_thrust;  // Модуль компоненты ускорения от двигателя
+  float _speed_limit;  // Предел модуля скорости
   int _HP;
-  float armor;
+  int _dmg;
 };
 
 }  // end namespace engine

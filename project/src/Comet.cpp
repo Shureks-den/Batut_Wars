@@ -1,8 +1,9 @@
 #include "Comet.h"
+#include <iostream>
 
 namespace space {
 
-Comet::Comet(engine::Vector speed) : engine::MoveAble(0), _dmg(55) {  // TODO(anyone) переписать конструктор на
+Comet::Comet(engine::Vector speed) : engine::MoveAble(0.f, 40) {  // TODO(anyone) переписать конструктор на
   _engine_speed = speed;                                              // модуль скорости + угол (с осью ОХ)
   _orientation = _engine_speed.get_normal();
 }
@@ -15,8 +16,9 @@ void Comet::collision(engine::MoveAble& moveable) {
 
     float radius = tmp.get_abs();
     if (radius <= critical_radius) {
-      moveable.set_hp(moveable.get_hp() - _dmg);
-      set_is_destroyed(true);
+      moveable.take_damage(this->_dmg);
+      this->take_damage(this->_HP);
+      std::cout << moveable.get_hp() << " - Comet - " << this->get_hp()<< std::endl;
     }
   }
 }
@@ -48,3 +50,4 @@ void Comet::update(sf::Time dt) {
    // красава :)   Вообще-то это Антон мне(Лизе) написал :(
    // спасибо (:
    // выходи за меня :)
+   // я согласен
