@@ -21,14 +21,17 @@ class Enemy : public space::Ship {
 
     void virtual trigger(engine::MoveAble &moveable) override;
     void trigger(engine::ImmoveAble &immoveable);
+    void trigger(Enemy &enemy);
 
     void turn_to_player();
     void turn_from_planet();
+    void turn_from_enemy();
 
  private:
     bool _is_going_to_planet;
     bool _is_player_spotted;
     bool _aimed;
+    bool _close_to_enemy_ship;
     // это ИИ детка //
 
     const sf::Time _recharge;  // Перезарядка между выстрелами
@@ -37,6 +40,8 @@ class Enemy : public space::Ship {
 
     sf::Vector2f _vision; //  квадрат обзора
     float _rotate_speed;
+
+    sf::Vector2f _enemy_location;
     sf::Vector2f _player_location;
     sf::Vector2f _planet_location;
 };

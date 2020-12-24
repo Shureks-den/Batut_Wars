@@ -294,8 +294,9 @@ void World::player_player() {
 
 void World::enemy_enemy() {
     for (size_t i = 0; i < _enemies.size(); ++i) {
-        for (size_t j = i + 1; i < _enemies.size(); ++i) {
+        for (size_t j = i + 1; j < _enemies.size(); ++j) {
             _enemies[i]->collision(*_enemies[j]);
+            _enemies[i]->trigger(*_enemies[j]);
         }
     }
 }
