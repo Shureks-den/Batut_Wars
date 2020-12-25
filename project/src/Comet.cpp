@@ -22,8 +22,8 @@ void Comet::collision(engine::MoveAble& moveable) {
   }
 
     auto other_size = moveable.get_size();
-    auto other_radius = sqrt(other_size.x * other_size.x + other_size.y * other_size.y);
-    float critical_radius = (_size.y + other_radius) / 2.f;
+    auto other_radius = sqrt(other_size.x * other_size.x + other_size.y * other_size.y) / 2.f;
+    float critical_radius = _size.y  / 2.f + other_radius;
     engine::Vector tmp(moveable.get_x() - _position.x, moveable.get_y() - _position.y);
 
     float radius = tmp.get_abs();

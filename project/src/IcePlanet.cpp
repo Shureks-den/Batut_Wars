@@ -2,10 +2,14 @@
 
 namespace space {
 
-IcePlanet::IcePlanet(float range) : space::Planet(range) {}
+IcePlanet::IcePlanet(float range) : space::Planet(range) {
+  _state.resize(1);
+}
 
 void IcePlanet::collision(space::Bullet& bullet) {
-  float critical_radius = _range + 12;
+  auto other_size = bullet.get_size();
+  auto other_radius = sqrt(other_size.x * other_size.x + other_size.y * other_size.y) / 2.f;
+  float critical_radius = _range + other_radius;
 
   engine::Vector radius(-bullet.get_x() + get_x(), -bullet.get_y() + get_y());
 
@@ -21,6 +25,8 @@ void IcePlanet::collision(space::Bullet& bullet) {
   } else {
     bullet.rotate(-(PI / 2 - angle) * 2);
   }
+
+  _state[0] = true;  // Дзынь
 }
 
 animation::Id IcePlanet::get_animation_id() const {
@@ -29,6 +35,8 @@ animation::Id IcePlanet::get_animation_id() const {
 
 void IcePlanet::trigger(engine::MoveAble&) {}
 
-void IcePlanet::update(sf::Time) {}
+void IcePlanet::update(sf::Time) {
+    _state[0] = false;
+}
 
 }  // namespace space

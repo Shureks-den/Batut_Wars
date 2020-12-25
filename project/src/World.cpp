@@ -51,12 +51,12 @@ World::World() : _player_count(0), _moveable_count(0), _immoveable_count(0) {
 }
 
 void World::update(sf::Time d_time) {
+    update_all(d_time);
+
     while (!_actions.empty()) {
         do_action(_actions.front().first, _actions.front().second, d_time);
         _actions.pop();
     }
-
-    update_all(d_time);
 
     player_player();
     player_enemy();

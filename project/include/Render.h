@@ -24,6 +24,7 @@ class Render : private sf::NonCopyable {
   void build_scene();
   void add_animation(size_t lay, Status &status);
   void explosion(size_t i, size_t j);
+  void sound_render(size_t i, size_t j);
 
  private:
   sf::RenderWindow &_window;

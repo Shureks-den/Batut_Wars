@@ -17,6 +17,7 @@ Enemy::Enemy()
   _engine_thrust = 50;
   _speed_limit = 100;
   _HP = 50;
+  _state.resize(1);
 }
 
 void Enemy::update(sf::Time dt) {
@@ -80,6 +81,8 @@ void Enemy::update(sf::Time dt) {
     _is_going_to_planet = false;
     _is_player_spotted = false;
     _close_to_enemy_ship = false;
+
+    _state[0] = false;
 }
 
 std::unique_ptr<Bullet> Enemy::fire() {
@@ -98,8 +101,10 @@ std::unique_ptr<Bullet> Enemy::fire() {
   _countdown = _recharge;
 
   auto bullet = std::make_unique<Bullet>();
-  bullet->set_position(_position + _orientation.get_sf() * _size.x);
+  bullet->set_position(_position + _orientation.get_sf() * (_size.y * 0.6f + bullet->get_size().x));
   bullet->rotate(get_angle());
+
+  _state[0] = true;  // Бабах
   return bullet;
 }
 
@@ -158,8 +163,7 @@ void Enemy::turn_to_player() {  // проверить работоспособн
 }
 
 void Enemy::turn_from_planet() {
-    engine::Vector new_orientaion(this->get_position().x - _planet_location.x, 
-          this->get_position().y - _planet_location.y);
+    engine::Vector new_orientaion(_position.x - _planet_location.x, _position.y - _planet_location.y);
 
     float rotate_angle = acos((new_orientaion.get_x() * this->get_orientation().get_x() + new_orientaion.get_y() * 
     this->get_orientation().get_y())/(new_orientaion.get_abs() * this->get_orientation().get_abs()));

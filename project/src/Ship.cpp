@@ -10,7 +10,7 @@ Ship::Ship(const sf::Time recharge, int dmg)
     : engine::MoveAble(35, 150, dmg),
       _recharge(recharge),
       _countdown(_recharge) {
-  set_size(sf::Vector2f(50.0f, 64.0f));
+  set_size(sf::Vector2f(50.0f, 50.0f));
 }
 
 void Ship::collision(engine::MoveAble &other) {
@@ -18,7 +18,11 @@ void Ship::collision(engine::MoveAble &other) {
     return;
   }
 
-  float critical_radius = fabs(this->get_size().y / 2) + fabs(other.get_size().y / 3.5);
+  auto other_size = other.get_size();
+  auto other_radius = sqrt(other_size.x * other_size.x + other_size.y * other_size.y) / 2.f;
+  auto this_radius = sqrt(_size.x * _size.x + _size.y * _size.y) / 2.f;
+
+  float critical_radius = this_radius + other_radius;
   engine::Vector tmp(other.get_x() - this->get_x(),
                      other.get_y() - this->get_y());
   float radius = tmp.get_abs();

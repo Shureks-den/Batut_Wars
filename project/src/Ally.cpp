@@ -6,6 +6,8 @@ Ally::Ally() : space::Ship(sf::seconds(1.0f), 20) {
     _HP = 100;
     _engine_thrust = 40;
     _speed_limit = 175;
+    set_size(sf::Vector2f(42.0f, 50.0f));
+    _state.resize(1);
 }
 
 void Ally::update(sf::Time dt) {
@@ -38,6 +40,8 @@ void Ally::update(sf::Time dt) {
   if (_countdown > sf::Time::Zero) {
     _countdown -= (_countdown > dt) ? dt : _countdown;
   }
+
+  _state[0] = false;  // Бабах от выстрела
 }
 
 std::unique_ptr<Bullet> Ally::fire() {
@@ -52,8 +56,10 @@ std::unique_ptr<Bullet> Ally::fire() {
   _countdown = _recharge;
 
   auto bullet = std::make_unique<Bullet>();
-  bullet->set_position(_position + _orientation.get_sf() * _size.y * 0.7f);
+  bullet->set_position(_position + _orientation.get_sf() * (_size.y * 0.8f + bullet->get_size().x));
   bullet->rotate(get_angle());
+
+  _state[0] = true;
   return bullet;
 }
 

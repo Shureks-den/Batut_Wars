@@ -57,13 +57,18 @@ void Bullet::collision(engine::MoveAble &object) {
     return;
   }
 
-  sf::Vector2f size = object.get_size();
-  if (_position.x <= object.get_x() + size.x / 2 &&
-      _position.x >= object.get_x() - size.x / 2 &&
-      _position.y <= object.get_y() + size.y / 2 &&
-      _position.y >= object.get_y() - size.y / 2) {
-    this->take_damage(this->_HP);
-    object.take_damage(this->_dmg);
+  auto other_size = object.get_size();
+  auto other_radius = sqrt(other_size.x * other_size.x + other_size.y * other_size.y) / 2.f;
+  auto this_radius = _size.x / 2.f;
+
+  float critical_radius = this_radius + other_radius;
+  engine::Vector tmp(object.get_x() - _position.x,
+                     object.get_y() - _position.y);
+  float radius = tmp.get_abs();
+
+  if (critical_radius > radius) {
+    take_damage(_HP);
+    object.take_damage(_dmg);
 
 #ifndef NO_CONSOLE_INFO_OF_DMG
     std::cout << object.get_hp() << " - Bullet - " << this->get_hp()
@@ -75,4 +80,3 @@ void Bullet::collision(engine::MoveAble &object) {
 void Bullet::trigger(MoveAble &) {}
 
 }  // namespace space
-// TODO(Tony): перераспределить инициализацию хп.
