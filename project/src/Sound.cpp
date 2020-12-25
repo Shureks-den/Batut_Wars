@@ -24,8 +24,24 @@ namespace sounds {
         _sounds.push_back(sf::Sound());
         sf::Sound& sound = _sounds.back();
 
+        switch (effect) {
+            case sounds::Id::ENEMYFIRE:
+                sound.setVolume(6.0f);
+                break;
+            case sounds::Id::PLAYERFIRE:
+                sound.setVolume(20.f);
+                break;
+            case sounds::Id::REFRACTION:
+                sound.setVolume(100.f);
+                break;
+            case sounds::Id::EXPOLOSION:
+                sound.setVolume(15.f);
+            default:
+                break;
+        }
+
         sound.setBuffer(*_sound_buffer.get(effect));  // очень не уверен в этой строке
-        sound.setPosition(position.x, - position.y, 0.f);  // а зря, работает пиздато :)
+        sound.setPosition(position.x, - position.y, 0.f);  // а зря, работает пиздато :)  <3
         sound.setAttenuation(Attenuation);
         sound.setMinDistance(MinDistance3D);
 
