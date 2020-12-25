@@ -8,6 +8,8 @@
 #include "Layer.h"
 #include "Status.h"
 
+#include "Sound.h"
+
 class Render : private sf::NonCopyable {
  public:
   explicit Render(sf::RenderWindow &window);
@@ -21,6 +23,7 @@ class Render : private sf::NonCopyable {
  private:
   void build_scene();
   void add_animation(size_t lay, Status &status);
+  void explosion(size_t i, size_t j);
 
  private:
   sf::RenderWindow &_window;
@@ -29,6 +32,8 @@ class Render : private sf::NonCopyable {
   std::vector<std::vector<Status>> _status;
   animation::Creator _creator;
   size_t _player_id;
+
+  sounds::SoundPlayer _sound_player;
 
   sf::Vector2f _extra_size;
 };

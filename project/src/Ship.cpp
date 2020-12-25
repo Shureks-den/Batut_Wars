@@ -18,7 +18,7 @@ void Ship::collision(engine::MoveAble &other) {
     return;
   }
 
-  float critical_radius = 24 * 2;
+  float critical_radius = fabs(this->get_size().y / 2) + fabs(other.get_size().y / 3.5);
   engine::Vector tmp(other.get_x() - this->get_x(),
                      other.get_y() - this->get_y());
   float radius = tmp.get_abs();

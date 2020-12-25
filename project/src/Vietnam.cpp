@@ -145,4 +145,8 @@ void welcome_to_vietnam(World &world){
     auto bot12 = std::make_unique<space::Enemy>();
     bot12->set_position(sf::Vector2f(2532, 3864));
     world.push_back(std::move(bot12));
+
+    auto bot13 = std::unique_ptr<space::Enemy>(new space::Enemy);
+    bot13->set_position(sf::Vector2f(222, 3264));
+    world.push_back(std::move(bot13));
 }

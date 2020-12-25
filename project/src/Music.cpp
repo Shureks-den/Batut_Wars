@@ -3,7 +3,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Audio/Music.hpp>
 
-MusicPlayer::MusicPlayer():_music(), _filenames(), _volume(5.f) {
+MusicPlayer::MusicPlayer():_music(), _filenames(), _volume(10.f) {
     _filenames[Music::MenuTheme] = "project/media/Chill.ogg";
     _filenames[Music::MissionTheme] = "project/media/Battle.ogg";
 }

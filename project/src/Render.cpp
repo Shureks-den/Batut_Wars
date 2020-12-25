@@ -94,31 +94,16 @@ void Render::set_status(const std::vector<std::vector<Status>> &status) {
     for (size_t j = 0; j < _status[i].size(); ++j) {
       size_t lay = status[i][j].lay_id;
       size_t id = status[i][j].id;
-      if (status[i][j].is_removed) {
-        if (!_animation_layers[lay][id].is_playing()) {
-          continue;
-        }
+      _status[i][j] = status[i][j];
+      _status[i][j].position += _extra_size;
 
-        _animation_layers[lay][id].set_playing(false);
-        auto explosion = _creator.get_animation(animation::Id::EXPLOSION);
-        auto size = _animation_layers[lay][id].get_size();
-        float modul = sqrt(size.x * size.x + size.y * size.y);
-        size.x = size.y = modul;
-        explosion->set_size_s(size);
-        explosion->set_position(status[i][j].position + _extra_size);
-        explosion->set_angle(status[i][j].angle);
-        _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)]
-            .push_back(std::move(explosion));
+      if (_status[i][j].is_removed) {
+        explosion(i, j);
         continue;
       }
 
-      _status[i][j].states = status[i][j].states;
       _animation_layers[lay][id].set_states(_status[i][j].states);
-
-      _status[i][j].angle = status[i][j].angle;
       _animation_layers[lay][id].set_angle(status[i][j].angle);
-
-      _status[i][j].position = status[i][j].position + _extra_size;
       _animation_layers[lay][id].set_position(_status[i][j].position);
     }
 
@@ -140,3 +125,28 @@ void Render::add_animation(size_t lay, Status &status) {  // lay не нужен
 sf::View &Render::get_view() { return _view; }
 
 void Render::set_player_id(size_t id) { _player_id = id; }
+
+void Render::explosion(size_t i, size_t j) {
+    size_t lay = _status[i][j].lay_id;
+    size_t id = _status[i][j].id;
+
+    if (!_animation_layers[lay][id].is_playing()) {
+        return;
+    }
+
+    _animation_layers[lay][id].set_playing(false);
+    auto explosion = _creator.get_animation(animation::Id::EXPLOSION);
+    auto size = _animation_layers[lay][id].get_size();
+    float modul = sqrt(size.x * size.x + size.y * size.y);
+    size.x = size.y = modul;
+    explosion->set_size_s(size);
+    explosion->set_position(_status[i][j].position);
+    explosion->set_angle(_status[i][j].angle);
+    _animation_layers[static_cast<size_t>(animation::LayerNom::EFFECTS)].push_back(std::move(explosion));
+
+    auto radius = _view.getCenter() - _status[i][j].position;
+    auto distance = sqrt(radius.x * radius.x + radius.y * radius.y);
+    if (distance < _view.getSize().x / 2) {
+        _sound_player.play(sounds::Id::EXPOLOSION, _status[i][j].position);
+    }
+}

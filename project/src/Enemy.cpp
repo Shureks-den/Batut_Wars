@@ -7,6 +7,7 @@ Enemy::Enemy()
       _is_going_to_planet(false),
       _is_player_spotted(false),
       _aimed(false),
+      _close_to_enemy_ship(false),
       _recharge(sf::seconds(3.0f)),
       _countdown(_recharge),
       _rotate_time(sf::seconds(2)),
@@ -26,6 +27,9 @@ void Enemy::update(sf::Time dt) {
         _aimed = false;
         if (_is_going_to_planet) {
             turn_from_planet();
+            give_acceleration(Direction::FORWARD);
+        } else if (_close_to_enemy_ship) {
+            turn_from_enemy();
             give_acceleration(Direction::FORWARD);
         } else {
             if (_rotate_time > sf::seconds(1) && _rotate_time < sf::seconds(7)) {   // простое перемещение запустите прочекайте
@@ -75,6 +79,7 @@ void Enemy::update(sf::Time dt) {
     }
     _is_going_to_planet = false;
     _is_player_spotted = false;
+    _close_to_enemy_ship = false;
 }
 
 std::unique_ptr<Bullet> Enemy::fire() {
@@ -104,7 +109,8 @@ void Enemy::trigger(engine::MoveAble &moveable) {
     if (_is_destroyed) {
         return;
     }
-    if (moveable.is_destroyed()) {
+
+    if (moveable.is_destroyed()) {  // тут был исправлен баг в онлайне
         return;
     }
  
@@ -122,9 +128,9 @@ void Enemy::trigger(engine::MoveAble &moveable) {
 void Enemy::trigger(engine::ImmoveAble &immoveable) {
     engine::Vector dist (immoveable.get_position().x - this->_position.x, immoveable.get_position().y - this->_position.y);
     if (dist.get_abs() <= 300) {
-        _is_going_to_planet = true;
         _planet_location.x = immoveable.get_position().x;
         _planet_location.y = immoveable.get_position().y;
+        _is_going_to_planet = true;
     } else {
         return;
     }
@@ -160,6 +166,45 @@ void Enemy::turn_from_planet() {
     if (new_orientaion.get_y() * get_orientation().get_x() < get_orientation().get_y() * new_orientaion.get_x()) {
         rotate_angle *= -1;
     }
+    if (fabs(rotate_angle) < PI) {
+        if (rotate_angle > 0) {
+            rotate(_rotate_speed);
+        } else {
+            rotate(-_rotate_speed);
+        }
+    }
+}
+
+void Enemy::trigger(Enemy &enemy) {
+     if (_is_destroyed) {
+        return;
+    }
+
+    if (enemy.is_destroyed()) {  // тут был исправлен баг в онлайне
+        return;
+    }
+ 
+    engine::Vector dist (enemy.get_position().x - this->_position.x,enemy.get_position().y - this->_position.y);
+    if (dist.get_abs() <= 120) {
+        _enemy_location.x = enemy.get_position().x;
+        _enemy_location.y = enemy.get_position().y;
+        _close_to_enemy_ship = true;
+    } else {
+        return;
+    }
+}
+
+
+void Enemy::turn_from_enemy() {
+    engine::Vector new_orientaion(this->get_position().x - _enemy_location.x, 
+          this->get_position().y - _enemy_location.y);
+
+    float rotate_angle = acos((new_orientaion.get_x() * this->get_orientation().get_x() + new_orientaion.get_y() * 
+    this->get_orientation().get_y())/(new_orientaion.get_abs() * this->get_orientation().get_abs()));
+    if (new_orientaion.get_y() * get_orientation().get_x() < get_orientation().get_y() * new_orientaion.get_x()) {
+        rotate_angle *= -1;
+    }
+
     if (fabs(rotate_angle) < PI) {
         if (rotate_angle > 0) {
             rotate(_rotate_speed);
