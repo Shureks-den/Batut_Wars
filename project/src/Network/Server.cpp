@@ -13,7 +13,7 @@ static std::mutex server_mutex;
 namespace network {
 
 Server::Server() : _time_per_update(sf::seconds(1.0 / 60.0)),
-                   _ip(sf::IpAddress::getLocalAddress()),
+                   _ip(sf::IpAddress::getPublicAddress()),
                    //_port(sf::Socket::AnyPort),
                    _port(2000),
                    _host(0),

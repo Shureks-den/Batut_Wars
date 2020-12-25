@@ -7,6 +7,9 @@ IcePlanet::IcePlanet(float range) : space::Planet(range) {
 }
 
 void IcePlanet::collision(space::Bullet& bullet) {
+  if(bullet.is_destroyed()) {
+    return;
+  }
   auto other_size = bullet.get_size();
   auto other_radius = sqrt(other_size.x * other_size.x + other_size.y * other_size.y) / 2.f;
   float critical_radius = _range + other_radius;
