@@ -7,7 +7,8 @@ Ally::Ally() : space::Ship(sf::seconds(1.0f), 20) {
     _engine_thrust = 40;
     _speed_limit = 175;
     set_size(sf::Vector2f(42.0f, 50.0f));
-    _state.resize(1);
+    _state.resize(4);
+    _state[1] = true;
 }
 
 void Ally::update(sf::Time dt) {
@@ -42,6 +43,19 @@ void Ally::update(sf::Time dt) {
   }
 
   _state[0] = false;  // Бабах от выстрела
+  if (_HP > 66) {
+    _state[1] = true;
+    _state[2] = false;
+    _state[3] = false;
+  } else if (_HP > 33) {
+    _state[1] = false;
+    _state[2] = true;
+    _state[3] = false;
+  } else {
+    _state[1] = false;
+    _state[2] = false;
+    _state[3] = true;
+  }
 }
 
 std::unique_ptr<Bullet> Ally::fire() {

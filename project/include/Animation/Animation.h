@@ -43,6 +43,8 @@ class Manager {
   sf::IntRect _uv_rect;
   sf::RectangleShape _body;
 
+  std::vector<bool> _status;
+
   bool _is_playing;
 
   float _angle;

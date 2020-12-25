@@ -4,7 +4,7 @@ namespace animation {
 
 Holder::Holder() {
   sf::Texture tmp;
-  tmp.loadFromFile("project/media/MF_test.png");
+  tmp.loadFromFile("project/media/MF.png");
   _resource_map.push_back(tmp);  // TODO(ANDY) дополнять
   tmp.loadFromFile("project/media/space.jpg");
   _resource_map.push_back(tmp);

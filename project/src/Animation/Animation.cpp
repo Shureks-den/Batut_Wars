@@ -71,8 +71,8 @@ void Manager::set_start_angle(const float start_angle) {
   _start_angle = start_angle;
 }
 
-void Manager::set_states(const std::vector<bool> &) {
-  // TODO(ANDY) правило перехода из status в _current
+void Manager::set_states(const std::vector<bool> &status) {
+  _status.assign(status.begin(), status.end());
 }
 
 void Manager::set_position(const sf::Vector2f &position) {
