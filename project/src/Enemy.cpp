@@ -105,16 +105,15 @@ void Enemy::trigger(engine::MoveAble &moveable) {
         return;
     }
     if (moveable.is_destroyed()) {
-        _is_player_spotted = false;
         return;
     }
  
-    if(moveable.get_position().x >= this-> get_position().x - _vision.x &&
-     moveable.get_position().x <= this->get_position().x + _vision.x &&
-     moveable.get_position().y >= this->get_position().y - _vision.y &&
-     moveable.get_position().y <= this->get_position().y + _vision.y) {
-        _is_player_spotted = true;
-        _player_location = moveable.get_position();
+    if (moveable.get_position().x >= _position.x - _vision.x &&
+        moveable.get_position().x <= _position.x + _vision.x &&
+        moveable.get_position().y >= _position.y - _vision.y &&
+        moveable.get_position().y <= _position.y + _vision.y) {
+          _is_player_spotted = true;
+          _player_location = moveable.get_position();
     } else {
         return;
     }
@@ -161,7 +160,7 @@ void Enemy::turn_from_planet() {
     if (new_orientaion.get_y() * get_orientation().get_x() < get_orientation().get_y() * new_orientaion.get_x()) {
         rotate_angle *= -1;
     }
-    if (fabs(rotate_angle) < 3) {
+    if (fabs(rotate_angle) < PI) {
         if (rotate_angle > 0) {
             rotate(_rotate_speed);
         } else {

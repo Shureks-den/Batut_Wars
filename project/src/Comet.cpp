@@ -9,6 +9,7 @@ Comet::Comet(engine::Vector speed)
     : engine::MoveAble(0.f, 40) {  // TODO(anyone) переписать конструктор на
   _engine_speed = speed;  // модуль скорости + угол (с осью ОХ)
   _orientation = _engine_speed.get_normal();
+  set_size(sf::Vector2f(20, 20));
 }
 
 void Comet::collision(engine::MoveAble& moveable) {

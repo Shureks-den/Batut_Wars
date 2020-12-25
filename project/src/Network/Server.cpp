@@ -6,7 +6,7 @@
 #include "Ally.h"
 #include "Network.h"
 
-// #include "Vietnam.h"
+#include "Vietnam.h"
 
 static std::mutex server_mutex;
 
@@ -33,7 +33,7 @@ void Server::run() {
         _world.push_player(std::move(player));
     }
 
-    // welcome_to_vietnam(_world);
+    welcome_to_vietnam(_world);
 
     sf::Clock clock;
     sf::Time total_time = sf::Time::Zero;
