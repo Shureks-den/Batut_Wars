@@ -5,54 +5,54 @@
 
 void welcome_to_vietnam(World &world){
     // ЧЕРНАЯ ДЫРОЧКА
-    auto blackhole = std::make_unique<space::Massive>(100, 125.0f);
+    auto blackhole = std::make_unique<space::Massive>(100, 115.0f);
     blackhole->set_position(sf::Vector2f(600, 700));
     world.push_back(std::move(blackhole));
-    auto blackhole_2 = std::make_unique<space::Massive>(100, 125.0f);
+    auto blackhole_2 = std::make_unique<space::Massive>(100, 115.0f);
     blackhole_2->set_position(sf::Vector2f(1300, 1300));
     world.push_back(std::move(blackhole_2));
-    auto blackhole_3 = std::make_unique<space::Massive>(100, 125.0f);
+    auto blackhole_3 = std::make_unique<space::Massive>(100, 115.0f);
     blackhole_3->set_position(sf::Vector2f(4000, 400));
     world.push_back(std::move(blackhole_3));
-    auto blackhole_4 = std::make_unique<space::Massive>(100, 125.0f);
+    auto blackhole_4 = std::make_unique<space::Massive>(100, 115.0f);
     blackhole_4->set_position(sf::Vector2f(200, 3000));
     world.push_back(std::move(blackhole_4));
-    auto blackhole_5 = std::make_unique<space::Massive>(100, 125.0f);
+    auto blackhole_5 = std::make_unique<space::Massive>(100, 115.0f);
     blackhole_5->set_position(sf::Vector2f(2000, 2000));
     world.push_back(std::move(blackhole_5));
-    auto blackhole_6 = std::make_unique<space::Massive>(100, 125.0f);
+    auto blackhole_6 = std::make_unique<space::Massive>(100, 115.0f);
     blackhole_6->set_position(sf::Vector2f(3500, 3400));
     world.push_back(std::move(blackhole_6));
-    auto blackhole_7 = std::make_unique<space::Massive>(100, 125.0f);
+    auto blackhole_7 = std::make_unique<space::Massive>(100, 115.0f);
     blackhole_7->set_position(sf::Vector2f(1000, 600));
     world.push_back(std::move(blackhole_7));
-    auto blackhole_8 = std::make_unique<space::Massive>(100, 125.0f);
+    auto blackhole_8 = std::make_unique<space::Massive>(100, 115.0f);
     blackhole_8->set_position(sf::Vector2f(3500, 3400));
     world.push_back(std::move(blackhole_8));
 
     // ХОЛОДНОЕ СЕРДЦЕ
-    auto ice_planet_1 = std::make_unique<space::IcePlanet>(125.0f);
+    auto ice_planet_1 = std::make_unique<space::IcePlanet>(115.0f);
     ice_planet_1->set_position(sf::Vector2f(1600, 1600));
     world.push_back(std::move(ice_planet_1));
-    auto ice_planet_2 = std::make_unique<space::IcePlanet>(125.0f);
+    auto ice_planet_2 = std::make_unique<space::IcePlanet>(115.0f);
     ice_planet_2->set_position(sf::Vector2f(100, 2000));
     world.push_back(std::move(ice_planet_2));
-    auto ice_planet_3 = std::make_unique<space::IcePlanet>(125.0f);
+    auto ice_planet_3 = std::make_unique<space::IcePlanet>(115.0f);
     ice_planet_3->set_position(sf::Vector2f(2000, 1000));
     world.push_back(std::move(ice_planet_3));
-    auto ice_planet_4 = std::make_unique<space::IcePlanet>(125.0f);
+    auto ice_planet_4 = std::make_unique<space::IcePlanet>(115.0f);
     ice_planet_4->set_position(sf::Vector2f(3000, 3000));
     world.push_back(std::move(ice_planet_4));
-    auto ice_planet_5 = std::make_unique<space::IcePlanet>(125.0f);
+    auto ice_planet_5 = std::make_unique<space::IcePlanet>(115.0f);
     ice_planet_5->set_position(sf::Vector2f(1456, 500));
     world.push_back(std::move(ice_planet_5));
-    auto ice_planet_6 = std::make_unique<space::IcePlanet>(125.0f);
+    auto ice_planet_6 = std::make_unique<space::IcePlanet>(115.0f);
     ice_planet_6->set_position(sf::Vector2f(2666, 3500));
     world.push_back(std::move(ice_planet_6));
-    auto ice_planet_7 = std::make_unique<space::IcePlanet>(125.0f);
+    auto ice_planet_7 = std::make_unique<space::IcePlanet>(115.0f);
     ice_planet_7->set_position(sf::Vector2f(400, 3500));
     world.push_back(std::move(ice_planet_7));
-    auto ice_planet_8 = std::make_unique<space::IcePlanet>(125.0f);
+    auto ice_planet_8 = std::make_unique<space::IcePlanet>(115.0f);
     ice_planet_8->set_position(sf::Vector2f(3500, 4000));
     world.push_back(std::move(ice_planet_8));
 
