@@ -9,6 +9,7 @@ namespace space {
 Bullet::Bullet() : engine::MoveAble(0, 350, 15), _lifetime(sf::seconds(10)) {
   _engine_speed = _orientation * 350;
   _current = sf::Time::Zero;
+  set_size(sf::Vector2f(7.5, 7.5));
 }
 
 void Bullet::update(sf::Time dt) {

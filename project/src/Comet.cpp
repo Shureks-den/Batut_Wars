@@ -21,13 +21,14 @@ void Comet::collision(engine::MoveAble& moveable) {
     return;
   }
 
-    float critical_radius = fabs(this->get_size().y) + fabs(moveable.get_size().y / 1.3);
-    engine::Vector tmp(moveable.get_x() - this->get_x(),
-                       moveable.get_y() - this->get_y());
+    auto other_size = moveable.get_size();
+    auto other_radius = sqrt(other_size.x * other_size.x + other_size.y * other_size.y);
+    float critical_radius = (_size.y + other_radius) / 2.f;
+    engine::Vector tmp(moveable.get_x() - _position.x, moveable.get_y() - _position.y);
 
     float radius = tmp.get_abs();
     if (radius <= critical_radius) {
-      moveable.take_damage(this->_dmg);
+      moveable.take_damage(_dmg);
 
 #ifndef NO_CONSOLE_INFO_OF_DMG
       std::cout << moveable.get_hp() << " - Comet - " << this->get_hp()
