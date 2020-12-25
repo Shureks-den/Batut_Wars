@@ -1,18 +1,22 @@
 #pragma once
 
-#include "Player.h"
-#include "StateStack.h"
-#include "Holder.h"
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <thread>
+
+#include "Client.h"
+#include "Holder.h"
+#include "Player.h"
+#include "Server.h"
+#include "MissionStatus.h"
+#include "States/StateStack.h"
 
 class Game : sf::NonCopyable {
  public:
-  Game();
-  ~Game() = default;
-  void run();
+    Game();
+    ~Game() = default;
+    void run();
 
  private:
     bool update(sf::Time dt);
@@ -27,7 +31,18 @@ class Game : sf::NonCopyable {
 
     textures::Holder _textures;
     fonts::Holder _fonts;
+
+    std::pair<sf::IpAddress, uint16_t> _network_info;  // Как сервер
+    network::Client _client;
+    network::Server _server;
+    std::thread _server_thread;
+    std::thread _client_thread;
+
+    MusicPlayer _musicplayer;
+
+    Mission _mission_status;
+
     StateStack _state_stack;
 
-  static const sf::Time _time_per_frame;
+    static const sf::Time _time_per_frame;
 };

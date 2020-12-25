@@ -7,6 +7,7 @@ Player::Player() {
   _key_binding[sf::Keyboard::A] = Action::MOVE_LEFT;
   _key_binding[sf::Keyboard::S] = Action::MOVE_BACKWARD;
   _key_binding[sf::Keyboard::D] = Action::MOVE_RIGHT;
+  _key_binding[sf::Keyboard::Space] = FIRE;
 }
 
 void Player::handle_event(const sf::Event &event, std::queue<Action> &actions) {
@@ -52,9 +53,11 @@ bool Player::is_realtime(Action action) {
     case Action::MOVE_RIGHT:
     case Action::MOVE_BACKWARD:
     case Action::MOVE_FORWARD:
+    case Action::FIRE:
       return true;
 
     default:
       return false;
   }
 }
+

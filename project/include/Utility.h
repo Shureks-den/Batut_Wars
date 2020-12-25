@@ -1,10 +1,9 @@
 #pragma once
 
-#include <sstream>
-#include <cmath>
-#include <string>
-
 #include <SFML/Window/Keyboard.hpp>
+#include <cmath>
+#include <sstream>
+#include <string>
 
 namespace sf {
 class Sprite;
